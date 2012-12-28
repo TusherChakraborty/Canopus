@@ -8,6 +8,7 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "canopus";
 		cfg.useGL20 = false;
+		cfg.vSyncEnabled = true;
 		cfg.width = 480;
 		cfg.height = 320;
 		
