@@ -17,6 +17,9 @@
 
 package de.datpixelstudio.statebasedgame;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Logger;
+
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
@@ -37,7 +40,7 @@ public final class EmptyState extends State
 	@Override
 	public void render(final GameContainer gc)
 	{
-		//Gdx.app.setLogLevel(RingsOfElements.logLevel);
+		Gdx.app.setLogLevel(Logger.DEBUG);
 		StateBasedGame.setGdxStarted();
 		pause(gc);
 		dispose(gc);

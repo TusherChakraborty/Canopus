@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="canopus-desktop/src"/>
+	<classpathentry kind="src" path="statebasedgame/src"/>
 	<classpathentry kind="src" path="canopus-desktop/bin"/>
 	<classpathentry kind="src" path="canopus/src"/>
 	<classpathentry kind="lib" path="canopus/libs/gdx.jar"/>
