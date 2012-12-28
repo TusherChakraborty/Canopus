@@ -1,0 +1,11 @@
+package de.datpixelstudio.canopus;
+
+import de.datpixelstudio.statebasedgame.StateBasedGame;
+
+public class Canopus extends StateBasedGame {
+<<<<<<< .mine
+		datass HIER FAIL
+}
+=======
+		datass HIER ANDERER ASDPK*'PKMDFG'PSD
+>>>>>>> .r8
