@@ -12,7 +12,7 @@ public class Canopus extends StateBasedGame {
 	public Canopus() {
 		super();
 		initStateList();
-		// FU
+		// FUsd
 	}
 	
 	public void initStateList() {
