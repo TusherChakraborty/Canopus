@@ -16,7 +16,7 @@
  * @Info: Added getDrawable()
  */
 
-package de.datpixelstudio.ringsofelements.world;
+package de.datpixelstudio.statebasedgame;
 
 import java.util.HashMap;
 
@@ -29,13 +29,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import de.datpixelstudio.ringsofelements.Settings;
-
 public class TextureSet
 {
 	private String textureSetName = null;
 	private Vector2 textureSetSize = null;
-	private int cellSize = Settings.CELL_SIZE;
+	private int cellSize = 16;
 	private float textureScale = 1f;
 	
 	private HashMap<Integer, TextureRegion> textureRegions = null;
@@ -43,7 +41,7 @@ public class TextureSet
 	private Texture textureSet = null;
 	
 	public static TextureSet MISC_TEX = new TextureSet(
-			Gdx.files.internal("misc.png"), 64);
+			Gdx.files.internal("assets/misc.png"), 64);
 	
 	public enum TextureMisc {
 		BLACK(0), WHITE(1), LIGHT_GREY(2), GREY(3), DARK_GREY(4), RED(5), GREEN(6),
