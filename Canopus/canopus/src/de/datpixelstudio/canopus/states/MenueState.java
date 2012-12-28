@@ -1,11 +1,10 @@
 package de.datpixelstudio.canopus.states;
 
-import apple.laf.JRSUIConstants.Direction;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.InputHandler;
 import de.datpixelstudio.statebasedgame.Settings;

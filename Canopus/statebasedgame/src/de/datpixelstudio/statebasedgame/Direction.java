@@ -13,7 +13,7 @@
  * @Info: Added HeadCmt
  */
 
-package de.datpixelstudio.ringsofelements.utils;
+package de.datpixelstudio.statebasedgame;
 
 public enum Direction
 {	

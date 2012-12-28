@@ -1,12 +1,11 @@
 package de.datpixelstudio.canopus.states;
 
-import apple.laf.JRSUIConstants.Direction;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 
 import de.datpixelstudio.canopus.Canopus;
+import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.InputHandler;
 import de.datpixelstudio.statebasedgame.State;
 
