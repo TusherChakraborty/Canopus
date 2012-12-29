@@ -19,8 +19,15 @@ public class InputHandlerMaus extends InputHandler{
 	}
 
 	@Override
-	public boolean keyTyped(char character) {
-
+	public boolean keyDown(int key) {
+		if(key == Keys.F12) {
+			datState.enterState(Canopus.BOX2D_TEST_STATE_ID);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean keyTyped(char key) {
 		return false;
 	}
 

@@ -9,8 +9,8 @@ public class Main {
 		cfg.title = "canopus";
 		cfg.useGL20 = false;
 		cfg.vSyncEnabled = true;
-		cfg.width = 480;
-		cfg.height = 320;
+		cfg.width = 800;
+		cfg.height = 600;
 		
 		new LwjglApplication(new Canopus(), cfg);
 	}
