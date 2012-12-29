@@ -12,7 +12,7 @@ import de.datpixelstudio.statebasedgame.StateBasedGame;
 import de.datpixelstudio.statebasedgame.TextureSet;
 
 public class MenueState extends State{
-//asdasdasdsadasdas
+//gleiche Zeile
 	Texture testtex = null ;
 	private Vector2 coordinates = null;
 	private InputHandlerMaus bla = null;
