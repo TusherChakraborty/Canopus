@@ -26,7 +26,7 @@ public class MenueState extends State{
 	public MenueState(int stateID, StateBasedGame sbg) {
 		super(stateID, "MenueState", sbg);
 	}
-
+// U WILL C
 	@Override
 	public void init(GameContainer gc) {
 		System.out.println("sup");
