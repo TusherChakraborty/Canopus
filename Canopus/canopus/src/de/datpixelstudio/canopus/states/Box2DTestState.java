@@ -1,5 +1,7 @@
 package de.datpixelstudio.canopus.states;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,6 +26,7 @@ public class Box2DTestState extends State {
 	private World world = null;
 	private Box2DDebugRenderer debugRenderer = null;
 	
+	private Body body = null;
 	
 	public Box2DTestState(int stateID, StateBasedGame sbg) {
 		super(stateID, "Box2DTestState", sbg);
@@ -32,45 +35,64 @@ public class Box2DTestState extends State {
 	@Override
 	public void init(GameContainer gc) {
 		gc.glClearColor = Color.BLACK;
+		gc.gameCam.update();
+		gc.gameCam.zoom = 0.05f;
+		gc.gameCam.update();
 		
-		world = new World(new Vector2(0, -50), true);
+		world = new World(new Vector2(0, -10), true);
 		debugRenderer = new Box2DDebugRenderer();
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(Settings.screenWidth() / 2, Settings.screenHeight() / 2);
 		
-		Body body = world.createBody(bodyDef);
+		body = world.createBody(bodyDef);
 		
 		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(30);
+		circleShape.setRadius(1);
 		
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circleShape;
-		fixtureDef.density = 0.8f;
-		fixtureDef.friction = 0.5f;
+		fixtureDef.density = 0.3f;
+		fixtureDef.friction = 0.7f;
 		fixtureDef.restitution = 0.6f;
-		
-		
-		
-		// Ground
 		
 		body.createFixture(fixtureDef);
 		
+		// Ground
 		BodyDef groundBodyDef = new BodyDef();
-		groundBodyDef.position.set(new Vector2(0, 10));
+		groundBodyDef.position.set(new Vector2(0, 290));
 		
 		Body groundBody = world.createBody(groundBodyDef);
 		
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(Settings.screenWidth(), 10f);
+		polygonShape.setAsBox(Settings.screenWidth(), 1f);
 		groundBody.createFixture(polygonShape, 0.0f);
 	}
 
 	@Override
 	public void update(GameContainer gc) {
-
-		world.step(1/45f, 6, 2);
+		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+			body.applyForceToCenter(new Vector2(-50, 0));
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			body.applyForceToCenter(new Vector2(50, 0));
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.UP)) {
+			body.applyForceToCenter(new Vector2(0, 100));
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+			body.applyForceToCenter(new Vector2(0, -50));
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.R)) {
+			body.setTransform(400, 300, 0);
+		}
+		
+		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 	}
 
 	@Override
