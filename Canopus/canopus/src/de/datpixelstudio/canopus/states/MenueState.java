@@ -12,11 +12,7 @@ import de.datpixelstudio.statebasedgame.StateBasedGame;
 import de.datpixelstudio.statebasedgame.TextureSet;
 
 public class MenueState extends State{
-<<<<<<< HEAD
-//JUST NO	
-=======
-//Ich mach mal was hier
->>>>>>> refs/remotes/origin/master
+//asdasdasdsadasdas
 	Texture testtex = null ;
 	private Vector2 coordinates = null;
 	private InputHandlerMaus bla = null;
