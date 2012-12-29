@@ -33,8 +33,9 @@ public class MenueState extends State{
 				
 		Settings.changeScreenSizeAllCams(gc, 800, 600, false);
 		//CHANGE
+		// CHANGE NOOBOOOOOOOOOOOOOOOOOOOOOOOOOOB
 		textureSet = new TextureSet();
-		textureSet.setCellSize(64);
+		textureSet.setCellSize(64);jh
 		textureSet.loadTextureSet(Gdx.files.internal("assets/test_set.png"), 63); // fängt von 0 an
 		
 		coordinates = new Vector2(0,0);
