@@ -11,35 +11,26 @@ import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 import de.datpixelstudio.statebasedgame.TextureSet;
 
-public class MenueState extends State{
-//troll
-	Texture testtex = null ;
+public class MenueState extends State {
+	
+	private Texture testtex = null ;
 	private Vector2 coordinates = null;
 	private InputHandlerMaus bla = null;
 	
-	private TextureSet textureSet = null;
-
 	public MenueState(int stateID, StateBasedGame sbg) {
 		super(stateID, "MenueState", sbg);
 	}
-// U WILL C
+	
 	@Override
 	public void init(GameContainer gc) {
-		System.out.println("sup");
-		
 		bla = new InputHandlerMaus(this);
 		addInput(bla);
 		setInput();
 				
 		Settings.changeScreenSizeAllCams(gc, 800, 600, false);
-		//CHANGE
-		// CHANGE NOOBOOOOOOOOOOOOOOOOOOOOOOOOOOB
-		textureSet = new TextureSet();
-		textureSet.setCellSize(64);jh
-		textureSet.loadTextureSet(Gdx.files.internal("assets/test_set.png"), 63); // fängt von 0 an
+		testtex = new Texture(Gdx.files.internal("assets/libgdx.png"));
 		
 		coordinates = new Vector2(0,0);
-		//testtex = new Texture(Gdx.files.internal("assets/libgdx.png"));
 	}
 
 	@Override
@@ -49,13 +40,10 @@ public class MenueState extends State{
 
 	@Override
 	public void render(GameContainer gc) {
-		// TODO Auto-generated method stub
 		gc.b.begin();
 		gc.b.setProjectionMatrix(gc.gameCam.combined);
-		//gc.b.draw(testtex, coordinates.x,coordinates.y);
+		gc.b.draw(testtex, coordinates.x,coordinates.y);
 		
-		gc.b.draw(textureSet.getTexture(1), 10, 10);
-		gc.b.draw(textureSet.getTexture(3), 100, 50);
 		gc.b.end();
 		
 	}
