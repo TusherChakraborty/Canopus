@@ -20,8 +20,8 @@ import de.datpixelstudio.statebasedgame.StateBasedGame;
 
 public class Box2DTestState extends State {
 
-	static final float WORLD_TO_BOX = 0.01f;
-	static final float BOX_TO_WORLD = 100f;
+	static final float WORLD_TO_BOX = 0.05f;
+	static final float BOX_TO_WORLD = 500f;
 	
 	private World world = null;
 	private Box2DDebugRenderer debugRenderer = null;
@@ -36,7 +36,7 @@ public class Box2DTestState extends State {
 	public void init(GameContainer gc) {
 		gc.glClearColor = Color.BLACK;
 		gc.gameCam.update();
-		gc.gameCam.zoom = 0.05f;
+		gc.gameCam.zoom = WORLD_TO_BOX;
 		gc.gameCam.update();
 		
 		world = new World(new Vector2(0, -10), true);
@@ -48,16 +48,17 @@ public class Box2DTestState extends State {
 		
 		body = world.createBody(bodyDef);
 		
-		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(1);
+		PolygonShape playerShape = new PolygonShape();
+		playerShape.setAsBox(1, 2);
 		
 		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = circleShape;
-		fixtureDef.density = 0.3f;
-		fixtureDef.friction = 0.7f;
-		fixtureDef.restitution = 0.6f;
+		fixtureDef.shape = playerShape;
+		fixtureDef.density = 0.4f;
+		fixtureDef.friction = 5f;
+		fixtureDef.restitution = 0f;
 		
 		body.createFixture(fixtureDef);
+		body.setFixedRotation(true);
 		
 		// Ground
 		BodyDef groundBodyDef = new BodyDef();
@@ -73,15 +74,20 @@ public class Box2DTestState extends State {
 	@Override
 	public void update(GameContainer gc) {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			body.applyForceToCenter(new Vector2(-50, 0));
+			//body.applyForceToCenter(new Vector2(-20, 0));
+			body.applyLinearImpulse(new Vector2(-1, 0), body.getLocalCenter());
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			body.applyForceToCenter(new Vector2(50, 0));
+			//body.applyForceToCenter(new Vector2(20, 0));
+			body.applyLinearImpulse(new Vector2(1, 0), body.getLocalCenter());
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
-			body.applyForceToCenter(new Vector2(0, 100));
+			if(body.getLinearVelocity().y == 0)
+				//body.applyForceToCenter(new Vector2(0, 2000));
+				body.applyLinearImpulse(new Vector2(0, 30), body.getLocalCenter());
+			//body.applyLinearImpulse(new Vector2(0, 2), new Vector2(0.5f, 0.5f));
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
@@ -92,7 +98,7 @@ public class Box2DTestState extends State {
 			body.setTransform(400, 300, 0);
 		}
 		
-		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+		world.step(1/60f, 6, 2);
 	}
 
 	@Override
