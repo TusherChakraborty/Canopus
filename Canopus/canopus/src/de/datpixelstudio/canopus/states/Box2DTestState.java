@@ -27,6 +27,7 @@ public class Box2DTestState extends State {
 	private Box2DDebugRenderer debugRenderer = null;
 	
 	private Body body = null;
+	FixtureDef fixtureDef = null;
 	
 	public Box2DTestState(int stateID, StateBasedGame sbg) {
 		super(stateID, "Box2DTestState", sbg);
@@ -39,7 +40,7 @@ public class Box2DTestState extends State {
 		gc.gameCam.zoom = WORLD_TO_BOX;
 		gc.gameCam.update();
 		
-		world = new World(new Vector2(0, -10), true);
+		world = new World(new Vector2(0, -15), true);
 		debugRenderer = new Box2DDebugRenderer();
 		
 		BodyDef bodyDef = new BodyDef();
@@ -51,9 +52,9 @@ public class Box2DTestState extends State {
 		PolygonShape playerShape = new PolygonShape();
 		playerShape.setAsBox(1, 2);
 		
-		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef = new FixtureDef();
 		fixtureDef.shape = playerShape;
-		fixtureDef.density = 0.8f;
+		fixtureDef.density = 0.3f;
 		fixtureDef.friction = 150f;
 		fixtureDef.restitution = 0f;
 		
@@ -75,8 +76,9 @@ public class Box2DTestState extends State {
 	public void update(GameContainer gc) {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			if(body.getLinearVelocity().y != 0) {
-				if(body.getLinearVelocity().x < 15)
-					body.applyLinearImpulse(new Vector2(-2f, 0), body.getLocalCenter());
+				if(-body.getLinearVelocity().x < -5){
+					//body.applyLinearImpulse(new Vector2(-2f, 0), body.getLocalCenter());
+				}
 			} else {
 				body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
 				body.applyLinearImpulse(new Vector2(-15, 0), body.getLocalCenter());
@@ -85,8 +87,9 @@ public class Box2DTestState extends State {
 		
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			if(body.getLinearVelocity().y != 0) {
-				if(body.getLinearVelocity().x < 15)
-					body.applyLinearImpulse(new Vector2(2f, 0), body.getLocalCenter());
+				if(body.getLinearVelocity().x < 5) {
+					//body.applyLinearImpulse(new Vector2(1f, 0), body.getLocalCenter());
+				}
 			} else {
 				body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
 				body.applyLinearImpulse(new Vector2(15, 0), body.getLocalCenter());
@@ -95,12 +98,19 @@ public class Box2DTestState extends State {
 			//body.applyLinearImpulse(new Vector2(15, 0), body.getLocalCenter());
 		}
 		
-		if(Gdx.input.isKeyPressed(Keys.UP)) {
-			if(body.getLinearVelocity().y == 0)
-				//body.applyForceToCenter(new Vector2(0, 2000));
-				body.applyLinearImpulse(new Vector2(0, 45), body.getLocalCenter());
-			//body.applyLinearImpulse(new Vector2(0, 2), new Vector2(0.5f, 0.5f));
+		if(body.getLinearVelocity().y == 0) {
+			fixtureDef.friction = 150f;
 		}
+		
+		if(Gdx.input.isKeyPressed(Keys.UP)) {
+			if(body.getLinearVelocity().y == 0) {
+				fixtureDef.friction = 300f;
+				body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 30), body.getLocalCenter());
+				//body.applyLinearImpulse(new Vector2(0, 45), body.getLocalCenter());
+				//if(body.getLinearVelocity().x)
+			}
+		}
+		
 		
 		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
 			body.applyForceToCenter(new Vector2(0, -50));
