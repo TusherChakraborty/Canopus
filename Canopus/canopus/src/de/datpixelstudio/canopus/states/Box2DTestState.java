@@ -53,7 +53,7 @@ public class Box2DTestState extends State {
 		
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = playerShape;
-		fixtureDef.density = 0.4f;
+		fixtureDef.density = 0.8f;
 		fixtureDef.friction = 150f;
 		fixtureDef.restitution = 0f;
 		
@@ -74,21 +74,31 @@ public class Box2DTestState extends State {
 	@Override
 	public void update(GameContainer gc) {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
-			//body.applyForceToCenter(new Vector2(-20, 0));
-			body.applyLinearImpulse(new Vector2(-15, 0), body.getLocalCenter());
+			if(body.getLinearVelocity().y != 0) {
+				if(body.getLinearVelocity().x < 15)
+					body.applyLinearImpulse(new Vector2(-2f, 0), body.getLocalCenter());
+			} else {
+				body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
+				body.applyLinearImpulse(new Vector2(-15, 0), body.getLocalCenter());
+			}
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			//body.applyForceToCenter(new Vector2(20, 0));
-			body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
-			body.applyLinearImpulse(new Vector2(15, 0), body.getLocalCenter());
+			if(body.getLinearVelocity().y != 0) {
+				if(body.getLinearVelocity().x < 15)
+					body.applyLinearImpulse(new Vector2(2f, 0), body.getLocalCenter());
+			} else {
+				body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
+				body.applyLinearImpulse(new Vector2(15, 0), body.getLocalCenter());
+			};
+			//body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
+			//body.applyLinearImpulse(new Vector2(15, 0), body.getLocalCenter());
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
 			if(body.getLinearVelocity().y == 0)
 				//body.applyForceToCenter(new Vector2(0, 2000));
-				body.applyLinearImpulse(new Vector2(0, 30), body.getLocalCenter());
+				body.applyLinearImpulse(new Vector2(0, 45), body.getLocalCenter());
 			//body.applyLinearImpulse(new Vector2(0, 2), new Vector2(0.5f, 0.5f));
 		}
 		
