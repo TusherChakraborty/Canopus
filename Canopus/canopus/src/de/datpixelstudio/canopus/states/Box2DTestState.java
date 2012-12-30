@@ -54,7 +54,7 @@ public class Box2DTestState extends State {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = playerShape;
 		fixtureDef.density = 0.4f;
-		fixtureDef.friction = 5f;
+		fixtureDef.friction = 150f;
 		fixtureDef.restitution = 0f;
 		
 		body.createFixture(fixtureDef);
@@ -74,13 +74,15 @@ public class Box2DTestState extends State {
 	@Override
 	public void update(GameContainer gc) {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+			body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
 			//body.applyForceToCenter(new Vector2(-20, 0));
-			body.applyLinearImpulse(new Vector2(-1, 0), body.getLocalCenter());
+			body.applyLinearImpulse(new Vector2(-15, 0), body.getLocalCenter());
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			//body.applyForceToCenter(new Vector2(20, 0));
-			body.applyLinearImpulse(new Vector2(1, 0), body.getLocalCenter());
+			body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
+			body.applyLinearImpulse(new Vector2(15, 0), body.getLocalCenter());
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
