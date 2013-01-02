@@ -24,6 +24,7 @@ public class InputHandlerBox2DTestState extends InputHandler {
 		 
 		 if(keycode == Keys.UP) {
 			 player.setJump(true);
+			 player.setJump(true);
 		 }
 		 return false;
 	 }
