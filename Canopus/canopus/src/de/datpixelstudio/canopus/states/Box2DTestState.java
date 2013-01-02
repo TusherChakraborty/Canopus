@@ -1,18 +1,9 @@
 package de.datpixelstudio.canopus.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 
 import de.datpixelstudio.canopus.Canopus;
@@ -20,14 +11,13 @@ import de.datpixelstudio.canopus.LevelRectangles;
 import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.canopus.inputHandler.InputHandlerBox2DTestState;
 import de.datpixelstudio.statebasedgame.GameContainer;
-import de.datpixelstudio.statebasedgame.Settings;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 
 public class Box2DTestState extends State {
 
-	static final float WORLD_TO_BOX = 0.05f;
-	static final float BOX_TO_WORLD = 500f;
+	public static final float WORLD_TO_BOX = 0.05f;
+	public static final float BOX_TO_WORLD = 500f;
 	
 	private World world = null;
 	private Box2DDebugRenderer debugRenderer = null;
@@ -92,6 +82,7 @@ public class Box2DTestState extends State {
 		gc.b.setProjectionMatrix(gc.gameCam.combined);
 		gc.b.begin();
 		
+		player.draw(gc.b);
 		debugRenderer.render(world, gc.gameCam.combined);
 		
 		gc.b.setProjectionMatrix(gc.uiCam.combined);

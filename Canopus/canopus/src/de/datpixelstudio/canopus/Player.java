@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,6 +16,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
+import de.datpixelstudio.canopus.states.Box2DTestState;
+import de.datpixelstudio.statebasedgame.TextureSet;
 
 public class Player {
 	
@@ -33,11 +39,15 @@ public class Player {
 	private float stillTime = 0;
 	private long lastGroundTime = 0;
 	
+	private TextureRegion texture = null;
+	
 	public Player(final Vector2 position, World world) {
 		this.position = position;
 		this.world = world;
 		
 		velocity = new Vector2();
+		
+		texture = TextureSet.MISC_TEX.getTexture(1);
 		
 		create();
 	}
@@ -60,7 +70,7 @@ public class Player {
 		circle.dispose();
 		
 		body.setBullet(true);
-		body.setFixedRotation(true);
+		//body.setFixedRotation(true);
 	}
 	
 	public boolean isPlayerGrounded() {
@@ -81,6 +91,17 @@ public class Player {
 	
 	public Vector2 getPostion() {
 		return position;
+	}
+	
+	public void draw(final SpriteBatch b) {
+		//b.draw(texture, body.getPosition().x, body.getPosition().y);
+		b.draw (texture, body.getPosition().x, body.getPosition().y, body.getPosition().x, body.getPosition().y, 
+				64, 64, Box2DTestState.WORLD_TO_BOX, Box2DTestState.WORLD_TO_BOX, body.getAngle());
+		
+		/*
+		b.draw(texture, body.getPosition().x, body.getPosition().y, body.getPosition().x, body.getPosition().y, 64, 64, 
+				Box2DTestState.WORLD_TO_BOX, Box2DTestState.WORLD_TO_BOX, body.getAngle(), 10, 10, 64, 64, false, false);
+		*/
 	}
 	
 	public void update() {
