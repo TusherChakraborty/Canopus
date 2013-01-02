@@ -60,63 +60,20 @@ public class Box2DTestState extends State {
 	
 	private void createWorld() {
 		level = new Array<LevelRectangles>();
-		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), world));
-		level.add(new LevelRectangles(new Vector2(5, 2), new Vector2(1, 1), world));
+		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), false, world));
+		
+		for(int i = 0; i <= 20; i++){
+			level.add(new LevelRectangles(new Vector2(5,10), new Vector2(1, 1), true, world));
+
+		}
+		// walls
+		level.add(new LevelRectangles(new Vector2(-9, 0), new Vector2(1, 10), false, world));
+		level.add(new LevelRectangles(new Vector2(9, 0), new Vector2(1, 10), false, world));
+		
 	}
 
 	@Override
 	public void update(GameContainer gc) {
-		/*
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			if(body.getLinearVelocity().y != 0) {
-				if(body.getLinearVelocity().x < -5){
-					//body.applyLinearImpulse(new Vector2(-2f, 0), body.getLocalCenter());
-				}
-			} else {
-				body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
-				body.applyLinearImpulse(new Vector2(-15, 0), body.getLocalCenter());
-			}
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			if(body.getLinearVelocity().y != 0) {
-				if(body.getLinearVelocity().x < 5) {
-					//body.applyLinearImpulse(new Vector2(1f, 0), body.getLocalCenter());
-				}
-			} else {
-				body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
-				body.applyLinearImpulse(new Vector2(15, 0), body.getLocalCenter());
-			};
-			//body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 0), body.getLocalCenter());
-			//body.applyLinearImpulse(new Vector2(15, 0), body.getLocalCenter());
-		}
-		
-		if(body.getLinearVelocity().y == 0) {
-			fixtureDef.friction = 150f;
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.UP)) {
-			if(body.getLinearVelocity().y == 0) {
-				fixtureDef.friction = 300f;
-				body.applyLinearImpulse(new Vector2(-body.getLinearVelocity().x, 30), body.getLocalCenter());
-				//body.applyLinearImpulse(new Vector2(0, 45), body.getLocalCenter());
-				//if(body.getLinearVelocity().x)
-			}
-		}
-		
-		
-		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
-			body.applyForceToCenter(new Vector2(0, -50));
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.R)) {
-			body.setTransform(400, 300, 0);
-		}
-		*/
 		player.update();
 		
 		world.step(1/60f, 6, 2);

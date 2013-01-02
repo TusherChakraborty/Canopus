@@ -49,7 +49,7 @@ public class Player {
 		body = world.createBody(bodyDef);
 		
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(1, 1.5f);
+		polygonShape.setAsBox(0.95f, 1.5f);
 		physicFixture = body.createFixture(polygonShape, 1);
 		polygonShape.dispose();
 		
