@@ -1,6 +1,7 @@
 package de.datpixelstudio.canopus.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -28,6 +29,7 @@ public class MenueState extends State {
 		setInput();
 				
 		Settings.changeScreenSizeAllCams(gc, 800, 600, false);
+		gc.glClearColor = Color.BLACK;
 		testtex = new Texture(Gdx.files.internal("assets/libgdx.png"));
 		
 		coordinates = new Vector2(0,0);
