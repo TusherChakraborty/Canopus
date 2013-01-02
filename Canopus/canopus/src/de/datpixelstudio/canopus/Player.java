@@ -2,6 +2,8 @@ package de.datpixelstudio.canopus;
 
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,6 +18,8 @@ public class Player {
 	
 	private World world;
 	
+	private float maxVelocity = 7f;
+	
 	private Vector2 position = null;
 	private Vector2 velocity = null;
 	
@@ -24,6 +28,10 @@ public class Player {
 	private Fixture sensorFixture = null;
 	
 	private boolean isGround = false;
+	private boolean isJump = false;
+	
+	private float stillTime = 0;
+	private long lastGroundTime = 0;
 	
 	public Player(final Vector2 position, World world) {
 		this.position = position;
@@ -60,7 +68,6 @@ public class Player {
 	}
 	
 	private void updateIsPlayerGrounded() {
-		// Hier: What the fuck?
 		List<Contact> contactList = world.getContactList();
 		for(Contact contact : contactList) {
 			if(contact.isTouching() && (contact.getFixtureA() == sensorFixture 
@@ -78,6 +85,65 @@ public class Player {
 	
 	public void update() {
 		updateIsPlayerGrounded();
+		position = body.getPosition();
+		
+		if(isGround) {
+			lastGroundTime = System.nanoTime();
+		} else {
+			if(System.nanoTime() - lastGroundTime < 100000000) {
+				isGround = true;
+			}
+		}
+		
+		if(Math.abs(getLinearVelocity().x) > maxVelocity) {
+			getLinearVelocity().x = Math.signum(getLinearVelocity().x) * maxVelocity;
+			body.setLinearVelocity(getLinearVelocity().x , getLinearVelocity().y);
+		}
+		
+		if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			stillTime += Gdx.graphics.getDeltaTime();
+			body.setLinearVelocity(getLinearVelocity().x * 0.9f, getLinearVelocity().y);
+		} else {
+			stillTime = 0;
+		}
+		
+		if(!isGround) {
+			physicFixture.setFriction(0);
+			sensorFixture.setFriction(0);
+		} else {
+			if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT) && stillTime > 0.2) {
+				physicFixture.setFriction(100f);
+				sensorFixture.setFriction(100f);
+			} else {
+				physicFixture.setFriction(0.2f);
+				sensorFixture.setFriction(0.2f);
+			}
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.LEFT) && getLinearVelocity().x > -maxVelocity) {
+			body.applyLinearImpulse(-2f,  0, position.x, position.y); 
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.RIGHT) && getLinearVelocity().x < maxVelocity) {
+			body.applyLinearImpulse(2f,  0, position.x, position.y); 
+		}
+		
+		if(isJump) {
+			isJump = false;
+			if(isGround) {
+				body.setLinearVelocity(getLinearVelocity().x, 0);
+				body.setTransform(position.x,  position.y + 0.01f, 0);
+				body.applyLinearImpulse(0, 45, position.x, position.y);
+			}
+		}
+	}
+	
+	public Vector2 getLinearVelocity() {
+		return body.getLinearVelocity();
+	}
+	
+	public void setJump(final boolean jump) {
+		this.isJump = jump;
 	}
 }
 

@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Array;
 import de.datpixelstudio.canopus.Canopus;
 import de.datpixelstudio.canopus.LevelRectangles;
 import de.datpixelstudio.canopus.Player;
+import de.datpixelstudio.canopus.inputHandler.InputHandlerBox2DTestState;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.Settings;
 import de.datpixelstudio.statebasedgame.State;
@@ -46,16 +47,20 @@ public class Box2DTestState extends State {
 		gc.gameCam.zoom = WORLD_TO_BOX;
 		gc.gameCam.update();
 		
-		world = new World(new Vector2(0, -20), true);
+		
+		world = new World(new Vector2(0, -10), true);
 		debugRenderer = new Box2DDebugRenderer();
 		
 		createWorld();
 		player = new Player(new Vector2(2, 8), world);
+		
+		addInput(new InputHandlerBox2DTestState(this, player));
+		setInput();
 	}
 	
 	private void createWorld() {
 		level = new Array<LevelRectangles>();
-		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(300, 1), world));
+		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), world));
 	}
 
 	@Override
@@ -156,5 +161,4 @@ public class Box2DTestState extends State {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -25,6 +25,7 @@ public class Canopus extends StateBasedGame {
 		initStateList();  
 	}
 	
+	@Override
 	public void initStateList() {
 		super.initStateList(); // dito 
 		
