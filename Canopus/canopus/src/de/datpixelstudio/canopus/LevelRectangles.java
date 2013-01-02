@@ -41,7 +41,7 @@ public class LevelRectangles {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.density = 0.5f;
 		fixtureDef.friction = 0.5f;
-		fixtureDef.restitution = 0.3f;
+		fixtureDef.restitution = 0.0f;
 		fixtureDef.shape = shape;
 		fixture = body.createFixture(fixtureDef);
 		shape.dispose();
