@@ -61,10 +61,13 @@ public class Box2DTestState extends State {
 	private void createWorld() {
 		level = new Array<LevelRectangles>();
 		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), false, world));
-		
-		for(int i = 0; i <= 20; i++){
-			level.add(new LevelRectangles(new Vector2(5,10), new Vector2(1, 1), true, world));
-
+		int j = 0;
+		for(int i = 0; i <= 15; i++){
+			j++;
+			level.add(new LevelRectangles(new Vector2(j+1,10), new Vector2(1, 1), true, world));
+			if(j == 5){
+				j = 0;
+			}
 		}
 		// walls
 		level.add(new LevelRectangles(new Vector2(-9, 0), new Vector2(1, 10), false, world));
