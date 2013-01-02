@@ -70,7 +70,7 @@ public class Player {
 		circle.dispose();
 		
 		body.setBullet(true);
-		//body.setFixedRotation(true);
+		body.setFixedRotation(true);
 	}
 	
 	public boolean isPlayerGrounded() {
@@ -94,14 +94,9 @@ public class Player {
 	}
 	
 	public void draw(final SpriteBatch b) {
-		//b.draw(texture, body.getPosition().x, body.getPosition().y);
-		b.draw (texture, body.getPosition().x, body.getPosition().y, body.getPosition().x, body.getPosition().y, 
+		b.draw (texture, body.getPosition().x, body.getPosition().y, 0, 0, 
 				64, 64, Box2DTestState.WORLD_TO_BOX, Box2DTestState.WORLD_TO_BOX, body.getAngle());
 		
-		/*
-		b.draw(texture, body.getPosition().x, body.getPosition().y, body.getPosition().x, body.getPosition().y, 64, 64, 
-				Box2DTestState.WORLD_TO_BOX, Box2DTestState.WORLD_TO_BOX, body.getAngle(), 10, 10, 64, 64, false, false);
-		*/
 	}
 	
 	public void update() {
