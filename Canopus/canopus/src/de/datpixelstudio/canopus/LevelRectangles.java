@@ -19,6 +19,8 @@ public class LevelRectangles {
 	private Body body = null;
 	private Fixture fixture = null;
 	
+	private boolean isJumpable = true;
+	
 	public LevelRectangles(final Vector2 position, final Vector2 size, final boolean isDynamic ,World world) {
 		this.position = position;
 		this.size = size;
@@ -40,6 +42,7 @@ public class LevelRectangles {
 				new Vector2(100,0),
 				new Vector2(100,10f)
 		};
+		isJumpable = true;
 		createRectangle(vertices);
 		
 		Vector2[] vertices2 = {
@@ -47,6 +50,7 @@ public class LevelRectangles {
 				new Vector2(100,0),
 				new Vector2(100,50f)
 		};
+		isJumpable = true;
 		createRectangle(vertices2);
 		
 		Vector2[] vertices3 = {
@@ -54,6 +58,7 @@ public class LevelRectangles {
 				new Vector2(100,0),
 				new Vector2(100,100f)
 		};
+		isJumpable = false;
 		createRectangle(vertices3);
 		
 		Vector2[] vertices4 = {
@@ -61,6 +66,7 @@ public class LevelRectangles {
 				new Vector2(100,0),
 				new Vector2(100,200f)
 		};
+		isJumpable = false;
 		createRectangle(vertices4);
 		
 		Vector2[] vertices5 = {
@@ -68,6 +74,7 @@ public class LevelRectangles {
 				new Vector2(100,0),
 				new Vector2(100,300f)
 		};
+		isJumpable = false;
 		createRectangle(vertices5);
 	}
 	
@@ -83,7 +90,7 @@ public class LevelRectangles {
 		shape.set(vertices);
 		body.setTransform(0, 1, 0);
 		fixture = body.createFixture(shape, 0.0f);
-		fixture.setUserData("DatASs");
+		fixture.setUserData(new FixtureDatas().setJumpable(isJumpable));
 		shape.dispose();
 	}
 	

@@ -38,6 +38,8 @@ public class Player {
 	private Fixture sensorFixtureMiddle = null;
 	private Fixture sensorFixtureRighte = null;
 	
+	private boolean isJumpAllowed = true;
+	
 	private boolean isGround = false;
 	private boolean isJump = false;
 	
@@ -141,6 +143,17 @@ public class Player {
 					)
 					) {
 				isGround = true;
+				
+				if(contact.getFixtureA().getUserData() instanceof FixtureDatas) {
+					if(!((FixtureDatas) contact.getFixtureA().getUserData()).isJumpable()) {
+						isJumpAllowed = false;
+					} else {
+						isJumpAllowed = true;
+					}
+				} else {
+					isJumpAllowed = true;
+				}
+				
 				return;
 			}
 		}
@@ -262,7 +275,7 @@ public class Player {
 			//body.setTransform(new Vector2(body.getPosition().x - 0.01f,  body.getPosition().y), 0);
 		}
 		
-		if(isJump) {
+		if(isJump && isJumpAllowed) {
 			isJump = false;
 			if(isGround) {
 				body.setLinearVelocity(getLinearVelocity().x, 0);
