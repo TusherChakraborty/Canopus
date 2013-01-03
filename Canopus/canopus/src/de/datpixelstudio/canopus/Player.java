@@ -147,11 +147,12 @@ public class Player {
 				if(contact.getFixtureA().getUserData() instanceof FixtureDatas) {
 					if(!((FixtureDatas) contact.getFixtureA().getUserData()).isJumpable()) {
 						isJumpAllowed = false;
+					} else {
+						isJumpAllowed = true;
 					}
 				} else {
 					isJumpAllowed = true;
 				}
-				
 				return;
 			}
 		}
@@ -277,7 +278,7 @@ public class Player {
 			isJump = false;
 			if(isGround) {
 				body.setLinearVelocity(getLinearVelocity().x, 0);
-				body.setTransform(position.x,  position.y + 0.01f, 0);
+				body.setTransform(position.x,  position.y + 0.1f, 0);
 				body.applyLinearImpulse(0, 80, position.x, position.y);
 			}
 		}

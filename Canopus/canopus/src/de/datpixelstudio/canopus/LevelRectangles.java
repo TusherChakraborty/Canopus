@@ -139,7 +139,7 @@ public class LevelRectangles {
 	}
 	
 	public void update() {
-		if(Gdx.input.isKeyPressed(Keys.F8) && body != null) {
+		if(Gdx.input.isKeyPressed(Keys.C) && body != null) {
 			body.setActive(!body.isActive());
 		}
 	}
