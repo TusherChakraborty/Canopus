@@ -71,6 +71,8 @@ public class Player {
 		
 		body.setBullet(true);
 		body.setFixedRotation(true);
+		
+		body.setUserData("Player");
 	}
 	
 	public boolean isPlayerGrounded() {
@@ -82,8 +84,19 @@ public class Player {
 		for(Contact contact : contactList) {
 			if(contact.isTouching() && (contact.getFixtureA() == sensorFixture 
 					|| contact.getFixtureB() == sensorFixture)) {
-				isGround = true;
-				return;
+				if(contact.getFixtureA().getBody().getUserData() != null && contact.getFixtureA().getBody().getUserData().equals("Player")){
+					System.out.println("Player ist A");
+					if(contact.getFixtureB().getBody().getPosition().y <= contact.getFixtureA().getBody().getPosition().y){
+						isGround = true;
+						return;
+					}
+				}
+				else if(contact.getFixtureB().getBody().getUserData() != null && contact.getFixtureB().getBody().getUserData().equals("Player")){
+					if(contact.getFixtureA().getBody().getPosition().y <= contact.getFixtureB().getBody().getPosition().y){
+						isGround = true;
+						return;
+					}
+				}
 			}
 		}
 		isGround = false;
