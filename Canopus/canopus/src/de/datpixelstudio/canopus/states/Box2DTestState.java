@@ -57,7 +57,7 @@ public class Box2DTestState extends State {
 	
 	private void createWorld() {
 		level = new ArrayList<LevelRectangles>();
-		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), false, world));
+		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), false, world, "positiv"));
 		//Boxcreation loop
 		float j = -9;
 		float j2 = 0.8f;
@@ -70,17 +70,22 @@ public class Box2DTestState extends State {
 			}
 		}
 		// walls
-		level.add(new LevelRectangles(new Vector2(-9, 11), new Vector2(1, 10), false, world));
-		//level.add(new LevelRectangles(new Vector2(9, 11), new Vector2(1, 10), false, world));
+		level.add(new LevelRectangles(new Vector2(-9, 11), new Vector2(1, 10), false, world, "postiv"));
+		level.add(new LevelRectangles(new Vector2(9, 11), new Vector2(1, 10), false, world, "negativ"));
 		//top
-		level.add(new LevelRectangles(new Vector2(0, 22), new Vector2(10, 1), false, world));
+		level.add(new LevelRectangles(new Vector2(0, 22), new Vector2(10, 1), false, world, "postiv"));
 		// Rectangle
 		level.add(new LevelRectangles(world));
+		
 	}
 
 	@Override
 	public void update(GameContainer gc) {
 		player.update();
+		
+		for(LevelRectangles obj : level) {
+			obj.update();
+		}
 		
 		world.step(1/60f, 6, 2);
 	}

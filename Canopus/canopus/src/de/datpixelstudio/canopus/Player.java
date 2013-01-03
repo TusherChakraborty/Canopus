@@ -36,7 +36,7 @@ public class Player {
 	
 	private Fixture sensorFixtureLeft = null;
 	private Fixture sensorFixtureMiddle = null;
-	private Fixture sensorFixtureRighte = null;
+	private Fixture sensorFixtureRight = null;
 	
 	private boolean isJumpAllowed = true;
 	
@@ -100,7 +100,7 @@ public class Player {
 		sensorFixtureLeft = body.createFixture(circle, 1);
 		// Right
 		circle.setPosition(new Vector2(1.5f, 0f));
-		sensorFixtureRighte = body.createFixture(circle, 1);
+		sensorFixtureRight = body.createFixture(circle, 1);
 		circle.dispose();
 		// Center
 		PolygonShape polygonShape2 = new PolygonShape();
@@ -133,8 +133,8 @@ public class Player {
 					
 					||
 					
-					(contact.getFixtureA() == sensorFixtureRighte 
-					|| contact.getFixtureB() == sensorFixtureRighte)
+					(contact.getFixtureA() == sensorFixtureRight 
+					|| contact.getFixtureB() == sensorFixtureRight)
 
 					||
 					
@@ -147,8 +147,6 @@ public class Player {
 				if(contact.getFixtureA().getUserData() instanceof FixtureDatas) {
 					if(!((FixtureDatas) contact.getFixtureA().getUserData()).isJumpable()) {
 						isJumpAllowed = false;
-					} else {
-						isJumpAllowed = true;
 					}
 				} else {
 					isJumpAllowed = true;
@@ -222,7 +220,7 @@ public class Player {
 	private void setSensorFrictions(final float friction) {
 		sensorFixtureLeft.setFriction(friction);
 		sensorFixtureMiddle.setFriction(friction);
-		sensorFixtureRighte.setFriction(friction);
+		sensorFixtureRight.setFriction(friction);
 	}
 	
 	public void update() {
@@ -309,7 +307,7 @@ public class Player {
 	}
 	
 	public float getFriction() {
-		return sensorFixtureRighte.getFriction();
+		return sensorFixtureRight.getFriction();
 	}
 }
 

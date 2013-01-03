@@ -1,5 +1,7 @@
 package de.datpixelstudio.canopus;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+
+import de.datpixelstudio.BodyDatas;
 
 public class LevelRectangles {
 	
@@ -21,10 +25,13 @@ public class LevelRectangles {
 	
 	private boolean isJumpable = true;
 	
-	public LevelRectangles(final Vector2 position, final Vector2 size, final boolean isDynamic ,World world) {
+	private String space = "positiv";
+	
+	public LevelRectangles(final Vector2 position, final Vector2 size, final boolean isDynamic ,World world, final String space) {
 		this.position = position;
 		this.size = size;
 		this.world = world;
+		this.space = space;
 		
 		if(!isDynamic) {
 			createStatic();
@@ -32,6 +39,11 @@ public class LevelRectangles {
 			createDynamic();
 		}
 		fixture.setUserData("LevelObject:" + size.toString() + position.toString() + System.nanoTime());
+		body.setUserData(new BodyDatas().setSpace(space));
+		
+		if(space.equals("negativ")) {
+			body.setActive(false);
+		}
 	}
 	
 	public LevelRectangles(final World world) {
@@ -83,6 +95,7 @@ public class LevelRectangles {
 		bodyDef.type = BodyType.StaticBody;
 		Body body = world.createBody(bodyDef);
 		body = world.createBody(bodyDef);
+		body.setUserData(new BodyDatas().setSpace("positiv"));
 		
 		size = new Vector2();
 		
@@ -123,6 +136,12 @@ public class LevelRectangles {
 		body.setTransform(position, 0);
 		fixture = body.createFixture(shape, 0.0f);
 		shape.dispose();
+	}
+	
+	public void update() {
+		if(Gdx.input.isKeyPressed(Keys.F8) && body != null) {
+			body.setActive(!body.isActive());
+		}
 	}
 	
 	public Fixture getFixture() {
