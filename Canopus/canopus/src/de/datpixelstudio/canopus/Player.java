@@ -77,23 +77,39 @@ public class Player {
 				new Vector2(2.1f,3),
 				new Vector2(-0.05f,3)
 		};
-		polygonShape.set(vertices);
+		
+		Vector2[] vertices2 = {
+				new Vector2(0,0),
+				new Vector2(0.5f,-0.5f),
+				new Vector2(1.5f,-0.5f),
+				new Vector2(2,0),
+				new Vector2(2.0f,2),
+				new Vector2(0f,2)
+		};
+		
+		polygonShape.set(vertices2);
 		physicFixture = body.createFixture(polygonShape, 1);
 		polygonShape.dispose();
 		
 		CircleShape circle = new CircleShape();
-		circle.setRadius(0.4f);
+		circle.setRadius(0.5f);
 		// Left
-		circle.setPosition(new Vector2(0.6f, -0.1f));
+		circle.setPosition(new Vector2(0.5f, 0.0f));
 		sensorFixtureLeft = body.createFixture(circle, 1);
 		// Right
-		circle.setPosition(new Vector2(1.4f, -0.1f));
+		circle.setPosition(new Vector2(1.5f, 0f));
 		sensorFixtureRighte = body.createFixture(circle, 1);
 		circle.dispose();
 		// Center
 		PolygonShape polygonShape2 = new PolygonShape();
 		//polygonShape2.setAsBox(0.5f, 0.5f);
-		polygonShape2.setAsBox(0.5f, 0.5f, new Vector2(1f, 0.05f), 0);
+		Vector2[] vertices3 = {
+				new Vector2(0.5f,-0.5f),
+				new Vector2(1.5f,-0.5f),
+				new Vector2(1.5f,0.0f),
+				new Vector2(0.5f,0.0f),
+		};
+		polygonShape2.set(vertices3);
 		sensorFixtureMiddle = body.createFixture(polygonShape2, 1);
 		
 		body.setBullet(true);
@@ -200,6 +216,11 @@ public class Player {
 		updateIsPlayerGrounded();
 		position = body.getPosition();
 		
+		if(isGround && !isJump) {
+			// kein runter rutschen auf schrägen
+			//body.setLinearVelocity(getLinearVelocity().x, 0); 
+		}
+		
 		if(isGround) {
 			lastGroundTime = System.nanoTime();
 		} else {
@@ -220,6 +241,7 @@ public class Player {
 			stillTime = 0;
 		}
 		
+		
 		if(!isGround) {
 			physicFixture.setFriction(0);
 			setSensorFrictions(0);
@@ -234,11 +256,15 @@ public class Player {
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.LEFT) && getLinearVelocity().x > -maxVelocity) {
-			body.applyLinearImpulse(-2f,  0, position.x, position.y); 
+			body.setTransform(new Vector2(body.getPosition().x - 0.01f,  body.getPosition().y), 0);
+			body.applyLinearImpulse(-2f,  0, position.x, position.y);
+			body.setTransform(new Vector2(body.getPosition().x + 0.01f,  body.getPosition().y), 0);
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.RIGHT) && getLinearVelocity().x < maxVelocity) {
+			body.setTransform(new Vector2(body.getPosition().x + 0.01f,  body.getPosition().y), 0);
 			body.applyLinearImpulse(2f,  0, position.x, position.y); 
+			body.setTransform(new Vector2(body.getPosition().x - 0.01f,  body.getPosition().y), 0);
 		}
 		
 		if(isJump) {
@@ -257,6 +283,10 @@ public class Player {
 	
 	public void setJump(final boolean jump) {
 		this.isJump = jump;
+	}
+	
+	public boolean isJump() {
+		return isJump;
 	}
 }
 

@@ -60,7 +60,7 @@ public class LevelRectangles {
 		body = world.createBody(bodyDef);
 		
 		CircleShape shape = new CircleShape();
-		shape.setRadius(0.01f);
+		shape.setRadius(0.1f);
 		//PolygonShape shape = new PolygonShape();
 		//shape.setAsBox(size.x, size.y);
 		body.setTransform(position, 0);

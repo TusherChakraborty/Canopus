@@ -59,11 +59,13 @@ public class Box2DTestState extends State {
 		level = new ArrayList<LevelRectangles>();
 		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), false, world));
 		//Boxcreation loop
-		int j = 0;
-		for(int i = 0; i <= 150; i++){
-			j++;
-			level.add(new LevelRectangles(new Vector2(j+1,10), new Vector2(0.1f, 0.1f), true, world));
-			if(j == 5){
+		float j = -9;
+		float j2 = 0.8f;
+		for(int i = -9; i <= 10; i++){
+			j+= 0.15f;
+			j2 += 0.05f;
+			//level.add(new LevelRectangles(new Vector2(j,j2), new Vector2(0.1f, 0.1f), true, world));
+			if(j > 4){
 				j = 0;
 			}
 		}
@@ -97,6 +99,8 @@ public class Box2DTestState extends State {
 		
 		/* DebugText */
 		Canopus.getFont().draw(gc.b, "isGround " + player.isPlayerGrounded(), 20, 20);
+		Canopus.getFont().draw(gc.b, "isJump " + player.isJump(), 20, 40);
+		
 		
 		gc.b.end();
 	}
