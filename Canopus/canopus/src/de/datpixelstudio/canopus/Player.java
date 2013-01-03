@@ -80,8 +80,8 @@ public class Player {
 		
 		Vector2[] vertices2 = {
 				new Vector2(0,0),
-				new Vector2(0.5f,-0.5f),
-				new Vector2(1.5f,-0.5f),
+				new Vector2(0.5f,-0.35f),
+				new Vector2(1.5f,-0.35f),
 				new Vector2(2,0),
 				new Vector2(2.0f,2),
 				new Vector2(0f,2)
@@ -124,7 +124,7 @@ public class Player {
 	private void updateIsPlayerGrounded() {
 		List<Contact> contactList = world.getContactList();
 		for(Contact contact : contactList) {
-			if(contact.isTouching() && 
+			if(contact.isTouching() && ( 
 					
 					(contact.getFixtureA() == sensorFixtureLeft 
 					|| contact.getFixtureB() == sensorFixtureLeft)
@@ -138,7 +138,7 @@ public class Player {
 					
 					(contact.getFixtureA() == sensorFixtureMiddle 
 					|| contact.getFixtureB() == sensorFixtureMiddle)
-					
+					)
 					) {
 				isGround = true;
 				return;
@@ -216,11 +216,6 @@ public class Player {
 		updateIsPlayerGrounded();
 		position = body.getPosition();
 		
-		if(isGround && !isJump) {
-			// kein runter rutschen auf schrägen
-			//body.setLinearVelocity(getLinearVelocity().x, 0); 
-		}
-		
 		if(isGround) {
 			lastGroundTime = System.nanoTime();
 		} else {
@@ -258,13 +253,13 @@ public class Player {
 		if(Gdx.input.isKeyPressed(Keys.LEFT) && getLinearVelocity().x > -maxVelocity) {
 			body.setTransform(new Vector2(body.getPosition().x - 0.01f,  body.getPosition().y), 0);
 			body.applyLinearImpulse(-2f,  0, position.x, position.y);
-			body.setTransform(new Vector2(body.getPosition().x + 0.01f,  body.getPosition().y), 0);
+			//body.setTransform(new Vector2(body.getPosition().x + 0.01f,  body.getPosition().y), 0);
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.RIGHT) && getLinearVelocity().x < maxVelocity) {
 			body.setTransform(new Vector2(body.getPosition().x + 0.01f,  body.getPosition().y), 0);
 			body.applyLinearImpulse(2f,  0, position.x, position.y); 
-			body.setTransform(new Vector2(body.getPosition().x - 0.01f,  body.getPosition().y), 0);
+			//body.setTransform(new Vector2(body.getPosition().x - 0.01f,  body.getPosition().y), 0);
 		}
 		
 		if(isJump) {
@@ -273,6 +268,12 @@ public class Player {
 				body.setLinearVelocity(getLinearVelocity().x, 0);
 				body.setTransform(position.x,  position.y + 0.01f, 0);
 				body.applyLinearImpulse(0, 80, position.x, position.y);
+			}
+		}
+		
+		if(!isJump && isGround) {
+			if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
+				body.setLinearVelocity(getLinearVelocity().x, 0);
 			}
 		}
 	}

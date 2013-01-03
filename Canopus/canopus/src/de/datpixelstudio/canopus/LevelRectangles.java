@@ -45,7 +45,7 @@ public class LevelRectangles {
 		Vector2[] vertics = {
 				new Vector2(0,0),
 				new Vector2(5,0),
-				new Vector2(5,5)
+				new Vector2(5,2.5f)
 		};
 		shape.set(vertics);
 		body.setTransform(0, 1, 0);
