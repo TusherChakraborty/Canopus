@@ -33,7 +33,10 @@ public class Player {
 	
 	private Body body = null;
 	private Fixture physicFixture = null;
-	private Fixture sensorFixture = null;
+	
+	private Fixture sensorFixtureLeft = null;
+	private Fixture sensorFixtureMiddle = null;
+	private Fixture sensorFixtureRighte = null;
 	
 	private boolean isGround = false;
 	private boolean isJump = false;
@@ -64,15 +67,34 @@ public class Player {
 		body = world.createBody(bodyDef);
 		
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(0.95f, 1.5f);
+		//polygonShape.setAsBox(0.95f, 1.5f);
+		
+		Vector2[] vertices = {
+				new Vector2(0.1f,0),
+				new Vector2(0.5f,-0.35f),
+				new Vector2(1.5f,-0.35f),
+				new Vector2(1.9f,0),
+				new Vector2(2.1f,3),
+				new Vector2(-0.05f,3)
+		};
+		polygonShape.set(vertices);
 		physicFixture = body.createFixture(polygonShape, 1);
 		polygonShape.dispose();
 		
 		CircleShape circle = new CircleShape();
-		circle.setRadius(1f);
-		circle.setPosition(new Vector2(0, -1.5f));
-		sensorFixture = body.createFixture(circle, 0);
+		circle.setRadius(0.4f);
+		// Left
+		circle.setPosition(new Vector2(0.6f, -0.1f));
+		sensorFixtureLeft = body.createFixture(circle, 1);
+		// Right
+		circle.setPosition(new Vector2(1.4f, -0.1f));
+		sensorFixtureRighte = body.createFixture(circle, 1);
 		circle.dispose();
+		// Center
+		PolygonShape polygonShape2 = new PolygonShape();
+		//polygonShape2.setAsBox(0.5f, 0.5f);
+		polygonShape2.setAsBox(0.5f, 0.5f, new Vector2(1f, 0.05f), 0);
+		sensorFixtureMiddle = body.createFixture(polygonShape2, 1);
 		
 		body.setBullet(true);
 		body.setFixedRotation(true);
@@ -83,6 +105,33 @@ public class Player {
 		return isGround;
 	}
 	
+	private void updateIsPlayerGrounded() {
+		List<Contact> contactList = world.getContactList();
+		for(Contact contact : contactList) {
+			if(contact.isTouching() && 
+					
+					(contact.getFixtureA() == sensorFixtureLeft 
+					|| contact.getFixtureB() == sensorFixtureLeft)
+					
+					||
+					
+					(contact.getFixtureA() == sensorFixtureRighte 
+					|| contact.getFixtureB() == sensorFixtureRighte)
+
+					||
+					
+					(contact.getFixtureA() == sensorFixtureMiddle 
+					|| contact.getFixtureB() == sensorFixtureMiddle)
+					
+					) {
+				isGround = true;
+				return;
+			}
+		}
+		isGround = false;
+	}
+	
+	/*
 	private void updateIsPlayerGrounded() {
 		List<Contact> contactList = world.getContactList();
 		for(Contact contact : contactList) {
@@ -119,6 +168,7 @@ public class Player {
 		}
 		isGround = false;
 	}
+	*/
 	
 	private LevelRectangles getLevelObject(final Object object) {
 		if(object == null) return null;
@@ -135,9 +185,15 @@ public class Player {
 	}
 	
 	public void draw(final SpriteBatch b) {
-		b.draw (texture, body.getPosition().x, body.getPosition().y, 0, 0, 
-				64, 64, Box2DTestState.WORLD_TO_BOX, Box2DTestState.WORLD_TO_BOX, body.getAngle());
+	//	b.draw (texture, body.getPosition().x, body.getPosition().y, 0, 0, 
+	//			64, 64, Box2DTestState.WORLD_TO_BOX, Box2DTestState.WORLD_TO_BOX, body.getAngle());
 		
+	}
+	
+	private void setSensorFrictions(final float friction) {
+		sensorFixtureLeft.setFriction(friction);
+		sensorFixtureMiddle.setFriction(friction);
+		sensorFixtureRighte.setFriction(friction);
 	}
 	
 	public void update() {
@@ -166,14 +222,14 @@ public class Player {
 		
 		if(!isGround) {
 			physicFixture.setFriction(0);
-			sensorFixture.setFriction(0);
+			setSensorFrictions(0);
 		} else {
 			if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT) && stillTime > 0.2) {
 				physicFixture.setFriction(100f);
-				sensorFixture.setFriction(100f);
+				setSensorFrictions(100f);
 			} else {
 				physicFixture.setFriction(0.2f);
-				sensorFixture.setFriction(0.2f);
+				setSensorFrictions(0.2f);
 			}
 		}
 		

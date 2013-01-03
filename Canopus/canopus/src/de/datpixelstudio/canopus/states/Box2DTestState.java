@@ -4,8 +4,13 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 
 import de.datpixelstudio.canopus.Canopus;
@@ -55,9 +60,9 @@ public class Box2DTestState extends State {
 		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), false, world));
 		//Boxcreation loop
 		int j = 0;
-		for(int i = 0; i <= 2; i++){
+		for(int i = 0; i <= 100; i++){
 			j++;
-			level.add(new LevelRectangles(new Vector2(j+1,10), new Vector2(1, 1), true, world));
+			level.add(new LevelRectangles(new Vector2(j+1,10), new Vector2(0.1f, 0.1f), true, world));
 			if(j == 5){
 				j = 0;
 			}
@@ -67,7 +72,8 @@ public class Box2DTestState extends State {
 		level.add(new LevelRectangles(new Vector2(9, 11), new Vector2(1, 10), false, world));
 		//top
 		level.add(new LevelRectangles(new Vector2(0, 22), new Vector2(10, 1), false, world));
-		
+		// Rectangle
+		level.add(new LevelRectangles(world));
 	}
 
 	@Override
