@@ -60,7 +60,7 @@ public class Box2DTestState extends State {
 		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), false, world));
 		//Boxcreation loop
 		int j = 0;
-		for(int i = 0; i <= 100; i++){
+		for(int i = 0; i <= 150; i++){
 			j++;
 			level.add(new LevelRectangles(new Vector2(j+1,10), new Vector2(0.1f, 0.1f), true, world));
 			if(j == 5){

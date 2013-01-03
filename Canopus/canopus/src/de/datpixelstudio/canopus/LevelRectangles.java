@@ -60,14 +60,14 @@ public class LevelRectangles {
 		body = world.createBody(bodyDef);
 		
 		CircleShape shape = new CircleShape();
-		shape.setRadius(0.1f);
+		shape.setRadius(0.01f);
 		//PolygonShape shape = new PolygonShape();
 		//shape.setAsBox(size.x, size.y);
 		body.setTransform(position, 0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.density = 0.5f;
 		fixtureDef.friction = 0.1f;
-		fixtureDef.restitution = 0.95f;
+		fixtureDef.restitution = 0.99f;
 		fixtureDef.shape = shape;
 		fixture = body.createFixture(fixtureDef);
 		shape.dispose();
