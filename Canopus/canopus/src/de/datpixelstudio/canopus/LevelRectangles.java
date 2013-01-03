@@ -28,6 +28,7 @@ public class LevelRectangles {
 		} else {
 			createDynamic();
 		}
+		fixture.setUserData("LevelObject:" + size.toString() + position.toString());
 	}
 	
 	private void createDynamic() {
@@ -57,5 +58,13 @@ public class LevelRectangles {
 		body.setTransform(position, 0);
 		fixture = body.createFixture(shape, 0.0f);
 		shape.dispose();
+	}
+	
+	public Fixture getFixture() {
+		return fixture;
+	}
+	
+	public Vector2 getSize() {
+		return size;
 	}
 }

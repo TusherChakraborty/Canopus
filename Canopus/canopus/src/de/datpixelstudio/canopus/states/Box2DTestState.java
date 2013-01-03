@@ -1,5 +1,7 @@
 package de.datpixelstudio.canopus.states;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -22,7 +24,7 @@ public class Box2DTestState extends State {
 	private World world = null;
 	private Box2DDebugRenderer debugRenderer = null;
 	
-	private Array<LevelRectangles> level = null;
+	private ArrayList<LevelRectangles> level = null;
 	
 	private Player player = null;
 	
@@ -42,14 +44,14 @@ public class Box2DTestState extends State {
 		debugRenderer = new Box2DDebugRenderer();
 		
 		createWorld();
-		player = new Player(new Vector2(2, 8), world);
+		player = new Player(new Vector2(2, 8), world, level);
 		
 		addInput(new InputHandlerBox2DTestState(this, player));
 		setInput();
 	}
 	
 	private void createWorld() {
-		level = new Array<LevelRectangles>();
+		level = new ArrayList<LevelRectangles>();
 		level.add(new LevelRectangles(new Vector2(0, 0), new Vector2(10, 1), false, world));
 		//Boxcreation loop
 		int j = 0;

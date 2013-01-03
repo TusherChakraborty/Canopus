@@ -1,5 +1,6 @@
 package de.datpixelstudio.canopus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -23,6 +24,7 @@ import de.datpixelstudio.statebasedgame.TextureSet;
 public class Player {
 	
 	private World world;
+	private ArrayList<LevelRectangles> level = null;
 	
 	private float maxVelocity = 7f;
 	
@@ -41,9 +43,10 @@ public class Player {
 	
 	private TextureRegion texture = null;
 	
-	public Player(final Vector2 position, World world) {
+	public Player(final Vector2 position, World world, ArrayList<LevelRectangles> level) {
 		this.position = position;
 		this.world = world;
+		this.level = level;
 		
 		velocity = new Vector2();
 		
@@ -71,8 +74,6 @@ public class Player {
 		
 		body.setBullet(true);
 		body.setFixedRotation(true);
-		
-		body.setUserData("Player");
 	}
 	
 	public boolean isPlayerGrounded() {
@@ -84,22 +85,26 @@ public class Player {
 		for(Contact contact : contactList) {
 			if(contact.isTouching() && (contact.getFixtureA() == sensorFixture 
 					|| contact.getFixtureB() == sensorFixture)) {
-				if(contact.getFixtureA().getBody().getUserData() != null && contact.getFixtureA().getBody().getUserData().equals("Player")){
-					System.out.println("Player ist A");
-					if(contact.getFixtureB().getBody().getPosition().y <= contact.getFixtureA().getBody().getPosition().y){
-						isGround = true;
-						return;
-					}
+				isGround = true;
+				
+				if (getLevelObject(contact.getFixtureA().getUserData()) != null) {
+					LevelRectangles lvlRec = getLevelObject(contact.getFixtureA().getUserData()); 
+					System.out.println("Size of Object y: " + lvlRec.getSize().y);
 				}
-				else if(contact.getFixtureB().getBody().getUserData() != null && contact.getFixtureB().getBody().getUserData().equals("Player")){
-					if(contact.getFixtureA().getBody().getPosition().y <= contact.getFixtureB().getBody().getPosition().y){
-						isGround = true;
-						return;
-					}
-				}
+				return;
 			}
 		}
 		isGround = false;
+	}
+	
+	private LevelRectangles getLevelObject(final Object object) {
+		if(object == null) return null;
+		for(LevelRectangles obj : level) {
+			if((object.toString().equals(obj.getFixture().getUserData().toString()))) {
+				return obj;
+			}
+		}
+		return null;
 	}
 	
 	public Vector2 getPostion() {
