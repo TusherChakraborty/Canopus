@@ -43,6 +43,8 @@ public class Player {
 	
 	private TextureRegion texture = null;
 	
+	private Vector2 aPos = null, aSize = null, bPos = null, bSize = null;
+	
 	public Player(final Vector2 position, World world, ArrayList<LevelRectangles> level) {
 		this.position = position;
 		this.world = world;
@@ -74,6 +76,7 @@ public class Player {
 		
 		body.setBullet(true);
 		body.setFixedRotation(true);
+		body.setUserData("Player");
 	}
 	
 	public boolean isPlayerGrounded() {
@@ -85,13 +88,33 @@ public class Player {
 		for(Contact contact : contactList) {
 			if(contact.isTouching() && (contact.getFixtureA() == sensorFixture 
 					|| contact.getFixtureB() == sensorFixture)) {
-				isGround = true;
 				
-				if (getLevelObject(contact.getFixtureA().getUserData()) != null) {
-					LevelRectangles lvlRec = getLevelObject(contact.getFixtureA().getUserData()); 
-					System.out.println("Size of Object y: " + lvlRec.getSize().y);
+				if(contact.getFixtureA().getBody().getUserData() != null && contact.getFixtureA().getBody().getUserData().equals("Player")){
+					System.out.println("A = Player");
+					
+					bPos = contact.getFixtureB().getBody().getPosition();
+					if(getLevelObject(contact.getFixtureB().getUserData()).getSize() != null){
+						bSize = getLevelObject(contact.getFixtureB().getUserData()).getSize();
+					}
+					
+					if(contact.getFixtureA().getBody().getPosition().y - (1.5) >= bPos.y + (bSize.y)){
+						isGround = true;
+						return;
+					}
 				}
-				return;
+				else if(contact.getFixtureB().getBody().getUserData() != null && contact.getFixtureB().getBody().getUserData().equals("Player")){
+					System.out.println("B = Player");
+					
+					aPos = contact.getFixtureA().getBody().getPosition();
+					if(getLevelObject(contact.getFixtureA().getUserData()).getSize() != null){
+						aSize = getLevelObject(contact.getFixtureA().getUserData()).getSize();
+					}
+					
+					if(contact.getFixtureB().getBody().getPosition().y - (1.5) >= aPos.y + (aSize.y)){
+						isGround = true;
+						return;
+					}
+				}
 			}
 		}
 		isGround = false;
@@ -167,7 +190,7 @@ public class Player {
 			if(isGround) {
 				body.setLinearVelocity(getLinearVelocity().x, 0);
 				body.setTransform(position.x,  position.y + 0.01f, 0);
-				body.applyLinearImpulse(0, 45, position.x, position.y);
+				body.applyLinearImpulse(0, 80, position.x, position.y);
 			}
 		}
 	}

@@ -28,7 +28,7 @@ public class LevelRectangles {
 		} else {
 			createDynamic();
 		}
-		fixture.setUserData("LevelObject:" + size.toString() + position.toString());
+		fixture.setUserData("LevelObject:" + size.toString() + position.toString() + System.nanoTime());
 	}
 	
 	private void createDynamic() {
@@ -37,7 +37,13 @@ public class LevelRectangles {
 		body = world.createBody(bodyDef);
 		
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(size.x, size.y);
+		//shape.setAsBox(size.x, size.y);
+		Vector2[] vertics = {
+				new Vector2(0,0),
+				new Vector2(5,0),
+				new Vector2(5,5)
+		};
+		shape.set(vertics);
 		body.setTransform(position, 0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.density = 0.5f;
@@ -54,7 +60,13 @@ public class LevelRectangles {
 		body = world.createBody(bodyDef);
 		
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(size.x, size.y);
+		//shape.setAsBox(size.x, size.y);
+		Vector2[] vertics = {
+				new Vector2(0,0),
+				new Vector2(5,0),
+				new Vector2(5,5)
+		};
+		shape.set(vertics);
 		body.setTransform(position, 0);
 		fixture = body.createFixture(shape, 0.0f);
 		shape.dispose();
