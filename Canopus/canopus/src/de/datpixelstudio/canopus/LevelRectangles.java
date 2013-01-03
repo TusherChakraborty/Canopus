@@ -34,6 +34,44 @@ public class LevelRectangles {
 	
 	public LevelRectangles(final World world) {
 		this.world = world;
+		
+		Vector2[] vertices = {
+				new Vector2(0,0),
+				new Vector2(100,0),
+				new Vector2(100,10f)
+		};
+		createRectangle(vertices);
+		
+		Vector2[] vertices2 = {
+				new Vector2(10,0),
+				new Vector2(100,0),
+				new Vector2(100,50f)
+		};
+		createRectangle(vertices2);
+		
+		Vector2[] vertices3 = {
+				new Vector2(20,0),
+				new Vector2(100,0),
+				new Vector2(100,100f)
+		};
+		createRectangle(vertices3);
+		
+		Vector2[] vertices4 = {
+				new Vector2(30,0),
+				new Vector2(100,0),
+				new Vector2(100,200f)
+		};
+		createRectangle(vertices4);
+		
+		Vector2[] vertices5 = {
+				new Vector2(40,0),
+				new Vector2(100,0),
+				new Vector2(100,300f)
+		};
+		createRectangle(vertices5);
+	}
+	
+	private void createRectangle(final Vector2[] vertices) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.StaticBody;
 		Body body = world.createBody(bodyDef);
@@ -42,12 +80,7 @@ public class LevelRectangles {
 		size = new Vector2();
 		
 		PolygonShape shape = new PolygonShape();
-		Vector2[] vertics = {
-				new Vector2(0,0),
-				new Vector2(5,0),
-				new Vector2(5,2.5f)
-		};
-		shape.set(vertics);
+		shape.set(vertices);
 		body.setTransform(0, 1, 0);
 		fixture = body.createFixture(shape, 0.0f);
 		fixture.setUserData("DatASs");

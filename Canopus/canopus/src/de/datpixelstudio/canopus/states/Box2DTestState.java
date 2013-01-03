@@ -71,7 +71,7 @@ public class Box2DTestState extends State {
 		}
 		// walls
 		level.add(new LevelRectangles(new Vector2(-9, 11), new Vector2(1, 10), false, world));
-		level.add(new LevelRectangles(new Vector2(9, 11), new Vector2(1, 10), false, world));
+		//level.add(new LevelRectangles(new Vector2(9, 11), new Vector2(1, 10), false, world));
 		//top
 		level.add(new LevelRectangles(new Vector2(0, 22), new Vector2(10, 1), false, world));
 		// Rectangle
@@ -100,6 +100,7 @@ public class Box2DTestState extends State {
 		/* DebugText */
 		Canopus.getFont().draw(gc.b, "isGround " + player.isPlayerGrounded(), 20, 20);
 		Canopus.getFont().draw(gc.b, "isJump " + player.isJump(), 20, 40);
+		Canopus.getFont().draw(gc.b, "friction " + player.getFriction(), 20, 60);
 		
 		
 		gc.b.end();

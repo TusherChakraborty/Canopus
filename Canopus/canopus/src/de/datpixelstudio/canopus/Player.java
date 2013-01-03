@@ -241,7 +241,7 @@ public class Player {
 			physicFixture.setFriction(0);
 			setSensorFrictions(0);
 		} else {
-			if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT) && stillTime > 0.2) {
+			if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
 				physicFixture.setFriction(100f);
 				setSensorFrictions(100f);
 			} else {
@@ -272,9 +272,14 @@ public class Player {
 		}
 		
 		if(!isJump && isGround) {
-			if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
-				body.setLinearVelocity(getLinearVelocity().x, 0);
+			if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT) && stillTime > 0.3f) {
+				//body.setLinearVelocity(0, getLinearVelocity().y);
+				body.setGravityScale(0);
+			} else {
+				body.setGravityScale(2);
 			}
+		} else {
+			body.setGravityScale(2);
 		}
 	}
 	
@@ -288,6 +293,10 @@ public class Player {
 	
 	public boolean isJump() {
 		return isJump;
+	}
+	
+	public float getFriction() {
+		return sensorFixtureRighte.getFriction();
 	}
 }
 
