@@ -48,8 +48,6 @@ public class Player {
 	
 	private TextureRegion texture = null;
 	
-	private Vector2 aPos = null, aSize = null, bPos = null, bSize = null;
-	
 	public Player(final Vector2 position, World world, ArrayList<LevelRectangles> level) {
 		this.position = position;
 		this.world = world;
@@ -57,7 +55,7 @@ public class Player {
 		
 		velocity = new Vector2();
 		
-		texture = TextureSet.MISC_TEX.getTexture(1);
+		texture = TextureSet.MISC_TEX.getTexture(5);
 		
 		create();
 	}
@@ -213,8 +211,12 @@ public class Player {
 	}
 	
 	public void draw(final SpriteBatch b) {
-	//	b.draw (texture, body.getPosition().x, body.getPosition().y, 0, 0, 
-	//			64, 64, Box2DTestState.WORLD_TO_BOX, Box2DTestState.WORLD_TO_BOX, body.getAngle());
+		float twidth = 64;
+		float percent = twidth/100;
+		System.out.println("0.01f = " + percent);
+		
+		b.draw (texture, body.getPosition().x, body.getPosition().y - 0.5f, 0, 0, 
+				64, 64, percent, Box2DTestState.WORLD_TO_BOX, body.getAngle());
 		
 	}
 	
@@ -292,6 +294,10 @@ public class Player {
 			}
 		} else {
 			body.setGravityScale(2);
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.R)) {
+			body.setTransform(new Vector2(0, 5), 0);
 		}
 	}
 	
