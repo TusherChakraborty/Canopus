@@ -212,7 +212,7 @@ public class Player {
 	
 	public void draw(final SpriteBatch b) {
 		float twidth = texture.getTexture().getWidth();
-		float percent = (twidth/100) * 0.01f;
+		float percent = ((twidth/100) * 0.01f);
 		System.out.println("0.01f = " + percent);
 		
 		
