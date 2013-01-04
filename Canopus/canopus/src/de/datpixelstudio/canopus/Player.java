@@ -211,9 +211,10 @@ public class Player {
 	}
 	
 	public void draw(final SpriteBatch b) {
-		float twidth = 64;
-		float percent = twidth/100;
+		float twidth = texture.getTexture().getWidth();
+		float percent = (twidth/100) * 0.01f;
 		System.out.println("0.01f = " + percent);
+		
 		
 		b.draw (texture, body.getPosition().x, body.getPosition().y - 0.5f, 0, 0, 
 				64, 64, percent, Box2DTestState.WORLD_TO_BOX, body.getAngle());
