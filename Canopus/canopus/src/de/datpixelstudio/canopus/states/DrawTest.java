@@ -27,6 +27,7 @@ import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.canopus.inputHandler.InputHandlerBox2DTestState;
 import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.GameContainer;
+import de.datpixelstudio.statebasedgame.Settings;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 
@@ -47,15 +48,13 @@ public class DrawTest extends State {
 	
 	private float camX, camY;
 	
-	private int steps;
-	
 	public DrawTest(int stateID, StateBasedGame sbg) {
 		super(stateID, "DrawTest", sbg);
 	}
 
 	@Override
 	public void init(GameContainer gc) {
-		
+				
 		//gc.glClearColor = new Color(0.2f, 0, 0.5f, 1f);
 		gc.glClearColor = Color.BLACK;
 		gc.gameCam.zoom = WORLD_TO_BOX;
@@ -124,21 +123,18 @@ public class DrawTest extends State {
 	
 	public void coords(Vector3 mouse){
 		camera.unproject(mouse.set(mouse));
-		
-		if(steps == 3){
+		step.add(mouse);
+		if(!step.isEmpty() && step.size() == 4){
 			Vector2[] vertices2 = {
-					new Vector2(step.get(0).x , step.get(0).y),
-					new Vector2(step.get(1).x , step.get(1).y),
-					new Vector2(step.get(2).x , step.get(2).y)
+					new Vector2(step.get(0).x, step.get(0).y),
+					new Vector2(step.get(1).x, step.get(1).y),
+					new Vector2(step.get(2).x, step.get(2).y),
+					new Vector2(step.get(3).x, step.get(3).y)
 			};
 			level.add(new LevelRectangles(vertices2, world, "postiv"));
 			step.clear();
-			steps = 0;
 		}
-		
-		step.add(mouse);
 		System.out.println(mouse);
-		steps = steps+1;
 	}
 	
 	@Override
