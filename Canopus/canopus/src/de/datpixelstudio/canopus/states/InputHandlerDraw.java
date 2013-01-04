@@ -3,18 +3,19 @@ package de.datpixelstudio.canopus.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector3;
 
 import de.datpixelstudio.canopus.Canopus;
 import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.InputHandler;
 import de.datpixelstudio.statebasedgame.State;
 
-public class InputHandlerMaus extends InputHandler{
-	private MenueState datState = null;
+public class InputHandlerDraw extends InputHandler{
+	private DrawTest datState = null;
 	
-	public InputHandlerMaus(State state) {
+	public InputHandlerDraw(State state) {
 		super(state);
-		datState = (MenueState) state;
+		datState = (DrawTest) state;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -55,18 +56,24 @@ public class InputHandlerMaus extends InputHandler{
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		if(button == Buttons.LEFT){
-			datState.move(Direction.LEFT);
+		if(Gdx.input.isTouched()){
+			datState.coords(new Vector3(screenX,screenY,0));
 		}
-	return false;
+		return false;
 	}
 	
 	public void update(){
 		if(Gdx.input.isKeyPressed(Keys.LEFT)){
-			datState.move(Direction.LEFT);
+			datState.moveCam(Direction.LEFT);
 		}
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)){
-			datState.move(Direction.RIGHT);
+			datState.moveCam(Direction.RIGHT);
+		}
+		if(Gdx.input.isKeyPressed(Keys.UP)){
+			datState.moveCam(Direction.UP);
+		}
+		if(Gdx.input.isKeyPressed(Keys.DOWN)){
+			datState.moveCam(Direction.DOWN);
 		}
 	}
 }

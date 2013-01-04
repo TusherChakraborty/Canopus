@@ -2,11 +2,16 @@ package de.datpixelstudio.canopus.states;
 
 import java.util.ArrayList;
 
+import sun.misc.GC;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -20,6 +25,7 @@ import de.datpixelstudio.canopus.Canopus;
 import de.datpixelstudio.canopus.LevelRectangles;
 import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.canopus.inputHandler.InputHandlerBox2DTestState;
+import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
@@ -34,10 +40,13 @@ public class DrawTest extends State {
 	
 	private ArrayList<LevelRectangles> level = null;
 	
-	private Player player = null;
+	private OrthographicCamera camera;
 	
-	private Texture backgorund = null;
-	private TextureRegion backgroundRegion = null;
+	private InputHandlerDraw handler = null;
+	
+	private float camX, camY;
+	
+	private int steps;
 	
 	public DrawTest(int stateID, StateBasedGame sbg) {
 		super(stateID, "DrawTest", sbg);
@@ -45,70 +54,85 @@ public class DrawTest extends State {
 
 	@Override
 	public void init(GameContainer gc) {
+		
 		//gc.glClearColor = new Color(0.2f, 0, 0.5f, 1f);
 		gc.glClearColor = Color.BLACK;
 		gc.gameCam.zoom = WORLD_TO_BOX;
 		gc.gameCam.update();
 		
+		camera = gc.gameCam;
+		
 		world = new World(new Vector2(0, -10), true);
 		debugRenderer = new Box2DDebugRenderer();
 		
-		createWorld();
-		player = new Player(new Vector2(2, 10), world, level);
-		
-		backgorund = new Texture(Gdx.files.internal("assets/textures/level/level1.png"));
-		backgroundRegion = new TextureRegion(backgorund, 0, 0, 1024, 500);
-		
-		addInput(new InputHandlerBox2DTestState(this, player));
+		handler = new InputHandlerDraw(this);
+		addInput(handler);
 		setInput();
+		
+		createWorld();
+		
 	}
 	
 	private void createWorld() {
-		Vector2[] vertices2 = {
-				new Vector2(0+5,0),
-				new Vector2(5+5,0),
-				new Vector2(5+5,5),
-				new Vector2(0+5,5)
-		};
-		level.add(new LevelRectangles(vertices2, world, "negativ"));
+		level = new ArrayList<LevelRectangles>();
+		
 	}
 
 	@Override
-	public void update(GameContainer gc) {
-		player.update();
+	public void update(GameContainer gc) {	
+		handler.update();
+		world.step(1/60f, 6, 2);
 		
 		for(LevelRectangles obj : level) {
 			obj.update();
 		}
-		
-		world.step(1/60f, 6, 2);
 	}
 
 	@Override
 	public void render(GameContainer gc) {
-		gc.gameCam.position.set(player.getPostion().x, player.getPostion().y, 0);
-		gc.gameCam.update();
-		gc.b.setProjectionMatrix(gc.gameCam.combined);
-		gc.b.begin();
+		camera.update();
+		camera.position.set(camX, camY, 0);
+
 		
-		gc.b.draw (backgroundRegion, -20, -20, 0, 0, 
-				backgroundRegion.getRegionWidth(), backgroundRegion.getRegionHeight(), Box2DTestState.WORLD_TO_BOX * 1.2f, Box2DTestState.WORLD_TO_BOX * 2.2f, 0);
-		//gc.b.draw(backgorund, 0, 0);
+		gc.b.setProjectionMatrix(gc.gameCam.combined);
+		gc.b.begin();	
 		
 		debugRenderer.render(world, gc.gameCam.combined);
-		player.draw(gc.b);
 		
 		gc.uiCam.update();
 		gc.b.setProjectionMatrix(gc.uiCam.combined);
-		/* DebugText */
-		Canopus.getFont().draw(gc.b, "isGround " + player.isPlayerGrounded(), 20, 20);
-		Canopus.getFont().draw(gc.b, "isJump " + player.isJump(), 20, 40);
-		Canopus.getFont().draw(gc.b, "friction " + player.getFriction(), 20, 60);
-		Canopus.getFont().draw(gc.b, "fps " + Gdx.graphics.getFramesPerSecond(), 20, 80);
 		
 		gc.b.end();
 	}
 
+	public void moveCam(Direction dir){
+		if(dir == Direction.LEFT){
+			camX = camX - 0.1f;
+		}
+		else if(dir == Direction.RIGHT){
+			camX = camX + 0.1f;
+		}
+		else if(dir == Direction.DOWN){
+			camY = camY - 0.1f;
+		}
+		else if(dir == Direction.UP){
+			camY = camY + 0.1f;
+		}
+	}
+	
+	public void coords(Vector3 mouse){
+		camera.unproject(mouse.set(mouse));
+		System.out.println(mouse);
+		
+		Vector2[] vertices2 = {
+				new Vector2(mouse.x+mouse.y,0),
+				new Vector2(5+5,0),
+				new Vector2(5+5,5),
+		};
+		level.add(new LevelRectangles(vertices2, world, "postiv"));
+		steps = steps+1;
+	}
+	
 	@Override
 	public void resize(int width, int height, GameContainer gc) {
 		// TODO Auto-generated method stub

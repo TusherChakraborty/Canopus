@@ -211,6 +211,7 @@ public class Player {
 	}
 	
 	public void draw(final SpriteBatch b) {
+
 		float twidth = texture.getRegionWidth();
 		float percent = (twidth/100) * Box2DTestState.WORLD_TO_BOX;
 		System.out.println("0.01f = " + percent);
