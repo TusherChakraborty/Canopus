@@ -39,6 +39,7 @@ public class DrawTest extends State {
 	private Box2DDebugRenderer debugRenderer = null;
 	
 	private ArrayList<LevelRectangles> level = null;
+	private ArrayList<Vector3> step = null;
 	
 	private OrthographicCamera camera;
 	
@@ -75,6 +76,7 @@ public class DrawTest extends State {
 	
 	private void createWorld() {
 		level = new ArrayList<LevelRectangles>();
+		step = new ArrayList<Vector3>();
 		
 	}
 
@@ -122,14 +124,20 @@ public class DrawTest extends State {
 	
 	public void coords(Vector3 mouse){
 		camera.unproject(mouse.set(mouse));
-		System.out.println(mouse);
 		
-		Vector2[] vertices2 = {
-				new Vector2(mouse.x+mouse.y,0),
-				new Vector2(5+5,0),
-				new Vector2(5+5,5),
-		};
-		level.add(new LevelRectangles(vertices2, world, "postiv"));
+		if(steps == 3){
+			Vector2[] vertices2 = {
+					new Vector2(step.get(0).x , step.get(0).y),
+					new Vector2(step.get(1).x , step.get(1).y),
+					new Vector2(step.get(2).x , step.get(2).y)
+			};
+			level.add(new LevelRectangles(vertices2, world, "postiv"));
+			step.clear();
+			steps = 0;
+		}
+		
+		step.add(mouse);
+		System.out.println(mouse);
 		steps = steps+1;
 	}
 	
