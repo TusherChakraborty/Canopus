@@ -29,9 +29,6 @@ public class DrawTest extends State {
 	private Box2DDebugRenderer debugRenderer = null;
 	
 	private ArrayList<LevelRectangles> level = null;
-	private ArrayList<Vector3> step = null;
-	
-	private TextureRegion pointTexture = null;
 	
 	private InputHandlerDraw handler = null;
 	
@@ -51,9 +48,7 @@ public class DrawTest extends State {
 		
 		world = new World(new Vector2(0, -10), true);
 		debugRenderer = new Box2DDebugRenderer();
-		
-		pointTexture = TextureSet.MISC_TEX.getTexture(1);
-		
+				
 		handler = new InputHandlerDraw(this);
 		addInput(handler);
 		setInput();
@@ -64,7 +59,7 @@ public class DrawTest extends State {
 	
 	private void createWorld() {
 		level = new ArrayList<LevelRectangles>();
-		step = new ArrayList<Vector3>();
+		
 		
 	}
 
@@ -89,8 +84,7 @@ public class DrawTest extends State {
 		
 		gc.b.begin();
 		
-		// Real render
-		drawPoints();
+		
 		
 		gc.uiCam.update();
 		gc.b.setProjectionMatrix(gc.uiCam.combined);
@@ -113,31 +107,11 @@ public class DrawTest extends State {
 	}
 
 	
-	public void coords(Vector3 mouse, OrthographicCamera cam){
-		cam.unproject(mouse.set(mouse));
-		step.add(new Vector3(mouse.x, mouse.y - 1f, 0));
-		if(!step.isEmpty() && step.size() == 4){
-			Collections.sort(step, new VectorComparator());
-			Vector2[] vertices2 = {
-					new Vector2(step.get(0).x, step.get(0).y),
-					new Vector2(step.get(1).x, step.get(1).y),
-					new Vector2(step.get(2).x, step.get(2).y),
-					new Vector2(step.get(3).x, step.get(3).y)
-			};
-			level.add(new LevelRectangles(vertices2, world, "postiv"));
-			step.clear();
-		}
-		System.out.println(mouse);
+	public void dodo(Vector3 mouse){
+		this.getGameContainer().gameCam.unproject(mouse);
+		
 	}
-	
-	public void drawPoints(){
-		if(!step.isEmpty()){
-			for(Vector3 obj : step) {
-				this.getGameContainer().b.draw(pointTexture, obj.x - ((64 * 0.01f) / 2), obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
-			}
-		}
-	}
-    
+	    
 	@Override
 	public void resize(int width, int height, GameContainer gc) {
 		// TODO Auto-generated method stub
