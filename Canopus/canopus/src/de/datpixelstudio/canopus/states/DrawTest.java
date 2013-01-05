@@ -66,7 +66,7 @@ public class DrawTest extends State {
 		world = new World(new Vector2(0, -10), true);
 		debugRenderer = new Box2DDebugRenderer();
 		
-		pointTexture = TextureSet.MISC_TEX.getTexture(9);
+		pointTexture = TextureSet.MISC_TEX.getTexture(1);
 		
 		handler = new InputHandlerDraw(this);
 		addInput(handler);
@@ -96,15 +96,11 @@ public class DrawTest extends State {
 	public void render(GameContainer gc) {
 		gc.gameCam.update();
 		gc.gameCam.position.set(camX, camY, 0);
-		gc.b.setProjectionMatrix(gc.gameCam.combined);
 		gc.b.begin();	
-
-		debugRenderer.render(world, gc.gameCam.combined);
 		
-		for(Vector3 obj : step) {
-			gc.b.draw (pointTexture, obj.x - ((64 * 0.01f) / 2), 
-					obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
-		}
+		drawPoints();
+		
+		debugRenderer.render(world, gc.gameCam.combined);
 		
 		gc.uiCam.update();
 		gc.b.setProjectionMatrix(gc.uiCam.combined);
@@ -126,6 +122,7 @@ public class DrawTest extends State {
 			camY = camY + 0.1f;
 		}
 	}
+
 	
 	public void coords(Vector3 mouse, OrthographicCamera cam){
 		cam.unproject(mouse.set(mouse));
@@ -142,6 +139,14 @@ public class DrawTest extends State {
 			step.clear();
 		}
 		System.out.println(mouse);
+	}
+	
+	public void drawPoints(){
+		if(!step.isEmpty()){
+			for(Vector3 obj : step) {
+				this.getGameContainer().b.draw(pointTexture, obj.x - ((64 * 0.01f) / 2), obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
+			}
+		}
 	}
     
 	@Override

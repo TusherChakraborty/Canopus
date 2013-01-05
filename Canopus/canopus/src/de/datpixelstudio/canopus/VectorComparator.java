@@ -15,8 +15,8 @@ public class VectorComparator implements Comparator<Vector3>  {
         double angle1 = Math.atan2(o1.y , o1.x);
         double angle2 = Math.atan2(o2.y , o2.x);
 
-        if(angle1 > angle2) return 1;
-        else if (angle2 < angle1) return -1;
+        if(angle1 >= angle2) return 1;
+        else if (angle2 <= angle1) return -1;
         return 0;
     }
 
