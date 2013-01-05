@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.Array;
 import de.datpixelstudio.canopus.Canopus;
 import de.datpixelstudio.canopus.LevelRectangles;
 import de.datpixelstudio.canopus.Player;
+import de.datpixelstudio.canopus.VectorComparator;
 import de.datpixelstudio.canopus.inputHandler.InputHandlerBox2DTestState;
 import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.GameContainer;
@@ -126,6 +127,7 @@ public class DrawTest extends State {
 		camera.unproject(mouse.set(mouse));
 		step.add(new Vector3(mouse.x, mouse.y - 1f, 0));
 		if(!step.isEmpty() && step.size() == 4){
+			Collections.sort(step, new VectorComparator());
 			Vector2[] vertices2 = {
 					new Vector2(step.get(0).x, step.get(0).y),
 					new Vector2(step.get(1).x, step.get(1).y),
@@ -137,7 +139,7 @@ public class DrawTest extends State {
 		}
 		System.out.println(mouse);
 	}
-	
+    
 	@Override
 	public void resize(int width, int height, GameContainer gc) {
 		// TODO Auto-generated method stub
