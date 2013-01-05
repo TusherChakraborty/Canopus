@@ -3,30 +3,16 @@ package de.datpixelstudio.canopus.states;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import sun.misc.GC;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.utils.Array;
 
-import de.datpixelstudio.canopus.Canopus;
 import de.datpixelstudio.canopus.LevelRectangles;
-import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.canopus.VectorComparator;
-import de.datpixelstudio.canopus.inputHandler.InputHandlerBox2DTestState;
 import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.Settings;
@@ -96,15 +82,18 @@ public class DrawTest extends State {
 	public void render(GameContainer gc) {
 		gc.gameCam.update();
 		gc.gameCam.position.set(camX, camY, 0);
-		gc.b.begin();	
+		gc.b.setProjectionMatrix(gc.gameCam.combined);
 		
-		drawPoints();
-		
+		// Debug
 		debugRenderer.render(world, gc.gameCam.combined);
+		
+		gc.b.begin();
+		
+		// Real render
+		drawPoints();
 		
 		gc.uiCam.update();
 		gc.b.setProjectionMatrix(gc.uiCam.combined);
-		
 		gc.b.end();
 	}
 
