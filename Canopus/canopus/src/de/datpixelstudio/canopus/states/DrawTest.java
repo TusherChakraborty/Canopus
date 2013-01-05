@@ -97,13 +97,14 @@ public class DrawTest extends State {
 		gc.gameCam.update();
 		gc.gameCam.position.set(camX, camY, 0);
 		gc.b.setProjectionMatrix(gc.gameCam.combined);
-		gc.b.begin();	
-
+		
 		debugRenderer.render(world, gc.gameCam.combined);
+		
+		gc.b.begin();	
 		
 		for(Vector3 obj : step) {
 			gc.b.draw (pointTexture, obj.x - ((64 * 0.01f) / 2), 
-					obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
+				obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
 		}
 		
 		gc.uiCam.update();
