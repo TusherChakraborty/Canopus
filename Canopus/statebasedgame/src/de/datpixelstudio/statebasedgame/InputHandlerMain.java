@@ -27,7 +27,7 @@ public class InputHandlerMain extends InputHandler
 	public boolean keyDown(int keycode)
 	{
 		/* Main Menue */
-		if(keycode == Keys.F1)
+		if(keycode == Keys.TAB)
 		{
 			state.closeState();
 			state.enterState(0);
