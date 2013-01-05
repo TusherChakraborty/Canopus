@@ -3,30 +3,16 @@ package de.datpixelstudio.canopus.states;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import sun.misc.GC;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.utils.Array;
 
-import de.datpixelstudio.canopus.Canopus;
 import de.datpixelstudio.canopus.LevelRectangles;
-import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.canopus.VectorComparator;
-import de.datpixelstudio.canopus.inputHandler.InputHandlerBox2DTestState;
 import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.Settings;
@@ -66,7 +52,7 @@ public class DrawTest extends State {
 		world = new World(new Vector2(0, -10), true);
 		debugRenderer = new Box2DDebugRenderer();
 		
-		pointTexture = TextureSet.MISC_TEX.getTexture(9);
+		pointTexture = TextureSet.MISC_TEX.getTexture(1);
 		
 		handler = new InputHandlerDraw(this);
 		addInput(handler);
@@ -98,18 +84,16 @@ public class DrawTest extends State {
 		gc.gameCam.position.set(camX, camY, 0);
 		gc.b.setProjectionMatrix(gc.gameCam.combined);
 		
+		// Debug
 		debugRenderer.render(world, gc.gameCam.combined);
 		
-		gc.b.begin();	
+		gc.b.begin();
 		
-		for(Vector3 obj : step) {
-			gc.b.draw (pointTexture, obj.x - ((64 * 0.01f) / 2), 
-				obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
-		}
+		// Real render
+		drawPoints();
 		
 		gc.uiCam.update();
 		gc.b.setProjectionMatrix(gc.uiCam.combined);
-		
 		gc.b.end();
 	}
 
@@ -127,6 +111,7 @@ public class DrawTest extends State {
 			camY = camY + 0.1f;
 		}
 	}
+
 	
 	public void coords(Vector3 mouse, OrthographicCamera cam){
 		cam.unproject(mouse.set(mouse));
@@ -143,6 +128,14 @@ public class DrawTest extends State {
 			step.clear();
 		}
 		System.out.println(mouse);
+	}
+	
+	public void drawPoints(){
+		if(!step.isEmpty()){
+			for(Vector3 obj : step) {
+				this.getGameContainer().b.draw(pointTexture, obj.x - ((64 * 0.01f) / 2), obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
+			}
+		}
 	}
     
 	@Override
