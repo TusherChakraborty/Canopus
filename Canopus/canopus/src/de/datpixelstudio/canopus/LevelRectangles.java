@@ -22,6 +22,8 @@ public class LevelRectangles {
 	private World world;
 	private Body body = null;
 	private Fixture fixture = null;
+	private PolygonShape shape = null;
+	private Vector2[] shapeVertices = null;
 	
 	private boolean isJumpable = true;
 	
@@ -49,6 +51,7 @@ public class LevelRectangles {
 	public LevelRectangles(final Vector2[] vertices, final World world, final String space) {
 		this.world = world;
 		this.space = space;
+		this.shapeVertices = vertices;
 		
 		/*
 		Vector2[] vertices = {
@@ -105,7 +108,7 @@ public class LevelRectangles {
 		
 		size = new Vector2();
 		
-		PolygonShape shape = new PolygonShape();
+		shape = new PolygonShape();
 		shape.set(vertices);
 		body.setTransform(0, 1, 0);
 		fixture = body.createFixture(shape, 0.0f);
@@ -157,5 +160,9 @@ public class LevelRectangles {
 	
 	public Vector2 getSize() {
 		return size;
+	}
+	
+	public Vector2[] getVertices(){
+		return shapeVertices;
 	}
 }

@@ -8,11 +8,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import de.datpixelstudio.canopus.LevelRectangles;
 import de.datpixelstudio.canopus.VectorComparator;
+import de.datpixelstudio.canopus.VerticePoints;
 import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.Settings;
@@ -28,12 +34,17 @@ public class DrawTest extends State {
 	private World world = null;
 	private Box2DDebugRenderer debugRenderer = null;
 	
-	private ArrayList<LevelRectangles> level = null;
+	public ArrayList<LevelRectangles> level = null;
 	private ArrayList<Vector3> step = null;
 	
 	private TextureRegion pointTexture = null;
 	
 	private InputHandlerDraw handler = null;
+	
+	private Body mouseRecBody = null;
+	private Fixture sensorFixtureMiddle = null;
+
+
 	
 	private float camX, camY;
 	
@@ -66,6 +77,41 @@ public class DrawTest extends State {
 		level = new ArrayList<LevelRectangles>();
 		step = new ArrayList<Vector3>();
 		
+		//Maus Rectangle
+		BodyDef mouseRecBodyDef = new BodyDef();
+		mouseRecBodyDef.type = BodyType.KinematicBody;
+		mouseRecBodyDef.position.set(0,0);
+		mouseRecBody = world.createBody(mouseRecBodyDef);
+		
+		float mouseRecSize = 0.3f;
+		
+		PolygonShape mouseRecShape = new PolygonShape();
+		Vector2[] vertices = {
+				new Vector2(mouseRecSize,-mouseRecSize),
+				new Vector2(mouseRecSize,mouseRecSize),
+				new Vector2(-mouseRecSize,mouseRecSize),
+				new Vector2(-mouseRecSize,-mouseRecSize)
+		};
+		mouseRecShape.set(vertices);
+		
+		sensorFixtureMiddle = mouseRecBody.createFixture(mouseRecShape, 0);
+		
+		mouseRecBody.setGravityScale(0);
+		mouseRecBody.setBullet(true);
+		mouseRecBody.setFixedRotation(true);
+		
+		//Levelrectangle
+		Vector2[] vertices2 = {
+				new Vector2(0+5+5,0+5),
+				new Vector2(5+5+5,0+5),
+				new Vector2(5+5+5,5+5),
+				new Vector2(0+5+5,5+5)
+		};
+		LevelRectangles l = new LevelRectangles(vertices2, world,"postiv");
+		VerticePoints v = new VerticePoints(l,this);
+				
+		level.add(l);
+
 	}
 
 	@Override
@@ -89,9 +135,6 @@ public class DrawTest extends State {
 		
 		gc.b.begin();
 		
-		// Real render
-		drawPoints();
-		
 		gc.uiCam.update();
 		gc.b.setProjectionMatrix(gc.uiCam.combined);
 		gc.b.end();
@@ -111,31 +154,16 @@ public class DrawTest extends State {
 			camY = camY + 0.1f;
 		}
 	}
-
 	
-	public void coords(Vector3 mouse, OrthographicCamera cam){
-		cam.unproject(mouse.set(mouse));
-		step.add(new Vector3(mouse.x, mouse.y - 1f, 0));
-		if(!step.isEmpty() && step.size() == 4){
-			Collections.sort(step, new VectorComparator());
-			Vector2[] vertices2 = {
-					new Vector2(step.get(0).x, step.get(0).y),
-					new Vector2(step.get(1).x, step.get(1).y),
-					new Vector2(step.get(2).x, step.get(2).y),
-					new Vector2(step.get(3).x, step.get(3).y)
-			};
-			level.add(new LevelRectangles(vertices2, world, "postiv"));
-			step.clear();
-		}
-		System.out.println(mouse);
+	//Add VerticeRadius to world
+	public void verticePoints(Vector2[] addvertices){
+		level.add(new LevelRectangles(addvertices, this.world,"postiv"));
 	}
 	
-	public void drawPoints(){
-		if(!step.isEmpty()){
-			for(Vector3 obj : step) {
-				this.getGameContainer().b.draw(pointTexture, obj.x - ((64 * 0.01f) / 2), obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
-			}
-		}
+	public void getCoords(Vector3 mouse){
+		this.getGameContainer().gameCam.unproject(mouse.set(mouse));
+		System.out.println(mouse);
+		mouseRecBody.setTransform(new Vector2(mouse.x,mouse.y), 0);
 	}
     
 	@Override

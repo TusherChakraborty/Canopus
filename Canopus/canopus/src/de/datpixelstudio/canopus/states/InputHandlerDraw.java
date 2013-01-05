@@ -39,13 +39,13 @@ public class InputHandlerDraw extends InputHandler{
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
+		datState.getCoords(new Vector3(screenX,screenY,0));
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
+		datState.getCoords(new Vector3(screenX,screenY,0));
 		return false;
 	}
 
@@ -58,9 +58,6 @@ public class InputHandlerDraw extends InputHandler{
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		if(Gdx.input.isTouched()){
-			datState.coords(new Vector3(screenX,screenY,0), datState.getGameContainer().gameCam);
-		}
 		return false;
 	}
 	
