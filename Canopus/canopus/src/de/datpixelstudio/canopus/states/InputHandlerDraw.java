@@ -22,9 +22,11 @@ public class InputHandlerDraw extends InputHandler{
 	@Override
 	public boolean keyDown(int key) {
 		if(key == Keys.F6) {
+			datState.closeState();
 			datState.enterState(Canopus.BOX2D_TEST_STATE_ID);
 		}
 		if(key == Keys.F5) {
+			datState.closeState();
 			datState.enterState(Canopus.DRAWTEST_STATE_ID);
 		}
 		return false;
@@ -57,7 +59,7 @@ public class InputHandlerDraw extends InputHandler{
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
 		if(Gdx.input.isTouched()){
-			datState.coords(new Vector3(screenX,screenY,0));
+			datState.coords(new Vector3(screenX,screenY,0), datState.getGameContainer().gameCam);
 		}
 		return false;
 	}

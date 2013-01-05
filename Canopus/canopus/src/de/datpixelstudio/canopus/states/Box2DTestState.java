@@ -21,6 +21,7 @@ import de.datpixelstudio.canopus.LevelRectangles;
 import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.canopus.inputHandler.InputHandlerBox2DTestState;
 import de.datpixelstudio.statebasedgame.GameContainer;
+import de.datpixelstudio.statebasedgame.Settings;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 
@@ -193,7 +194,7 @@ public class Box2DTestState extends State {
 
 	@Override
 	public void dispose(GameContainer gc) {
-		// TODO Auto-generated method stub
-		
+		gc.gameCam.zoom = 1f;
+		gc.gameCam.position.set(Settings.screenWidth() / 2, Settings.screenHeight() / 2, 0);
 	}
 }

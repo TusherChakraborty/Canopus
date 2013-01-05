@@ -42,6 +42,7 @@ public final class EmptyState extends State
 	{
 		Gdx.app.setLogLevel(Logger.DEBUG);
 		StateBasedGame.setGdxStarted();
+		Settings.changeScreenSizeAllCams(gc, 800, 600, false);
 		pause(gc);
 		dispose(gc);
 		enterStartState();

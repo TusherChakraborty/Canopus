@@ -32,6 +32,7 @@ import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.Settings;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
+import de.datpixelstudio.statebasedgame.TextureSet;
 
 public class DrawTest extends State {
 
@@ -44,7 +45,7 @@ public class DrawTest extends State {
 	private ArrayList<LevelRectangles> level = null;
 	private ArrayList<Vector3> step = null;
 	
-	private OrthographicCamera camera;
+	private TextureRegion pointTexture = null;
 	
 	private InputHandlerDraw handler = null;
 	
@@ -62,10 +63,10 @@ public class DrawTest extends State {
 		gc.gameCam.zoom = WORLD_TO_BOX;
 		gc.gameCam.update();
 		
-		camera = gc.gameCam;
-		
 		world = new World(new Vector2(0, -10), true);
 		debugRenderer = new Box2DDebugRenderer();
+		
+		pointTexture = TextureSet.MISC_TEX.getTexture(9);
 		
 		handler = new InputHandlerDraw(this);
 		addInput(handler);
@@ -93,14 +94,17 @@ public class DrawTest extends State {
 
 	@Override
 	public void render(GameContainer gc) {
-		camera.update();
-		camera.position.set(camX, camY, 0);
-
-		
+		gc.gameCam.update();
+		gc.gameCam.position.set(camX, camY, 0);
 		gc.b.setProjectionMatrix(gc.gameCam.combined);
 		gc.b.begin();	
-		
+
 		debugRenderer.render(world, gc.gameCam.combined);
+		
+		for(Vector3 obj : step) {
+			gc.b.draw (pointTexture, obj.x - ((64 * 0.01f) / 2), 
+					obj.y + 0.5f, 0, 0, 64, 64, 0.01f, 0.01f, 0);
+		}
 		
 		gc.uiCam.update();
 		gc.b.setProjectionMatrix(gc.uiCam.combined);
@@ -123,8 +127,8 @@ public class DrawTest extends State {
 		}
 	}
 	
-	public void coords(Vector3 mouse){
-		camera.unproject(mouse.set(mouse));
+	public void coords(Vector3 mouse, OrthographicCamera cam){
+		cam.unproject(mouse.set(mouse));
 		step.add(new Vector3(mouse.x, mouse.y - 1f, 0));
 		if(!step.isEmpty() && step.size() == 4){
 			Collections.sort(step, new VectorComparator());
@@ -160,7 +164,7 @@ public class DrawTest extends State {
 
 	@Override
 	public void dispose(GameContainer gc) {
-		// TODO Auto-generated method stub
-		
+		gc.gameCam.zoom = 1f;
+		gc.gameCam.position.set(Settings.screenWidth() / 2, Settings.screenHeight() / 2, 0);
 	}
 }

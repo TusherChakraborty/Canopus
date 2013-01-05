@@ -28,7 +28,6 @@ public class MenueState extends State {
 		addInput(bla);
 		setInput();
 				
-		Settings.changeScreenSizeAllCams(gc, 800, 600, false);
 		gc.glClearColor = Color.BLACK;
 		testtex = new Texture(Gdx.files.internal("assets/libgdx.png"));
 		
@@ -43,7 +42,9 @@ public class MenueState extends State {
 	@Override
 	public void render(GameContainer gc) {
 		gc.b.begin();
+		gc.gameCam.update();
 		gc.b.setProjectionMatrix(gc.gameCam.combined);
+		//System.out.println("render");
 		gc.b.draw(testtex, coordinates.x,coordinates.y);
 		
 		gc.b.end();
@@ -64,13 +65,10 @@ public class MenueState extends State {
 
 	@Override
 	public void resume(GameContainer gc) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void dispose(GameContainer gc) {
-		// TODO Auto-generated method stub
 		
 	}
 	
