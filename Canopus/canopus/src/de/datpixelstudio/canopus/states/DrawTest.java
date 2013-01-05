@@ -34,6 +34,8 @@ public class DrawTest extends State {
 	
 	private float camX, camY;
 	
+	private String datvar = null;
+	
 	public DrawTest(int stateID, StateBasedGame sbg) {
 		super(stateID, "DrawTest", sbg);
 	}
