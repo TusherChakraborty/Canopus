@@ -5,6 +5,8 @@
 *.class
 *.log
 bin/
+.DS_Store
+canopus.out.xml
 
 #################
 ## Eclipse
