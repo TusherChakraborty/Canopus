@@ -1,6 +1,7 @@
+/* Prototype */
+
+
 package de.datpixelstudio.canopus;
-
-
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
