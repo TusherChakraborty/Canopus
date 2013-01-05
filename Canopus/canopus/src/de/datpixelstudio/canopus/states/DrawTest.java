@@ -1,6 +1,7 @@
 package de.datpixelstudio.canopus.states;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import sun.misc.GC;
 
@@ -123,7 +124,7 @@ public class DrawTest extends State {
 	
 	public void coords(Vector3 mouse){
 		camera.unproject(mouse.set(mouse));
-		step.add(mouse);
+		step.add(new Vector3(mouse.x, mouse.y - 1f, 0));
 		if(!step.isEmpty() && step.size() == 4){
 			Vector2[] vertices2 = {
 					new Vector2(step.get(0).x, step.get(0).y),
