@@ -1,18 +1,18 @@
 /*  ---
- * 	Welcome to the 'Rings of Elements' code!
+ * 	Welcome to the 'StateBasedGame' code!
  *  ---	
  * 
  *	EmptyState
  *
- *	NEVER CHANGE THIS CLASS!
+ *	Handle with care!
  *	Provide a clean libgdx start.
  * 
  *	---
  * @author: Oczadly Simon <staxx6>
  * @date: 17.09.2012
  * 
- * @lastChange: 17.09.2012
- * @Info:
+ * @lastChange: 06.01.2013
+ * @Info: changeScreenSize correct per main class
  */
 
 package de.datpixelstudio.statebasedgame;
@@ -24,11 +24,11 @@ import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 
-public final class EmptyState extends State
+public final class SetUpState extends State
 {
-	public EmptyState(final int stateID, final StateBasedGame sbg)
+	public SetUpState(final int stateID, final StateBasedGame sbg)
 	{
-		super(stateID, "EmptyState", sbg);
+		super(stateID, "SetUpState", sbg);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public final class EmptyState extends State
 	{
 		Gdx.app.setLogLevel(Logger.DEBUG);
 		StateBasedGame.setGdxStarted();
-		Settings.changeScreenSizeAllCams(gc, 800, 600, false);
+		Settings.changeScreenSizeAllCams(gc, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		pause(gc);
 		dispose(gc);
 		enterStartState();

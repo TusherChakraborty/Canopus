@@ -1,5 +1,5 @@
 /*  ---
- * 	Welcome to the 'Rings of Elements' code!
+ * 	Welcome to the 'StateBasedGame' code!
  *  ---	
  * 
  *	Main inputHandler
@@ -8,8 +8,8 @@
  * @author: Oczadly Simon <staxx6>
  * @date: 20.09.2012
  * 
- * @lastChange: 23.09.2012
- * @Info: extends InputHandler
+ * @lastChange: 06.01.2013
+ * @Info: create Tab+Number state switch 
  */
 
 package de.datpixelstudio.statebasedgame;
@@ -26,11 +26,40 @@ public class InputHandlerMain extends InputHandler
 	@Override
 	public boolean keyDown(int keycode)
 	{
-		/* Main Menue */
-		if(keycode == Keys.TAB)
+		/* Switch States with Tab+int
+		 * If int not given go to first -> 0 
+		 */
+		if(isKeyHold(Keys.TAB))
 		{
-			state.closeState();
-			state.enterState(0);
+			if(keycode == Keys.NUM_1) {
+				state.closeState();
+				state.enterState(1);
+			}
+			
+			if(keycode == Keys.NUM_2) {
+				state.closeState();
+				state.enterState(2);
+			}
+			
+			if(keycode == Keys.NUM_3) {
+				state.closeState();
+				state.enterState(3);
+			}
+			
+			if(keycode == Keys.NUM_4) {
+				state.closeState();
+				state.enterState(4);
+			}
+			
+			if(keycode == Keys.NUM_5) {
+				state.closeState();
+				state.enterState(5);
+			}
+			
+			if(keycode == Keys.NUM_6) {
+				state.closeState();
+				state.enterState(6);
+			}
 			return true;
 		}
 		

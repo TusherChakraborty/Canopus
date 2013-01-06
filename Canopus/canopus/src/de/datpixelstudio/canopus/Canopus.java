@@ -1,28 +1,52 @@
+/*  ---
+ * 	Welcome to the 'Canopus' code!
+ *  ---	
+ * 
+ *	Main class with the the game states
+ *	inspired by Slick2D GameStates 
+ * 
+ * 	Game start date: 06.01.13 -8 days (or so :D)
+ * 
+ *	---
+ * @author: Oczadly Simon <staxx6>
+ * @date: 06.01.2013
+ * 
+ * @lastChange: 06.01.2013
+ * @Info: creation
+ */
+
 package de.datpixelstudio.canopus;
-
-
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
-import de.datpixelstudio.canopus.states.Box2DTestState;
-import de.datpixelstudio.canopus.states.DrawTest;
+import de.datpixelstudio.canopus.states.EditorState;
+import de.datpixelstudio.canopus.states.GameState;
+import de.datpixelstudio.canopus.states.LoseState;
 import de.datpixelstudio.canopus.states.MenueState;
+import de.datpixelstudio.canopus.states.ScoreState;
+import de.datpixelstudio.canopus.states.WinState;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 
 public class Canopus extends StateBasedGame {
 	
 	public static final int MENUE_STATE_ID = 0;
+	public static final int GAME_STATE_ID = 1;
+	public static final int WIN_STATE_ID = 2;
+	public static final int LOSE_STATE_ID = 3;
+	public static final int SCORE_STATE_ID = 4;
+	public static final int EDITOR_STATE_ID = 5;
 	
-	public static final int BOX2D_TEST_STATE_ID = 1;
-	public static final int DRAWTEST_STATE_ID = 2;
 	
-	private final MenueState menueState = new MenueState(MENUE_STATE_ID, this); // State erstellen
-	private final Box2DTestState box2dTestState = new Box2DTestState(BOX2D_TEST_STATE_ID, this);
-	private final DrawTest box2DdrawTest = new DrawTest(DRAWTEST_STATE_ID, this);
+	private final MenueState menueState = new MenueState(MENUE_STATE_ID, this);
+	private final GameState gameState = new GameState(GAME_STATE_ID, this);
+	private final WinState winState = new WinState(WIN_STATE_ID, this);
+	private final LoseState loseState = new LoseState(LOSE_STATE_ID, this);
+	private final ScoreState scoreState = new ScoreState(SCORE_STATE_ID, this);
+	private final EditorState editorState = new EditorState(EDITOR_STATE_ID, this);
 	
-	/* Generel Font */
+	/* Debug Font*/
 	private static BitmapFont FONT = null;
 	
 	public Canopus() {
@@ -32,11 +56,14 @@ public class Canopus extends StateBasedGame {
 	
 	@Override
 	public void initStateList() {
-		super.initStateList(); // dito 
+		super.initStateList();
 		
 		this.addState(menueState);
-		this.addState(box2dTestState);
-		this.addState(box2DdrawTest);
+		this.addState(gameState);
+		this.addState(winState);
+		this.addState(loseState);
+		this.addState(scoreState);
+		this.addState(editorState);
 		
 		this.startStateID(MENUE_STATE_ID);
 	}

@@ -1,5 +1,18 @@
-package de.datpixelstudio.canopus;
+/*  ---
+ * 	Welcome to the 'Rings of Elements' code!
+ *  ---	
+ * 
+ *	Main start class
+ *
+ *	---
+ * @author: Oczadly Simon <staxx6>
+ * @date: 17.09.2012
+ * 
+ * @lastChange: 17.09.2012
+ * @Info:
+ */
 
+package de.datpixelstudio.canopus;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -10,8 +23,8 @@ public class Main {
 		cfg.title = "canopus";
 		cfg.useGL20 = false;
 		cfg.vSyncEnabled = true;
-		cfg.width = 800;
-		cfg.height = 600;
+		cfg.width = 1280;
+		cfg.height = 720;
 		
 		new LwjglApplication(new Canopus(), cfg);
 	}

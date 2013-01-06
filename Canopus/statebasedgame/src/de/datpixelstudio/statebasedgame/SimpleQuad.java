@@ -1,5 +1,5 @@
 /*  ---
- * 	Welcome to the 'Rings of Elements' code!
+ * 	Welcome to the 'StateBasedGame' code!
  *  ---	
  * 
  *	Quad class extend the rectangle class
@@ -8,8 +8,8 @@
  * @author: Oczadly Simon <staxx6>
  * @date: 22.09.2012
  * 
- * @lastChange: 22.09.2012
- * @Info: -
+ * @lastChange: 06.01.2013
+ * @Info: Changed name
  */
 
 package de.datpixelstudio.statebasedgame;
@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Quad extends Rectangle
+public class SimpleQuad extends Rectangle
 {
 	private static final long serialVersionUID = 6195916908170738164L;
 	
@@ -30,7 +30,7 @@ public class Quad extends Rectangle
 	private Vector2 pos = null;
 	private Vector2 size = null;
 
-	public Quad(final Vector2 pos, final Vector2 size)
+	public SimpleQuad(final Vector2 pos, final Vector2 size)
 	{
 		super(pos.x, pos.y, size.x, size.y);
 		isZero = false;
@@ -39,7 +39,7 @@ public class Quad extends Rectangle
 		this.size = size;
 	}
 	
-	public Quad(final Vector2 pos, final int size)
+	public SimpleQuad(final Vector2 pos, final int size)
 	{
 		super(pos.x, pos.y, size, size);
 		isZero = false;
@@ -48,7 +48,7 @@ public class Quad extends Rectangle
 		this.size = new Vector2(size, size);
 	}
 	
-	public Quad(final Vector2 size)
+	public SimpleQuad(final Vector2 size)
 	{
 		super(0, 0, size.x, size.y);
 		isZero = false;
@@ -57,7 +57,7 @@ public class Quad extends Rectangle
 		this.size = size;
 	}
 	
-	public Quad()
+	public SimpleQuad()
 	{
 		super();
 		
@@ -83,7 +83,7 @@ public class Quad extends Rectangle
 		sR.end();
 	}
 	
-	public void draw(final ShapeRenderer sR)
+	public void drawDebug(final ShapeRenderer sR)
 	{
 		sR.begin(ShapeType.Rectangle);
 		sR.setColor(color);

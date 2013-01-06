@@ -111,4 +111,6 @@ public abstract class InputHandler implements InputProcessor
 	public abstract boolean mouseMoved(int screenX, int screenY);
 
 	public abstract boolean scrolled(int amount);
+	
+	public State getState() { return state; }
 }

@@ -2,7 +2,7 @@
  * 	Welcome to the 'Canopus' code!
  *  ---	
  * 
- *	MenueState
+ *	LoseState
  * 
  *	---
  * @author: Oczadly Simon <staxx6>
@@ -14,56 +14,56 @@
 
 package de.datpixelstudio.canopus.states;
 
-import com.badlogic.gdx.graphics.Color;
-
-import de.datpixelstudio.canopus.inputHandler.InputHandlerMenue;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 
-public class MenueState extends State {
-	
-	public MenueState(int stateID, StateBasedGame sbg) {
-		super(stateID, "MenueState", sbg);
+public class LoseState extends State {
+
+	public LoseState(int stateID, StateBasedGame sbg) {
+		super(stateID, "LoseState", sbg);
 	}
-	
+
 	@Override
 	public void init(GameContainer gc) {
-		addInput(new InputHandlerMenue(this));
-		setInput();
-				
-		gc.glClearColor = new Color(0.1f, 0.1f, 0.2f, 1);
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void update(GameContainer gc) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void render(GameContainer gc) {
-		gc.b.begin();
-		gc.gameCam.update();
-		gc.b.setProjectionMatrix(gc.gameCam.combined);
+		// TODO Auto-generated method stub
 		
-		
-		
-		gc.b.end();
 	}
 
 	@Override
 	public void resize(int width, int height, GameContainer gc) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void pause(GameContainer gc) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void resume(GameContainer gc) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void dispose(GameContainer gc) {
+		// TODO Auto-generated method stub
 		
 	}
+	
 }

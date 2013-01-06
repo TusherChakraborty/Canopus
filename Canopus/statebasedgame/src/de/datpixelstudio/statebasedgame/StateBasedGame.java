@@ -42,7 +42,7 @@ public abstract class StateBasedGame implements ApplicationListener
 	private InputMultiplexer inputMultiplexer = null;
 	
 	/* A clean Libgdx start... */
-	private EmptyState emptyState = new EmptyState(-1, this);
+	private SetUpState setUpState = new SetUpState(-1, this);
 	private int startStateID = 0;
 	
 	/* GameContainer */
@@ -52,7 +52,7 @@ public abstract class StateBasedGame implements ApplicationListener
 	{
 		states = new HashMap<Number, State>();
 		
-		this.addState(emptyState);
+		this.addState(setUpState);
 		
 		/* Input */
 		inputMultiplexer = new InputMultiplexer();
