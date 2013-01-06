@@ -24,13 +24,13 @@ public class Settings {
     private static int HEIGHT = 100;
     private static boolean FULLSCREEN = false;
 	 	
-    private static Quad SCREEN_FRAME = null;
+    private static SimpleQuad SCREEN_FRAME = null;
     
     public static final int CHUNK_SIZE_CELLS_X = 13;
 	public static final int CHUNK_SIZE_CELLS_Y = 8;
 	
 	public static int CELL_SIZE = 64;
-	public static int WORLD_SCALE = 1;
+	public static float WORLD_SCALE = 1;
 	
     private Settings() {}
 	
@@ -92,12 +92,12 @@ public class Settings {
 	
 	private static void changeScreenFrame()
 	{
-		if(SCREEN_FRAME == null) SCREEN_FRAME = new Quad();
+		if(SCREEN_FRAME == null) SCREEN_FRAME = new SimpleQuad();
 		SCREEN_FRAME.setPosition(Vector2.Zero);
 		SCREEN_FRAME.setSize(new Vector2(WIDTH, HEIGHT));
 	}
 	
-	public static Quad getScreenFrame() { return SCREEN_FRAME; }
+	public static SimpleQuad getScreenFrame() { return SCREEN_FRAME; }
 	
 	public static int screenWidth() { return WIDTH; }
 	public static int screenHeight() { return HEIGHT; }

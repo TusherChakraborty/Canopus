@@ -33,32 +33,32 @@ public class InputHandlerMain extends InputHandler
 		{
 			if(keycode == Keys.NUM_1) {
 				state.closeState();
-				state.enterState(1);
+				state.enterState(0);
 			}
 			
 			if(keycode == Keys.NUM_2) {
 				state.closeState();
-				state.enterState(2);
+				state.enterState(1);
 			}
 			
 			if(keycode == Keys.NUM_3) {
 				state.closeState();
-				state.enterState(3);
+				state.enterState(2);
 			}
 			
 			if(keycode == Keys.NUM_4) {
 				state.closeState();
-				state.enterState(4);
+				state.enterState(3);
 			}
 			
 			if(keycode == Keys.NUM_5) {
 				state.closeState();
-				state.enterState(5);
+				state.enterState(4);
 			}
 			
 			if(keycode == Keys.NUM_6) {
 				state.closeState();
-				state.enterState(6);
+				state.enterState(5);
 			}
 			return true;
 		}

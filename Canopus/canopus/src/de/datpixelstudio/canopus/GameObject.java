@@ -3,6 +3,8 @@
  *  ---	
  * 
  *	GameObject
+ *	Not sure ob bei Erstellung überprüft wird, ob bereits 
+ *	simpleShape eine andere Form hat. 
  * 
  *	---
  * @author: Oczadly Simon <staxx6>
@@ -14,24 +16,28 @@
 
 package de.datpixelstudio.canopus;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 
 import de.datpixelstudio.statebasedgame.SimpleCircle;
 import de.datpixelstudio.statebasedgame.SimpleQuad;
 import de.datpixelstudio.statebasedgame.SimplePolygon;
+import de.datpixelstudio.statebasedgame.SimpleShape;
 
 public class GameObject {
 	
 	private Type type = null;
-	private boolean simpleShape = true;
+	private boolean isSimpleShape = true;
 	private Body body = null;
 	private Array<Fixture> fixtures = null;
 	
@@ -40,6 +46,7 @@ public class GameObject {
 	private SimplePolygon simplePolygon = null;
 	private CircleShape circleShape = null;
 	private SimpleCircle simpleCircle = null;
+	private SimpleShape simpleShape = null;
 	
 	private Vector2 position = null;
 	
@@ -61,8 +68,9 @@ public class GameObject {
 	
 	public void setType(final Type type, final boolean simpleShape) {
 		this.type = type;
-		this.simpleShape = simpleShape;
+		this.isSimpleShape = simpleShape;
 	}
+	
 	
 	public void setAsCircle(final float radius) {
 		//TODO
@@ -70,36 +78,31 @@ public class GameObject {
 	
 	public void setAsBox(final Vector2 size) {
 		if(type == null) throw new IllegalStateException("No type given for GameObject");
-		if(circleShape != null) 
-			throw new IllegalStateException("Can't create polygon. GameObject is already not a polygon");
 		
 		if(type != Type.NON_PHYISC) {
 			polygonShape = new PolygonShape();
 			Vector2[] vertices = {
 					new Vector2(0, 0),
-					new Vector2(0, size.y),
+					new Vector2(size.x, 0),
 					new Vector2(size.x, size.y),
-					new Vector2(size.x, 0)
+					new Vector2(0, size.y)
 			};
 			polygonShape.set(vertices);
 		}
 		
-		if(simpleShape) {
-			float[] singleVertices = {
-					0, 0,
-					0, size.y,
-					size.x, size.y,
-					size.x, 0
-			};
-			simplePolygon = new SimplePolygon(singleVertices);
+		if(isSimpleShape) {
+			simpleQuad = new SimpleQuad();
+		}
+	}
+	public void setSimpleColor(final Color color) {
+		if(isSimpleShape && simpleShape != null) {
+			simpleShape.setColor(Color.BLUE);
 		}
 	}
 	
 	public void drawDebug(final ShapeRenderer sR) {
-		if(simpleShape) {
-			if(simplePolygon != null) simplePolygon.drawDebug(sR);
-			if(simpleQuad != null) simpleQuad.drawDebug(sR);
-			if(simpleCircle != null) simpleCircle.drawDebug(sR);
+		if(isSimpleShape && simpleShape != null) {
+			simpleShape.drawDebug(sR);
 		}
 	}
 	
@@ -109,10 +112,36 @@ public class GameObject {
 	
 	public void setPosition(final Vector2 position) {
 		this.position = position;
+		
+		if(isSimpleShape && simpleShape != null) {
+			simpleShape.setPosition(position);
+		}
 	}
 	
-	public void create() {
+	public Vector2 getSize() {
+		//TODO
+		return null;
+	}
+	
+	/* Only for physic objects needed */
+	public void create(final World world) {
+		if(type == Type.NON_PHYISC) throw new IllegalStateException("Type is non-physic! No create() allowed.");
 		
+		BodyDef bodyDef = new BodyDef();
+		if(type == Type.STATIC) {
+			bodyDef.type = BodyType.DynamicBody;
+			
+		}
+		if(type == Type.KINEMATIC) {
+			bodyDef.type = BodyType.DynamicBody;
+			
+		}
+		if(type == Type.DYNAMIC) {
+			bodyDef.type = BodyType.DynamicBody;
+			
+		}
+		
+		//TODO DAT REST MACHEN
 	}
 	
 	public void dispose() {

@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class SimpleQuad extends Rectangle
+public class SimpleQuad extends Rectangle implements SimpleShape
 {
 	private static final long serialVersionUID = 6195916908170738164L;
 	
@@ -32,7 +32,7 @@ public class SimpleQuad extends Rectangle
 
 	public SimpleQuad(final Vector2 pos, final Vector2 size)
 	{
-		super(pos.x, pos.y, size.x, size.y);
+		super(pos.x, pos.y, size.x * Settings.WORLD_SCALE, size.y * Settings.WORLD_SCALE);
 		isZero = false;
 		
 		this.pos = pos;

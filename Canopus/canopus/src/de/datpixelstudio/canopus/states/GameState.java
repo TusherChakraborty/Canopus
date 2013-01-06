@@ -14,18 +14,33 @@
 
 package de.datpixelstudio.canopus.states;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+
+import de.datpixelstudio.canopus.Level;
 import de.datpixelstudio.statebasedgame.GameContainer;
+import de.datpixelstudio.statebasedgame.Settings;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 
 public class GameState extends State {
 
+	private World world = null;
+	private Level level = null;
+	
 	public GameState(int stateID, StateBasedGame sbg) {
 		super(stateID, "GameState", sbg);
 	}
 
 	@Override
 	public void init(GameContainer gc) {
+		world = new World(new Vector2(0, -10), false);
+		level = new Level("dat", world);
+		
+		Settings.WORLD_SCALE = 0.01f;
+		gc.gameCam.zoom = Settings.WORLD_SCALE;
+		gc.gameCam.update();
+		gc.gameCam.position.set(0, 0, 0);
 	}
 
 	@Override
@@ -36,7 +51,13 @@ public class GameState extends State {
 
 	@Override
 	public void render(GameContainer gc) {
-		// TODO Auto-generated method stub
+		gc.gameCam.update();
+		gc.b.setProjectionMatrix(gc.gameCam.combined);
+		gc.sR.setProjectionMatrix(gc.gameCam.combined);
+		level.drawDebug(gc.sR);
+		gc.b.begin();
+		
+		gc.b.end();
 		
 	}
 
