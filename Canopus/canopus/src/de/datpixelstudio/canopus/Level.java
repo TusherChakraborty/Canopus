@@ -41,7 +41,7 @@ public class Level {
 		gObj1.setType(GameObject.Type.STATIC, true);
 		gObj1.setAsBox(new Vector2(1, 1));
 		gObj1.setPosition(new Vector2(0, 0));
-		gObj1.create();
+		gObj1.create(world);
 		gameObjects.add(gObj1);
 	}
 	
