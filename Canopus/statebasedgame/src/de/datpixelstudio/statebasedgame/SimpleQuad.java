@@ -32,7 +32,7 @@ public class SimpleQuad extends Rectangle implements SimpleShape
 
 	public SimpleQuad(final Vector2 pos, final Vector2 size)
 	{
-		super(pos.x, pos.y, size.x * Settings.WORLD_SCALE, size.y * Settings.WORLD_SCALE);
+		super(pos.x, pos.y, size.x, size.y);
 		isZero = false;
 		
 		this.pos = pos;

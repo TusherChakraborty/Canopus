@@ -49,8 +49,7 @@ public class GameObject {
 	private SimpleShape simpleShape = null;
 	
 	private Vector2 position = null;
-	
-	private World world = null;
+	//private Vector2 size = null;
 	
 	public enum Type {
 		NON_PHYISC("nonPhysic"), STATIC("static"), KINEMATIC("kinematic"), DYNAMIC("dynamic");
@@ -59,16 +58,17 @@ public class GameObject {
 		public String getValue() { return value; }
 	}
 	
-	public GameObject(final World world) {
+	public GameObject() {
 		this.position = new Vector2();
-		this.world = world;
-		
-		fixtures = new Array<Fixture>();
 	}
 	
 	public void setType(final Type type, final boolean simpleShape) {
 		this.type = type;
 		this.isSimpleShape = simpleShape;
+		
+		if(type != Type.NON_PHYISC) {
+			fixtures = new Array<Fixture>();
+		}
 	}
 	
 	
@@ -76,8 +76,13 @@ public class GameObject {
 		//TODO
 	}
 	
+	public void setPolygonVertices(final Vector2[] vertices) {
+		
+	}
+	
 	public void setAsBox(final Vector2 size) {
 		if(type == null) throw new IllegalStateException("No type given for GameObject");
+		
 		
 		if(type != Type.NON_PHYISC) {
 			polygonShape = new PolygonShape();
@@ -91,15 +96,19 @@ public class GameObject {
 		}
 		
 		if(isSimpleShape) {
-			simpleQuad = new SimpleQuad();
-		}
-	}
-	public void setSimpleColor(final Color color) {
-		if(isSimpleShape && simpleShape != null) {
-			simpleShape.setColor(Color.BLUE);
+			simpleQuad = new SimpleQuad(size);
+			simpleShape = simpleQuad;
 		}
 	}
 	
+	/* Only for simpleShapes */
+	public void setSimpleColor(final Color color) {
+		if(isSimpleShape && simpleShape != null) {
+			simpleShape.setColor(color);
+		}
+	}
+	
+	/* Only for simpleShapes */
 	public void drawDebug(final ShapeRenderer sR) {
 		if(isSimpleShape && simpleShape != null) {
 			simpleShape.drawDebug(sR);
@@ -123,14 +132,19 @@ public class GameObject {
 		return null;
 	}
 	
-	/* Only for physic objects needed */
+	/* Methode only for physic objects needed */
 	public void create(final World world) {
-		if(type == Type.NON_PHYISC) throw new IllegalStateException("Type is non-physic! No create() allowed.");
+		if(type == Type.NON_PHYISC) 
+			throw new IllegalStateException("Type is non-physic! World parameter must be given.");
 		
 		BodyDef bodyDef = new BodyDef();
 		if(type == Type.STATIC) {
-			bodyDef.type = BodyType.DynamicBody;
+			bodyDef.type = BodyType.StaticBody;
+			body = world.createBody(bodyDef);
+			//body.setUserData(this); //TODO TEST
+			fixtures.add(body.createFixture(polygonShape, 0.0f));
 			
+			polygonShape.dispose();
 		}
 		if(type == Type.KINEMATIC) {
 			bodyDef.type = BodyType.DynamicBody;
@@ -140,9 +154,20 @@ public class GameObject {
 			bodyDef.type = BodyType.DynamicBody;
 			
 		}
-		
 		//TODO DAT REST MACHEN
+		
+		//if(isSimpleShape) create();
 	}
+
+	/*
+	public void create() {
+		if(!isSimpleShape) throw new IllegalStateException("GameObject has no simpleShape. Use only create(world);");
+		
+		if(simpleQuad != null) {
+			simpleShape = simpleQuad;
+		}
+	}
+	*/
 	
 	public void dispose() {
 		//TODO

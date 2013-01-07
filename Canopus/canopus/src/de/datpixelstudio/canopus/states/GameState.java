@@ -37,16 +37,15 @@ public class GameState extends State {
 		world = new World(new Vector2(0, -10), false);
 		level = new Level("dat", world);
 		
-		Settings.WORLD_SCALE = 0.01f;
-		gc.gameCam.zoom = Settings.WORLD_SCALE;
+		Settings.setWorldScale(0.01f);
+		gc.gameCam.zoom = Settings.getWorldScale();
 		gc.gameCam.update();
 		gc.gameCam.position.set(0, 0, 0);
 	}
 
 	@Override
 	public void update(GameContainer gc) {
-		// TODO Auto-generated method stub
-		
+		level.update(gc);
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public class GameState extends State {
 		gc.gameCam.update();
 		gc.b.setProjectionMatrix(gc.gameCam.combined);
 		gc.sR.setProjectionMatrix(gc.gameCam.combined);
-		level.drawDebug(gc.sR);
+		level.drawDebug(gc);
 		gc.b.begin();
 		
 		gc.b.end();

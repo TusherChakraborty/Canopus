@@ -30,9 +30,30 @@ public class Settings {
 	public static final int CHUNK_SIZE_CELLS_Y = 8;
 	
 	public static int CELL_SIZE = 64;
-	public static float WORLD_SCALE = 1;
+	private static float WORLD_SCALE = 1;
+	
+	/* Physics */
+	private static float TIMESTEP = 60f;
+	private static int VELOCITY_ITERATIONS = 6;
+	private static int POSITION_ITERATIONS = 2;
 	
     private Settings() {}
+    
+    public static void setWorldScale(final float scale) {
+    	WORLD_SCALE = scale;
+    }
+    
+    public static float getWorldScale() { return WORLD_SCALE; }
+    
+    public static void setPhysic(final float timeStep, final int velocityIterations, final int positionIterations) {
+    	TIMESTEP = timeStep;
+    	VELOCITY_ITERATIONS = velocityIterations;
+    	POSITION_ITERATIONS = positionIterations;
+    }
+    
+    public static float getP_TimeStep() { return TIMESTEP; }
+    public static int getP_velocityIterations() { return VELOCITY_ITERATIONS; }
+    public static int getP_positionIterations() { return POSITION_ITERATIONS; }
 	
 	public static void changeScreenSize(final OrthographicCamera cam, final int width, final int height, final boolean fullScreen)
 	{
