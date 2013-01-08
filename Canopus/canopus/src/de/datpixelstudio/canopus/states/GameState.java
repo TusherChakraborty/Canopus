@@ -14,6 +14,7 @@
 
 package de.datpixelstudio.canopus.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -37,10 +38,12 @@ public class GameState extends State {
 		world = new World(new Vector2(0, -10), false);
 		level = new Level("dat", world);
 		
-		Settings.setWorldScale(0.01f);
+		Settings.setWorldScale(0.05f);
+		Settings.setPhysic(60, Settings.getP_velocityIterations(), 
+				Settings.getP_positionIterations());
 		gc.gameCam.zoom = Settings.getWorldScale();
 		gc.gameCam.update();
-		gc.gameCam.position.set(0, 0, 0);
+		gc.gameCam.position.set(0, 10, 0);
 	}
 
 	@Override

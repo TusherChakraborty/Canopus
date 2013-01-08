@@ -37,7 +37,6 @@ public class Level {
 		if(isDebugDraw) {
 			box2dDebugRenderer = new Box2DDebugRenderer();
 		}
-		
 		createTestLevel();
 	}
 	
@@ -47,15 +46,19 @@ public class Level {
 		gameObjects = levelLoader.getGameObjects(); // empty
 	}
 	
+	
 	private void createTestLevel() {
-		GameObject gObj1 = new GameObject();
-		gObj1.setType(GameObject.Type.STATIC, false);
+		GameObject gObj1 = new GameObject(world);
+		gObj1.setType(GameObject.Type.DYNAMIC, false);
 		gObj1.setAsBox(new Vector2(1, 1));
-		gObj1.setPosition(new Vector2(0, 0));
+		gObj1.setPositionBody(new Vector2(1, 30), 0);
+		gObj1.setDensity(0.0f);
+		gObj1.setFriction(0f);
+		gObj1.setRestitution(0f);
 		gObj1.create(world);
 		gameObjects.add(gObj1);
 		
-		GameObject gObj2 = new GameObject();
+		GameObject gObj2 = new GameObject(world);
 		gObj2.setType(GameObject.Type.STATIC, false);
 		Vector2[] vertices = {
 				new Vector2(0, 0),
@@ -64,9 +67,16 @@ public class Level {
 				new Vector2(0, 5)
 		};
 		gObj2.setPolygonVertices(vertices);
-		gObj2.setPosition(new Vector2(0, 0));
+		gObj2.setPositionBody(new Vector2(0, 0), 0);
 		gObj2.create(world);
 		gameObjects.add(gObj2);
+		
+		GameObject gObj3 = new GameObject(world);
+		gObj3.setType(GameObject.Type.STATIC, false);
+		gObj3.setAsCircle(1);
+		gObj3.setPositionBody(new Vector2(3, 3), 0);
+		gObj3.create(world);
+		gameObjects.add(gObj3);
 	}
 	
 	public void update(final GameContainer gc) {

@@ -5,6 +5,8 @@
  *	GameObject
  *	Not sure ob bei Erstellung überprüft wird, ob bereits 
  *	simpleShape eine andere Form hat. 
+ *
+ *	TODO ShapeTypes enum erleichtet die konsistenz Prüfung
  * 
  *	---
  * @author: Oczadly Simon <staxx6>
@@ -28,6 +30,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
+import com.sun.java.swing.plaf.windows.WindowsOptionPaneUI;
 
 import de.datpixelstudio.statebasedgame.SimpleCircle;
 import de.datpixelstudio.statebasedgame.SimpleQuad;
@@ -40,6 +43,8 @@ public class GameObject {
 	private boolean isSimpleShape = true;
 	private Body body = null;
 	private Array<Fixture> fixtures = null;
+	
+	private World world = null;
 	
 	private PolygonShape polygonShape = null;
 	private SimpleQuad simpleQuad = null;
@@ -58,7 +63,8 @@ public class GameObject {
 		public String getValue() { return value; }
 	}
 	
-	public GameObject() {
+	public GameObject(final World world) {
+		this.world = world;
 		this.position = new Vector2();
 	}
 	
@@ -68,16 +74,67 @@ public class GameObject {
 		
 		if(type != Type.NON_PHYISC) {
 			fixtures = new Array<Fixture>();
+			BodyDef bodyDef = new BodyDef();
+			if(type == Type.STATIC) {
+				bodyDef.type = BodyType.StaticBody;
+			}
+			if(type == Type.DYNAMIC) {
+				bodyDef.type = BodyType.DynamicBody;
+			}
+			body = world.createBody(bodyDef);
 		}
 	}
 	
+	public void setDensity(final float density) {
+		if(type != Type.DYNAMIC) throw new IllegalStateException("Type is non-Physic");
+		for(Fixture fixture : fixtures) {
+			fixture.setDensity(density);
+		}
+	}
+	
+	public void setFriction(final float friction) {
+		if(type != Type.DYNAMIC) throw new IllegalStateException("Type is non-Physic");
+		for(Fixture fixture : fixtures) {
+			fixture.setFriction(friction);
+		}
+	}
+	
+	public void setRestitution(final float restitiution) {
+		if(type != Type.DYNAMIC) throw new IllegalStateException("Type is non-Physic");
+		for(Fixture fixture : fixtures) {
+			fixture.setRestitution(restitiution);
+		}
+	}
 	
 	public void setAsCircle(final float radius) {
-		//TODO
+		if(type == null) throw new IllegalStateException("No type given for GameObject");
+		
+		if(type != Type.NON_PHYISC) {
+			circleShape = new CircleShape();
+			circleShape.setRadius(radius);
+			fixtures.add(body.createFixture(circleShape, 0.0f));
+		}
 	}
 	
 	public void setPolygonVertices(final Vector2[] vertices) {
+		if(type == null) throw new IllegalStateException("No type given for GameObject");
 		
+		if(type != Type.NON_PHYISC) {
+			polygonShape = new PolygonShape();
+			polygonShape.set(vertices);
+			fixtures.add(body.createFixture(polygonShape, 0.0f));
+		}
+		
+		if(isSimpleShape) {
+			float[] verticesFloat = new float[vertices.length * 2];
+			for(int i = 0; i < vertices.length; i++) {
+				verticesFloat[i] = vertices[i].x;
+				verticesFloat[i++] = vertices[i].y;
+			}
+			System.out.println(verticesFloat.length + " input: " + vertices.length);
+			simplePolygon = new SimplePolygon(verticesFloat);
+			simpleShape = simplePolygon;
+		}
 	}
 	
 	public void setAsBox(final Vector2 size) {
@@ -93,6 +150,7 @@ public class GameObject {
 					new Vector2(0, size.y)
 			};
 			polygonShape.set(vertices);
+			fixtures.add(body.createFixture(polygonShape, 0.0f));
 		}
 		
 		if(isSimpleShape) {
@@ -119,11 +177,19 @@ public class GameObject {
 		//TODO Texture
 	}
 	
-	public void setPosition(final Vector2 position) {
+	public void setPositionSimpleShape(final Vector2 position) {
 		this.position = position;
 		
 		if(isSimpleShape && simpleShape != null) {
 			simpleShape.setPosition(position);
+		}
+	}
+	
+	public void setPositionBody(final Vector2 position, final float angle) {
+		this.position = position;
+		
+		if(body != null) {
+			body.setTransform(position, angle);
 		}
 	}
 	
@@ -135,17 +201,17 @@ public class GameObject {
 	/* Methode only for physic objects needed */
 	public void create(final World world) {
 		if(type == Type.NON_PHYISC) 
-			throw new IllegalStateException("Type is non-physic! World parameter must be given.");
+			throw new IllegalStateException("Type is non-physic! World parameter must be deleted.");
 		
-		BodyDef bodyDef = new BodyDef();
-		if(type == Type.STATIC) {
-			bodyDef.type = BodyType.StaticBody;
-			body = world.createBody(bodyDef);
-			//body.setUserData(this); //TODO TEST
-			fixtures.add(body.createFixture(polygonShape, 0.0f));
-			
+		if(polygonShape != null) {
 			polygonShape.dispose();
 		}
+		
+		if(circleShape != null) {
+			circleShape.dispose();
+		}
+		
+		/*
 		if(type == Type.KINEMATIC) {
 			bodyDef.type = BodyType.DynamicBody;
 			
@@ -154,12 +220,13 @@ public class GameObject {
 			bodyDef.type = BodyType.DynamicBody;
 			
 		}
+		*/
 		//TODO DAT REST MACHEN
 		
 		//if(isSimpleShape) create();
 	}
 
-	/*
+	// TODO
 	public void create() {
 		if(!isSimpleShape) throw new IllegalStateException("GameObject has no simpleShape. Use only create(world);");
 		
@@ -167,7 +234,6 @@ public class GameObject {
 			simpleShape = simpleQuad;
 		}
 	}
-	*/
 	
 	public void dispose() {
 		//TODO
