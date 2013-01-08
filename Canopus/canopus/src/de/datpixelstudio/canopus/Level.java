@@ -51,25 +51,32 @@ public class Level {
 		GameObject gObj1 = new GameObject(world);
 		gObj1.setType(GameObject.Type.DYNAMIC, false);
 		gObj1.setAsBox(new Vector2(1, 1));
-		gObj1.setPositionBody(new Vector2(1, 30), 0);
-		gObj1.setDensity(0.0f);
-		gObj1.setFriction(0f);
-		gObj1.setRestitution(0f);
+		gObj1.setPositionBody(new Vector2(1, 20), 20);
+		gObj1.setDensity(0.5f);
+		gObj1.setFriction(0.5f);
+		gObj1.setRestitution(0.5f);
 		gObj1.create(world);
 		gameObjects.add(gObj1);
 		
 		GameObject gObj2 = new GameObject(world);
 		gObj2.setType(GameObject.Type.STATIC, false);
 		Vector2[] vertices = {
-				new Vector2(0, 0),
+				new Vector2(0, -5),
 				new Vector2(3, 0),
 				new Vector2(3, 5),
-				new Vector2(0, 5)
+				new Vector2(0, 0)
 		};
 		gObj2.setPolygonVertices(vertices);
 		gObj2.setPositionBody(new Vector2(0, 0), 0);
 		gObj2.create(world);
 		gameObjects.add(gObj2);
+		
+		GameObject gObj4 = new GameObject(world);
+		gObj4.setType(GameObject.Type.STATIC, false);
+		gObj4.setAsBox(new Vector2(10, 1));
+		gObj4.setPositionBody(new Vector2(-10, -1), 0);
+		gObj4.create(world);
+		gameObjects.add(gObj4);
 		
 		GameObject gObj3 = new GameObject(world);
 		gObj3.setType(GameObject.Type.STATIC, false);

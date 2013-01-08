@@ -46,7 +46,7 @@ public class Settings {
     public static float getWorldScale() { return WORLD_SCALE; }
     
     public static void setPhysic(final float timeStep, final int velocityIterations, final int positionIterations) {
-    	TIMESTEP = timeStep;
+    	TIMESTEP = 1 / timeStep;
     	VELOCITY_ITERATIONS = velocityIterations;
     	POSITION_ITERATIONS = positionIterations;
     }
