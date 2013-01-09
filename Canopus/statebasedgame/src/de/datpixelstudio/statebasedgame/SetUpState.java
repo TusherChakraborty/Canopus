@@ -42,7 +42,7 @@ public final class SetUpState extends State
 	{
 		Gdx.app.setLogLevel(Logger.DEBUG);
 		StateBasedGame.setGdxStarted();
-		Settings.changeScreenSizeAllCams(gc, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		Settings.changeScreenSizeAllCams(gc, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Gdx.graphics.isFullscreen());
 		pause(gc);
 		dispose(gc);
 		enterStartState();

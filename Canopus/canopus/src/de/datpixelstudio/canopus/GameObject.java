@@ -18,8 +18,11 @@
 
 package de.datpixelstudio.canopus;
 
+import javax.crypto.spec.PSource;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -39,12 +42,14 @@ import de.datpixelstudio.statebasedgame.SimpleShape;
 
 public class GameObject {
 	
+	private World world = null;
+	
 	private Type type = null;
 	private boolean isSimpleShape = true;
 	private Body body = null;
 	private Array<Fixture> fixtures = null;
 	
-	private World world = null;
+	private TextureRegion textureRegion = null;
 	
 	private PolygonShape polygonShape = null;
 	private SimpleQuad simpleQuad = null;
@@ -106,13 +111,14 @@ public class GameObject {
 		}
 	}
 	
-	public void setAsCircle(final float radius) {
+	public void setAsCircle(final float radius, final Vector2 position) {
 		if(type == null) throw new IllegalStateException("No type given for GameObject");
 		
 		if(type != Type.NON_PHYISC) {
 			circleShape = new CircleShape();
 			circleShape.setRadius(radius);
-			fixtures.add(body.createFixture(circleShape, 0.0f));
+			circleShape.setPosition(position);
+			fixtures.add(body.createFixture(circleShape, 1f));
 		}
 	}
 	
@@ -122,7 +128,7 @@ public class GameObject {
 		if(type != Type.NON_PHYISC) {
 			polygonShape = new PolygonShape();
 			polygonShape.set(vertices);
-			fixtures.add(body.createFixture(polygonShape, 0.0f));
+			fixtures.add(body.createFixture(polygonShape, 1f));
 		}
 		
 		if(isSimpleShape) {
@@ -150,7 +156,7 @@ public class GameObject {
 					new Vector2(0, size.y)
 			};
 			polygonShape.set(vertices);
-			fixtures.add(body.createFixture(polygonShape, 0.0f));
+			fixtures.add(body.createFixture(polygonShape, 1f));
 		}
 		
 		if(isSimpleShape) {
@@ -173,8 +179,14 @@ public class GameObject {
 		}
 	}
 	
+	public void setTexture(final TextureRegion textureRegion) {
+		this.textureRegion = textureRegion;
+	}
+	
 	public void draw(final SpriteBatch b) {
-		//TODO Texture
+		if(textureRegion != null)
+		b.draw(textureRegion, body.getTransform().getPosition().x, 
+				body.getTransform().getPosition().y);
 	}
 	
 	public void setPositionSimpleShape(final Vector2 position) {

@@ -14,6 +14,8 @@
 
 package de.datpixelstudio.canopus;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -30,6 +32,8 @@ public class Level {
 	private boolean isDebugDraw = true;
 	private Box2DDebugRenderer box2dDebugRenderer = null;
 	
+	private TextureAtlas textureAtlas = null;
+	
 	public Level(final String path, final World world) {
 		this(path);
 		this.world = world;
@@ -37,6 +41,10 @@ public class Level {
 		if(isDebugDraw) {
 			box2dDebugRenderer = new Box2DDebugRenderer();
 		}
+		
+		textureAtlas = new TextureAtlas(Gdx.files.internal("assets/textures/bw"));
+		//FileHandle test = Gdx.files.internal("assets/textures/bwpack");
+		//Texture texture = new Texture(Gdx.files.internal("assets/textures/bwpack/bwpack.png"));
 		createTestLevel();
 	}
 	
@@ -55,6 +63,7 @@ public class Level {
 		gObj1.setDensity(0.5f);
 		gObj1.setFriction(0.5f);
 		gObj1.setRestitution(0.5f);
+		//gObj1.setTexture(textureAtlas.findRegion("white"));
 		gObj1.create(world);
 		gameObjects.add(gObj1);
 		
@@ -80,9 +89,13 @@ public class Level {
 		
 		GameObject gObj3 = new GameObject(world);
 		gObj3.setType(GameObject.Type.STATIC, false);
-		gObj3.setAsCircle(1);
-		gObj3.setPositionBody(new Vector2(3, 3), 0);
+		gObj3.setAsCircle(1, new Vector2(0, 1));
 		gObj3.create(world);
+		gObj3.setAsCircle(1, new Vector2(0, 2));
+		gObj3.create(world);
+		gObj3.setAsCircle(1, new Vector2(0, 3));
+		gObj3.create(world);
+		gObj3.setPositionBody(new Vector2(3, 3), 0);
 		gameObjects.add(gObj3);
 	}
 	
