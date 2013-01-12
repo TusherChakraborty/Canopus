@@ -14,6 +14,7 @@
 
 package de.datpixelstudio.canopus.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
 import de.datpixelstudio.canopus.inputHandler.InputHandlerMenue;
@@ -29,6 +30,7 @@ public class MenueState extends State {
 	
 	@Override
 	public void init(GameContainer gc) {
+		System.out.println(Gdx.files.internal("assets/textures/bw").exists());
 		addInput(new InputHandlerMenue(this));
 		setInput();
 				
