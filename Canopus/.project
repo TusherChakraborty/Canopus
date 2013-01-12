@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>canopus/assets</name>
+			<type>2</type>
+			<location>F:/Java/Canopus-Andorid/assets</location>
+		</link>
+	</linkedResources>
 </projectDescription>

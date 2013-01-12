@@ -15,6 +15,8 @@
 package de.datpixelstudio.statebasedgame;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 
@@ -37,7 +39,9 @@ public class Settings {
 	private static int VELOCITY_ITERATIONS = 6;
 	private static int POSITION_ITERATIONS = 2;
 	
-    private Settings() {}
+    private Settings() {
+
+    }
     
     public static void setWorldScale(final float scale) {
     	WORLD_SCALE = scale;

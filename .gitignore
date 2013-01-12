@@ -7,6 +7,8 @@
 bin/
 .DS_Store
 canopus.out.xml
+*.jar
+*.ini
 
 #################
 ## Eclipse

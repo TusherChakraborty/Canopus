@@ -16,20 +16,23 @@ package de.datpixelstudio.canopus.states;
 
 import com.badlogic.gdx.graphics.Color;
 
-import de.datpixelstudio.canopus.inputHandler.InputHandlerMenue;
+import de.datpixelstudio.canopus.inputHandler.MenueInputHandler;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.State;
 import de.datpixelstudio.statebasedgame.StateBasedGame;
 
 public class MenueState extends State {
 	
+	MenueInputHandler menueInputHandler = null;
+	
 	public MenueState(int stateID, StateBasedGame sbg) {
 		super(stateID, "MenueState", sbg);
 	}
 	
 	@Override
-	public void init(GameContainer gc) {
-		addInput(new InputHandlerMenue(this));
+	public void init(GameContainer gc) { 
+		menueInputHandler = new MenueInputHandler(this);
+		addInput(menueInputHandler);
 		setInput();
 				
 		gc.glClearColor = new Color(0.1f, 0.1f, 0.2f, 1);
@@ -37,6 +40,7 @@ public class MenueState extends State {
 
 	@Override
 	public void update(GameContainer gc) {
+		menueInputHandler.update();
 	}
 
 	@Override
