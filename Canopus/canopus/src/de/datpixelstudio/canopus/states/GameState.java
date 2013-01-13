@@ -14,6 +14,7 @@
 
 package de.datpixelstudio.canopus.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -89,7 +90,8 @@ public class GameState extends State {
 		
 		/* UiCam */
 		
-		Canopus.getFont().draw(gc.b, "Player isGround: " + player.isGround(), 20, 20);
+		Canopus.getFont().draw(gc.b, "Player isGround: " + player.isGround(), 20, 40);
+		Canopus.getFont().draw(gc.b, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, 20);
 		
 		/* End UiCam*/
 		

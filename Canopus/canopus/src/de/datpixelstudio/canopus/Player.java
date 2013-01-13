@@ -33,6 +33,8 @@ public class Player extends GameObject {
 	private boolean isGround = false;
 	private boolean isMovement = false;
 	
+	private boolean isJump = false;
+	
 	public Player(World world) {
 		super(world);
 		
@@ -64,7 +66,7 @@ public class Player extends GameObject {
 		addFixture(sensorBottom);
 		circleShape.dispose();
 		
-		setFriction(100);
+		setFriction(0);
 	}
 	
 	public void update() {
@@ -88,6 +90,28 @@ public class Player extends GameObject {
 				setFriction(0.2f);
 			}
 		}
+		
+		if(isJump && isJumpAllowed()) {
+			isJump = false;
+			if(isGround) {
+				getBody().setLinearVelocity(getLinearVelocity().x, 0);
+				getBody().setTransform(getBody().getPosition().x,  getBody().getPosition().y + 0.01f, 0);
+				getBody().applyLinearImpulse(0, 40, getBody().getPosition().x, getBody().getPosition().y);
+			}
+		}
+	}
+	
+	public void setJump(final boolean isJump) {
+		this.isJump = isJump;
+	}
+	
+	private boolean isJumpAllowed() {
+		//TODO
+		return true;
+	}
+	
+	public void movement(final boolean isMovement) {
+		this.isMovement = isMovement;
 	}
 	
 	public void draw(final GameContainer gc) {
@@ -97,6 +121,7 @@ public class Player extends GameObject {
 	public void move(final Direction direction) {
 		if(direction == Direction.LEFT && getLinearVelocity().x > -maxVelocity) {
 			getBody().applyLinearImpulse(-2f,  0, getBody().getPosition().x, getBody().getPosition().y);
+			//getBody().setTransform(new Vector2(getBody().getPosition().x - 1, getBody().getPosition().y), 0);
 		}
 		
 		if(direction == Direction.RIGHT && getLinearVelocity().x < maxVelocity) {

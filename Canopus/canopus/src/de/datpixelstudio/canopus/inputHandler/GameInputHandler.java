@@ -47,8 +47,7 @@ public class GameInputHandler extends InputHandler {
 			System.out.println("Button U");
 		}
 		
-		/* First stick */
-		// Axis 2 x 3 y left pad
+		// TODO xy vertauschen richtig proggen (PS3) 
 		
 		if(!controllerOne.getName().equals("Sony PLAYSTATION(R)3 Controller")) {
 			if(controllerOne.getAxis(1) < -controllerMappingOne.getStickDeadZone() 
@@ -119,7 +118,6 @@ public class GameInputHandler extends InputHandler {
 	
 	private void createControllerListener() {
 		ControllerListener controllerListener = new ControllerListener() {
-			
 			@Override
 			public boolean ySliderMoved(Controller arg0, int arg1, boolean arg2) {
 				// TODO Auto-generated method stub
@@ -151,22 +149,32 @@ public class GameInputHandler extends InputHandler {
 			}
 			
 			@Override
-			public boolean buttonUp(Controller arg0, int arg1) {
-				// TODO Auto-generated method stub
+			public boolean buttonUp(Controller controller, int button) {
+				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_O)
+					|| button == controllerMappingOne.button(ControllerMapping.BUTTON_U)) {
+						player.setJump(false);
+				}
 				return false;
 			}
 			
 			@Override
 			public boolean buttonDown(Controller controller, int button) {
-				System.out.println("ButtonDown: " + button);
+				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_O) 
+						|| button == controllerMappingOne.button(ControllerMapping.BUTTON_U)) {
+					player.setJump(true);
+				}
 				return false;
 			}
 			
 			@Override
-			public boolean axisMoved(Controller arg0, int arg1, float arg2) {
-				//System.out.println("axis: " + arg1 + " " + arg2);
+			public boolean axisMoved(Controller controller, int axis, float value) {
+				if(value > controllerMappingOne.getStickDeadZone()) {
+					player.movement(true);
+				} else {
+					player.movement(false); 
+				}
 				return false;
-			}
+			} 
 			
 			@Override
 			public boolean accelerometerMoved(Controller arg0, int arg1, Vector3 arg2) {
