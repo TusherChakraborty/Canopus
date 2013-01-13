@@ -67,6 +67,8 @@ public class Player extends GameObject {
 		circleShape.dispose();
 		
 		setFriction(0);
+		setDensity(1);
+		setRestitution(0);
 	}
 	
 	public void update() {
@@ -149,6 +151,8 @@ public class Player extends GameObject {
 		}
 		isGround = false; // maybe first statement
 	}
+	
+	public boolean isMove() { return isMovement; }
 	
 	public boolean isGround() { return isGround; }
 }

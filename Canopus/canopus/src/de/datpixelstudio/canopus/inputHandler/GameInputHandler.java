@@ -5,6 +5,7 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
@@ -90,6 +91,12 @@ public class GameInputHandler extends InputHandler {
 				System.out.println("Unten");
 			}
 		}
+		
+		//System.out.println(controllerMappingOne.button(ControllerMapping.BUTTON_R2));
+		if(controllerOne.getButton(controllerMappingOne.button(ControllerMapping.BUTTON_L1))) {
+			player.setPositionBody(new Vector2(0, 0), 0);
+			System.out.println("hello");
+		}
 	}
 
 	@Override
@@ -159,6 +166,7 @@ public class GameInputHandler extends InputHandler {
 			
 			@Override
 			public boolean buttonDown(Controller controller, int button) {
+				System.out.println(button);
 				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_O) 
 						|| button == controllerMappingOne.button(ControllerMapping.BUTTON_U)) {
 					player.setJump(true);
@@ -168,7 +176,8 @@ public class GameInputHandler extends InputHandler {
 			
 			@Override
 			public boolean axisMoved(Controller controller, int axis, float value) {
-				if(value > controllerMappingOne.getStickDeadZone()) {
+				System.out.println(Math.abs(value));
+				if(Math.abs(value) > controllerMappingOne.getStickDeadZone()) {
 					player.movement(true);
 				} else {
 					player.movement(false); 

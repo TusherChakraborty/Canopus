@@ -90,6 +90,8 @@ public class GameState extends State {
 		
 		/* UiCam */
 		
+		Canopus.getFont().draw(gc.b, "Player isMove: " + player.isMove(), 20, 80);
+		Canopus.getFont().draw(gc.b, "Player friction: " + player.getFriction(), 20, 60);
 		Canopus.getFont().draw(gc.b, "Player isGround: " + player.isGround(), 20, 40);
 		Canopus.getFont().draw(gc.b, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, 20);
 		

@@ -70,7 +70,7 @@ public class Level {
 		Vector2[] vertices = {
 				new Vector2(0, -2),
 				new Vector2(3, 0),
-				new Vector2(3, 2),
+				new Vector2(3, 1),
 				new Vector2(0, 0)
 		};
 		gObj2.setPolygonVertices(vertices);

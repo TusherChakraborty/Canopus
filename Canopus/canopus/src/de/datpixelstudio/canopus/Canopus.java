@@ -5,7 +5,7 @@
  *	Main class with the the game states
  *	inspired by Slick2D GameStates 
  * 
- * 	Game start date: 06.01.13 -8 days (or so :D)
+ * 	Game start date: 06.01.13
  * 
  *	---
  * @author: Oczadly Simon <staxx6>

@@ -224,6 +224,11 @@ public class GameObject {
 		return body.getLinearVelocity();
 	}
 	
+	/* Only first fixture */
+	public float getFriction() {
+		return body.getFixtureList().get(0).getFriction();
+	}
+	
 	/* Methode only for physic objects needed */
 	public void create(final World world) {
 		if(type == Type.NON_PHYISC) 
