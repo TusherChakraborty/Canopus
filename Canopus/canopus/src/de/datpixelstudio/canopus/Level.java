@@ -42,9 +42,7 @@ public class Level {
 			box2dDebugRenderer = new Box2DDebugRenderer();
 		}
 		
-		textureAtlas = new TextureAtlas(Gdx.files.internal("assets/textures/bw"));
-		//FileHandle test = Gdx.files.internal("assets/textures/bwpack");
-		//Texture texture = new Texture(Gdx.files.internal("assets/textures/bwpack/bwpack.png"));
+		textureAtlas = new TextureAtlas(Gdx.files.internal("textures/bw/bwpack.atlas"));
 		createTestLevel();
 	}
 	
@@ -63,7 +61,7 @@ public class Level {
 		gObj1.setDensity(0.5f);
 		gObj1.setFriction(0.5f);
 		gObj1.setRestitution(0.5f);
-		//gObj1.setTexture(textureAtlas.findRegion("white"));
+		gObj1.setTexture(textureAtlas.findRegion("white"));
 		gObj1.create(world);
 		gameObjects.add(gObj1);
 		
@@ -86,6 +84,13 @@ public class Level {
 		gObj4.setPositionBody(new Vector2(-10, -1), 0);
 		gObj4.create(world);
 		gameObjects.add(gObj4);
+		
+		GameObject gObj5 = new GameObject(world);
+		gObj5.setType(GameObject.Type.STATIC, false);
+		gObj5.setAsBox(new Vector2(1, 10));
+		gObj5.setPositionBody(new Vector2(-11, 0), 0);
+		gObj5.create(world);
+		gameObjects.add(gObj5);
 		
 		GameObject gObj3 = new GameObject(world);
 		gObj3.setType(GameObject.Type.STATIC, false);

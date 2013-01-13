@@ -14,4 +14,16 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>assets</name>
+			<type>2</type>
+			<location>/Users/angelowalczak/github/local/my-gdx-game-android/assets</location>
+		</link>
+		<link>
+			<name>canopus/assets</name>
+			<type>2</type>
+			<location>/Applications/eclipse/Eclipse.app/Contents/MacOS/F::/Java/Canopus-Andorid/assets</location>
+		</link>
+	</linkedResources>
 </projectDescription>
