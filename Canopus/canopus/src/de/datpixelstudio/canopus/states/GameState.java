@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import de.datpixelstudio.canopus.Level;
+import de.datpixelstudio.canopus.inputHandler.GameInputHandler;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.Settings;
 import de.datpixelstudio.statebasedgame.State;
@@ -30,6 +31,8 @@ public class GameState extends State {
 
 	private World world = null;
 	private Level level = null;
+	
+	GameInputHandler gameInputHandler = null;
 	
 	public GameState(int stateID, StateBasedGame sbg) {
 		super(stateID, "GameState", sbg);
@@ -47,13 +50,20 @@ public class GameState extends State {
 		gc.gameCam.update();
 		gc.gameCam.position.set(0, 10, 0);
 		
+<<<<<<< HEAD
 		for(Controller controller : Controllers.getControllers()) {
 			Gdx.app.log(this.getName(), controller.getName());
 		}
+=======
+		gameInputHandler = new GameInputHandler(this);
+		addInput(gameInputHandler);
+		setInput();
+>>>>>>> branch 'master' of https://github.com/kinxz/Canopus.git
 	}
 
 	@Override
 	public void update(GameContainer gc) {
+		gameInputHandler.update();
 		level.update(gc);
 	}
 
