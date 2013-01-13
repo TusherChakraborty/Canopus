@@ -98,7 +98,7 @@ public class Level {
 		Vector2[] vertices5 = {
 				new Vector2(20, 10),
 				new Vector2(25, 0),
-				new Vector2(25, 15),
+				new Vector2(25, 17),
 		};
 		gObj2.setPolygonVertices(vertices5);
 		

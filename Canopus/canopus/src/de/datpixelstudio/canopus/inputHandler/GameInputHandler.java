@@ -78,14 +78,14 @@ public class GameInputHandler extends InputHandler {
 				player.movement(true);
 			}
 		} else {
-			if(controllerOne.getAxis(4) < -controllerMappingOne.getStickDeadZone()) {
+			if(controllerOne.getAxis(0) < -controllerMappingOne.getStickDeadZone()) {
 				player.move(Direction.LEFT);
 				System.out.println("Links");
 				
 				player.movement(true);
 			}
 			
-			if(controllerOne.getAxis(2) > controllerMappingOne.getStickDeadZone()) {
+			if(controllerOne.getAxis(0) > controllerMappingOne.getStickDeadZone()) {
 				player.move(Direction.RIGHT);
 				System.out.println("Rechts");
 				
