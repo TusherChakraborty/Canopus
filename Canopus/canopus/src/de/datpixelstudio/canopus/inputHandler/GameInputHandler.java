@@ -8,6 +8,8 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import de.datpixelstudio.canopus.Player;
+import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.InputHandler;
 import de.datpixelstudio.statebasedgame.State;
 
@@ -16,6 +18,8 @@ public class GameInputHandler extends InputHandler {
 	private Array<Controller> controllers = null;
 	private Controller controllerOne = null;
 	private ControllerMapping controllerMappingOne = null;
+	
+	private Player player = null;
 	
 	public GameInputHandler(State state) {
 		super(state);
@@ -27,9 +31,14 @@ public class GameInputHandler extends InputHandler {
 			controllers = Controllers.getControllers();
 			controllerOne = controllers.get(0);
 			controllerMappingOne = new ControllerMapping(0, controllerOne.getName());
+			controllerMappingOne.setStickDeadZone(0.3f);
 		}
 		
 		createControllerListener();
+	}
+	
+	public void setPlayer(final Player player) {
+		this.player = player;
 	}
 	
 	public void update() {
@@ -38,25 +47,17 @@ public class GameInputHandler extends InputHandler {
 			System.out.println("Button U");
 		}
 		
-		if(controllerOne.getButton(controllerMappingOne.button(ControllerMapping.BUTTON_O))) {
-			System.out.println("Button O");
-		}
-		
-		if(controllerOne.getButton(controllerMappingOne.button(ControllerMapping.BUTTON_Y))) {
-			System.out.println("Button Y");
-		}
-		
-		if(controllerOne.getButton(controllerMappingOne.button(ControllerMapping.BUTTON_A))) {
-			System.out.println("Button A");
-		}
-		
 		/* First stick */
 		// Axis 2 x 3 y left pad
-		if(controllerOne.getAxis(1) < -0.2f) {
+		if(controllerOne.getAxis(1) < -controllerMappingOne.getStickDeadZone() 
+				|| controllerOne.getAxis(3) < -controllerMappingOne.getStickDeadZone()) {
+			player.move(Direction.LEFT);
 			System.out.println("Links");
 		}
 		
-		if(controllerOne.getAxis(1) > 0.2f) {
+		if(controllerOne.getAxis(1) > controllerMappingOne.getStickDeadZone() 
+				|| controllerOne.getAxis(3) > controllerMappingOne.getStickDeadZone()) {
+			player.move(Direction.RIGHT);
 			System.out.println("Rechts");
 		}
 		
@@ -66,23 +67,6 @@ public class GameInputHandler extends InputHandler {
 		
 		if(controllerOne.getAxis(0) > 0.2f) {
 			System.out.println("Unten");
-		}
-		
-		/* Second stick */
-		if(controllerOne.getAxis(3) < -0.2f) {
-			System.out.println("Links 2");
-		}
-		
-		if(controllerOne.getAxis(3) > 0.2f) {
-			System.out.println("Rechts 2");
-		}
-		
-		if(controllerOne.getAxis(2) < -0.2f) {
-			System.out.println("Oben 2");
-		}
-		
-		if(controllerOne.getAxis(2) > 0.2f) {
-			System.out.println("Unten 2");
 		}
 	}
 

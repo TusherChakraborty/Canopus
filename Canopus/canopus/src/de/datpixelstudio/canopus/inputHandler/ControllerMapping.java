@@ -46,7 +46,7 @@ public class ControllerMapping {
 	
 	private HashMap<String, Integer> mapping = null;
 	
-	private static float STICK_DEAD_ZONE = 0.0f;
+	private float stickDeadZone = 0.0f;
 	
 	public ControllerMapping(final int id, final String controllerName) {
 		this.id = id;
@@ -133,9 +133,9 @@ public class ControllerMapping {
 		return mapping.get(button);
 	}
 	
-	public static void setStickDeadZone(final float stickDeadZone) {
-		STICK_DEAD_ZONE = stickDeadZone;
+	public void setStickDeadZone(final float stickDeadZone) {
+		this.stickDeadZone = stickDeadZone;
 	}
 	
-	public static float getStickDeadZone() { return STICK_DEAD_ZONE; }
+	public float getStickDeadZone() { return stickDeadZone; }
 }

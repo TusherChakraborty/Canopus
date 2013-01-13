@@ -6,6 +6,9 @@
  *	Not sure ob bei Erstellung überprüft wird, ob bereits 
  *	simpleShape eine andere Form hat. 
  *
+ *	-> Neue Formen erstellen neue Fixtures für body
+ *	   um so komplexe Figuren erstellen zu können.
+ *
  *	TODO ShapeTypes enum erleichtet die konsistenz Prüfung
  * 
  *	---
@@ -17,8 +20,6 @@
  */
 
 package de.datpixelstudio.canopus;
-
-import javax.crypto.spec.PSource;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,7 +42,7 @@ import de.datpixelstudio.statebasedgame.SimpleShape;
 
 public class GameObject {
 	
-	private World world = null;
+	protected World world = null;
 	
 	private Type type = null;
 	private boolean isSimpleShape = true;
@@ -164,6 +165,10 @@ public class GameObject {
 		}
 	}
 	
+	public void addFixture(final Fixture fixture) {
+		this.fixtures.add(fixture);
+	}
+	
 	/* Only for simpleShapes */
 	public void setSimpleColor(final Color color) {
 		if(isSimpleShape && simpleShape != null) {
@@ -204,9 +209,19 @@ public class GameObject {
 		}
 	}
 	
+	public void setFixedRotation(final boolean isFixed) {
+		body.setFixedRotation(isFixed);
+	}
+	
 	public Vector2 getSize() {
 		//TODO
 		return null;
+	}
+	
+	public Body getBody() { return body; }
+	
+	public Vector2 getLinearVelocity() {
+		return body.getLinearVelocity();
 	}
 	
 	/* Methode only for physic objects needed */

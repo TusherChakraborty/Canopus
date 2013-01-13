@@ -70,8 +70,8 @@ public class Canopus extends StateBasedGame {
 	
 	public static BitmapFont getFont() {
 		if(FONT == null) {
-			FONT = new BitmapFont(Gdx.files.internal("assets/fonts/frutiger32.fnt"), 
-					Gdx.files.internal("assets/fonts/frutiger32.png"), false);
+			FONT = new BitmapFont(Gdx.files.internal("fonts/frutiger32.fnt"), 
+					Gdx.files.internal("fonts/frutiger32.png"), false);
 			FONT.setScale(0.5f);
 			FONT.getRegion().getTexture().setFilter(TextureFilter.Linear, 
 												TextureFilter.MipMap);

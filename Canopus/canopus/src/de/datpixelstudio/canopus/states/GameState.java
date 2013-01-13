@@ -14,13 +14,12 @@
 
 package de.datpixelstudio.canopus.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
+import de.datpixelstudio.canopus.Canopus;
 import de.datpixelstudio.canopus.Level;
+import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.canopus.inputHandler.GameInputHandler;
 import de.datpixelstudio.statebasedgame.GameContainer;
 import de.datpixelstudio.statebasedgame.Settings;
@@ -32,7 +31,9 @@ public class GameState extends State {
 	private World world = null;
 	private Level level = null;
 	
-	GameInputHandler gameInputHandler = null;
+	private Player player = null;
+	
+	private GameInputHandler gameInputHandler = null;
 	
 	public GameState(int stateID, StateBasedGame sbg) {
 		super(stateID, "GameState", sbg);
@@ -40,10 +41,13 @@ public class GameState extends State {
 
 	@Override
 	public void init(GameContainer gc) {
-		world = new World(new Vector2(0, -10), false);
+		world = new World(new Vector2(0, -20), false);
 		level = new Level("dat", world);
 		
-		Settings.setWorldScale(0.05f);
+		player = new Player(world);
+		player.setPositionBody(new Vector2(2, 5), 0);
+		
+		Settings.setWorldScale(0.025f);
 		Settings.setPhysic(60, Settings.getP_velocityIterations(), 
 				Settings.getP_positionIterations());
 		gc.gameCam.zoom = Settings.getWorldScale();
@@ -51,6 +55,7 @@ public class GameState extends State {
 		gc.gameCam.position.set(0, 10, 0);
 		
 		gameInputHandler = new GameInputHandler(this);
+		gameInputHandler.setPlayer(player);
 		addInput(gameInputHandler);
 		setInput();
 	}
@@ -58,16 +63,35 @@ public class GameState extends State {
 	@Override
 	public void update(GameContainer gc) {
 		gameInputHandler.update();
+		player.update();
 		level.update(gc);
 	}
 
 	@Override
 	public void render(GameContainer gc) {
 		gc.gameCam.update();
+		gc.gameCam.position.set(player.getBody().getPosition().x, 
+				player.getBody().getPosition().y, 0);
 		gc.b.setProjectionMatrix(gc.gameCam.combined);
 		gc.sR.setProjectionMatrix(gc.gameCam.combined);
+		
+		/* DebugDraw Shapes */
 		level.drawDebug(gc);
+		/* End DebugDraw Shapes */
+		
 		gc.b.begin();
+		
+		/* GameCam */
+		
+		/* End GameCam */
+		
+		gc.b.setProjectionMatrix(gc.uiCam.combined);
+		
+		/* UiCam */
+		
+		Canopus.getFont().draw(gc.b, "Player isGround: " + player.isGround(), 20, 20);
+		
+		/* End UiCam*/
 		
 		gc.b.end();
 		
