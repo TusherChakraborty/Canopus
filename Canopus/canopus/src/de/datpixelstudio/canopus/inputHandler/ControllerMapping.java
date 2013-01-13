@@ -99,6 +99,29 @@ public class ControllerMapping {
 			mapping.put(AXIS_RIGHT_Y, -1);
 			mapping.put(AXIS_RIGHT_TRIGGER, -1);
 		}
+		
+		if(name.equals("Sony PLAYSTATION(R)3 Controller")) {
+			mapping.put(BUTTON_O, 14);
+			mapping.put(BUTTON_U, 15);
+			mapping.put(BUTTON_Y, 12);
+			mapping.put(BUTTON_A, 13);
+			mapping.put(BUTTON_DPAD_UP, 4);
+			mapping.put(BUTTON_DPAD_DOWN, 6);
+			mapping.put(BUTTON_DPAD_RIGHT, 5);
+			mapping.put(BUTTON_DPAD_LEFT, 7);
+			mapping.put(BUTTON_L1, 10);
+			mapping.put(BUTTON_L2, 8);
+			mapping.put(BUTTON_L3, 1);
+			mapping.put(BUTTON_R1, 11);
+			mapping.put(BUTTON_R2, 9);
+			mapping.put(BUTTON_R3, 2);
+			mapping.put(AXIS_LEFT_X, -1);
+			mapping.put(AXIS_LEFT_Y, -1);
+			mapping.put(AXIS_LEFT_TRIGGER, -1);
+			mapping.put(AXIS_RIGHT_X, -1);
+			mapping.put(AXIS_RIGHT_Y, -1);
+			mapping.put(AXIS_RIGHT_TRIGGER, -1);
+		}
 	}
 	
 	public String getName() { return name; }
