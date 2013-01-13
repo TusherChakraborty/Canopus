@@ -49,24 +49,47 @@ public class GameInputHandler extends InputHandler {
 		
 		/* First stick */
 		// Axis 2 x 3 y left pad
-		if(controllerOne.getAxis(1) < -controllerMappingOne.getStickDeadZone() 
-				|| controllerOne.getAxis(3) < -controllerMappingOne.getStickDeadZone()) {
-			player.move(Direction.LEFT);
-			System.out.println("Links");
-		}
 		
-		if(controllerOne.getAxis(1) > controllerMappingOne.getStickDeadZone() 
-				|| controllerOne.getAxis(3) > controllerMappingOne.getStickDeadZone()) {
-			player.move(Direction.RIGHT);
-			System.out.println("Rechts");
-		}
-		
-		if(controllerOne.getAxis(0) < -0.2f) {
-			System.out.println("Oben");
-		}
-		
-		if(controllerOne.getAxis(0) > 0.2f) {
-			System.out.println("Unten");
+		if(!controllerOne.getName().equals("Sony PLAYSTATION(R)3 Controller")) {
+			if(controllerOne.getAxis(1) < -controllerMappingOne.getStickDeadZone() 
+					|| controllerOne.getAxis(3) < -controllerMappingOne.getStickDeadZone()) {
+				player.move(Direction.LEFT);
+				System.out.println("Links");
+			}
+			
+			if(controllerOne.getAxis(1) > controllerMappingOne.getStickDeadZone() 
+					|| controllerOne.getAxis(3) > controllerMappingOne.getStickDeadZone()) {
+				player.move(Direction.RIGHT);
+				System.out.println("Rechts");
+			}
+			
+			if(controllerOne.getAxis(0) < -0.2f) {
+				System.out.println("Oben");
+			}
+			
+			if(controllerOne.getAxis(0) > 0.2f) {
+				System.out.println("Unten");
+			}
+		} else {
+			if(controllerOne.getAxis(0) < -controllerMappingOne.getStickDeadZone() 
+					|| controllerOne.getAxis(2) < -controllerMappingOne.getStickDeadZone()) {
+				player.move(Direction.LEFT);
+				System.out.println("Links");
+			}
+			
+			if(controllerOne.getAxis(0) > controllerMappingOne.getStickDeadZone() 
+					|| controllerOne.getAxis(2) > controllerMappingOne.getStickDeadZone()) {
+				player.move(Direction.RIGHT);
+				System.out.println("Rechts");
+			}
+			
+			if(controllerOne.getAxis(1) < -0.2f) {
+				System.out.println("Oben");
+			}
+			
+			if(controllerOne.getAxis(1) > 0.2f) {
+				System.out.println("Unten");
+			}
 		}
 	}
 
