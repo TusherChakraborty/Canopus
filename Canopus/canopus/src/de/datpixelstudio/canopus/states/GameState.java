@@ -49,8 +49,8 @@ public class GameState extends State {
 		player.setPositionBody(new Vector2(2, 5), 0);
 		
 		Settings.setWorldScale(0.025f);
-		Settings.setPhysic(60, Settings.getP_velocityIterations(), 
-				Settings.getP_positionIterations());
+		Settings.setPhysic(60, Settings.getP_velocityIterations() +50, 
+				Settings.getP_positionIterations()+50);
 		gc.gameCam.zoom = Settings.getWorldScale();
 		gc.gameCam.update();
 		gc.gameCam.position.set(0, 10, 0);

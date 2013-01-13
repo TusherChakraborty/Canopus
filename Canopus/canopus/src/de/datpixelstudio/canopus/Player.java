@@ -14,6 +14,7 @@
 
 package de.datpixelstudio.canopus;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -28,12 +29,15 @@ public class Player extends GameObject {
 
 	private Fixture sensorBottom = null;
 	
-	private float maxVelocity = 7f;
+	private float maxVelocity = 5f;
 	
 	private boolean isGround = false;
 	private boolean isMovement = false;
 	
 	private boolean isJump = false;
+	
+	private float stillTime = 0;
+	private long lastGroundTime = 0;
 	
 	public Player(World world) {
 		super(world);
@@ -74,13 +78,24 @@ public class Player extends GameObject {
 	public void update() {
 		updateSensorEvents();
 		
+		if(isGround) {
+			lastGroundTime = System.nanoTime();
+		} else {
+			if(System.nanoTime() - lastGroundTime < 100000000) {
+				isGround = true;
+			}
+		}
+		
 		if(Math.abs(getLinearVelocity().x) > maxVelocity) {
 			getLinearVelocity().x = Math.signum(getLinearVelocity().x) * maxVelocity;
 			getBody().setLinearVelocity(getLinearVelocity().x , getLinearVelocity().y);
 		}
 		
 		if(!isMovement) {
+			stillTime += Gdx.graphics.getDeltaTime();
 			getBody().setLinearVelocity(getLinearVelocity().x * 0.9f, getLinearVelocity().y);
+		} else {
+			stillTime = 0;
 		}
 		
 		if(!isGround) {
@@ -100,6 +115,16 @@ public class Player extends GameObject {
 				getBody().setTransform(getBody().getPosition().x,  getBody().getPosition().y + 0.01f, 0);
 				getBody().applyLinearImpulse(0, 40, getBody().getPosition().x, getBody().getPosition().y);
 			}
+		}
+		
+		if(!isJump && isGround && stillTime > 0.35f) {
+			if(!isMovement) {
+				getBody().setGravityScale(0);
+			} else {
+				getBody().setGravityScale(1f);
+			}
+		} else {
+			getBody().setGravityScale(1f);
 		}
 	}
 	

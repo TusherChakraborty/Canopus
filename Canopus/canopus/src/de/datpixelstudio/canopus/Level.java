@@ -68,12 +68,40 @@ public class Level {
 		GameObject gObj2 = new GameObject(world);
 		gObj2.setType(GameObject.Type.STATIC, false);
 		Vector2[] vertices = {
-				new Vector2(0, -2),
-				new Vector2(3, 0),
-				new Vector2(3, 1),
-				new Vector2(0, 0)
+				new Vector2(0, 0),
+				new Vector2(5, 0),
+				new Vector2(5, 1),
 		};
 		gObj2.setPolygonVertices(vertices);
+		
+		Vector2[] vertices2 = {
+				new Vector2(5, 1),
+				new Vector2(10, 0),
+				new Vector2(10, 3),
+		};
+		gObj2.setPolygonVertices(vertices2);
+		
+		Vector2[] vertices3 = {
+				new Vector2(10, 3),
+				new Vector2(15, 0),
+				new Vector2(15, 6),
+		};
+		gObj2.setPolygonVertices(vertices3);
+		
+		Vector2[] vertices4 = {
+				new Vector2(15, 6),
+				new Vector2(20, 0),
+				new Vector2(20, 10),
+		};
+		gObj2.setPolygonVertices(vertices4);
+		
+		Vector2[] vertices5 = {
+				new Vector2(20, 10),
+				new Vector2(25, 0),
+				new Vector2(25, 15),
+		};
+		gObj2.setPolygonVertices(vertices5);
+		
 		gObj2.setPositionBody(new Vector2(0, 0), 0);
 		gObj2.create(world);
 		gameObjects.add(gObj2);
@@ -92,6 +120,7 @@ public class Level {
 		gObj5.create(world);
 		gameObjects.add(gObj5);
 		
+		/*
 		GameObject gObj3 = new GameObject(world);
 		gObj3.setType(GameObject.Type.STATIC, false);
 		gObj3.setAsCircle(1, new Vector2(0, 1));
@@ -102,6 +131,7 @@ public class Level {
 		gObj3.create(world);
 		gObj3.setPositionBody(new Vector2(3, 3), 0);
 		gameObjects.add(gObj3);
+		*/
 	}
 	
 	public void update(final GameContainer gc) {

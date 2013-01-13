@@ -48,47 +48,60 @@ public class GameInputHandler extends InputHandler {
 			System.out.println("Button U");
 		}
 		
-		// TODO xy vertauschen richtig proggen (PS3) 
+		// TODO xy vertauschen richtig proggen (PS3)
+		player.movement(false);
 		
 		if(!controllerOne.getName().equals("Sony PLAYSTATION(R)3 Controller")) {
-			if(controllerOne.getAxis(1) < -controllerMappingOne.getStickDeadZone() 
-					|| controllerOne.getAxis(3) < -controllerMappingOne.getStickDeadZone()) {
+			if(controllerOne.getAxis(3) < -controllerMappingOne.getStickDeadZone() ) {
 				player.move(Direction.LEFT);
-				System.out.println("Links");
+				System.out.println("Links PS");
+				
+				player.movement(true);
 			}
 			
-			if(controllerOne.getAxis(1) > controllerMappingOne.getStickDeadZone() 
-					|| controllerOne.getAxis(3) > controllerMappingOne.getStickDeadZone()) {
+			if(controllerOne.getAxis(3) > controllerMappingOne.getStickDeadZone() ) {
 				player.move(Direction.RIGHT);
-				System.out.println("Rechts");
+				System.out.println("Rechts PS");
+				
+				player.movement(true);
 			}
 			
-			if(controllerOne.getAxis(0) < -0.2f) {
-				System.out.println("Oben");
+			if(controllerOne.getAxis(2) < -controllerMappingOne.getStickDeadZone() ) {
+				System.out.println("Oben PS");
+				
+				player.movement(true);
 			}
 			
-			if(controllerOne.getAxis(0) > 0.2f) {
-				System.out.println("Unten");
+			if(controllerOne.getAxis(2) > controllerMappingOne.getStickDeadZone() ) {
+				System.out.println("Unten PS");
+				
+				player.movement(true);
 			}
 		} else {
-			if(controllerOne.getAxis(0) < -controllerMappingOne.getStickDeadZone() 
-					|| controllerOne.getAxis(2) < -controllerMappingOne.getStickDeadZone()) {
+			if(controllerOne.getAxis(4) < -controllerMappingOne.getStickDeadZone()) {
 				player.move(Direction.LEFT);
 				System.out.println("Links");
+				
+				player.movement(true);
 			}
 			
-			if(controllerOne.getAxis(0) > controllerMappingOne.getStickDeadZone() 
-					|| controllerOne.getAxis(2) > controllerMappingOne.getStickDeadZone()) {
+			if(controllerOne.getAxis(2) > controllerMappingOne.getStickDeadZone()) {
 				player.move(Direction.RIGHT);
 				System.out.println("Rechts");
+				
+				player.movement(true);
 			}
 			
-			if(controllerOne.getAxis(1) < -0.2f) {
+			if(controllerOne.getAxis(1) > -controllerMappingOne.getStickDeadZone()) {
 				System.out.println("Oben");
+				
+				player.movement(true);
 			}
 			
-			if(controllerOne.getAxis(1) > 0.2f) {
+			if(controllerOne.getAxis(1) < controllerMappingOne.getStickDeadZone()) {
 				System.out.println("Unten");
+				
+				player.movement(true);
 			}
 		}
 		
@@ -176,12 +189,13 @@ public class GameInputHandler extends InputHandler {
 			
 			@Override
 			public boolean axisMoved(Controller controller, int axis, float value) {
-				System.out.println(Math.abs(value));
-				if(Math.abs(value) > controllerMappingOne.getStickDeadZone()) {
+				/*System.out.println(Math.abs(value));
+				if(Math.abs(value) > 0.01) {
 					player.movement(true);
 				} else {
 					player.movement(false); 
 				}
+				 */
 				return false;
 			} 
 			
