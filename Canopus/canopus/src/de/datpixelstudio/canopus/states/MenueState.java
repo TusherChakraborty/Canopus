@@ -31,15 +31,9 @@ public class MenueState extends State {
 	}
 	
 	@Override
-<<<<<<< HEAD
-	public void init(GameContainer gc) {
-		System.out.println(Gdx.files.internal("assets/textures/bw").exists());
-		addInput(new InputHandlerMenue(this));
-=======
 	public void init(GameContainer gc) { 
 		menueInputHandler = new MenueInputHandler(this);
 		addInput(menueInputHandler);
->>>>>>> branch 'master' of https://github.com/kinxz/Canopus.git
 		setInput();
 				
 		gc.glClearColor = new Color(0.1f, 0.1f, 0.2f, 1);

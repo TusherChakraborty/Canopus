@@ -1,9 +1,5 @@
 package de.datpixelstudio.canopus.inputHandler;
 
-<<<<<<< HEAD
-public class GameInputHandler {
-
-=======
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
@@ -156,5 +152,4 @@ public class GameInputHandler extends InputHandler {
 		
 		Controllers.addListener(controllerListener);
 	}
->>>>>>> branch 'master' of https://github.com/kinxz/Canopus.git
 }

@@ -50,15 +50,9 @@ public class GameState extends State {
 		gc.gameCam.update();
 		gc.gameCam.position.set(0, 10, 0);
 		
-<<<<<<< HEAD
-		for(Controller controller : Controllers.getControllers()) {
-			Gdx.app.log(this.getName(), controller.getName());
-		}
-=======
 		gameInputHandler = new GameInputHandler(this);
 		addInput(gameInputHandler);
 		setInput();
->>>>>>> branch 'master' of https://github.com/kinxz/Canopus.git
 	}
 
 	@Override
