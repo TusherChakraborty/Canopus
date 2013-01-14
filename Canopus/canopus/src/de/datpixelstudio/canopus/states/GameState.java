@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import de.datpixelstudio.canopus.Canopus;
 import de.datpixelstudio.canopus.Level;
+import de.datpixelstudio.canopus.LevelObject.Dimension;
 import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.canopus.inputHandler.GameInputHandler;
 import de.datpixelstudio.statebasedgame.GameContainer;
@@ -36,6 +37,8 @@ public class GameState extends State {
 	
 	private GameInputHandler gameInputHandler = null;
 	
+	private String activeDimensions = "";
+	
 	public GameState(int stateID, StateBasedGame sbg) {
 		super(stateID, "GameState", sbg);
 	}
@@ -49,14 +52,15 @@ public class GameState extends State {
 		player.setPositionBody(new Vector2(2, 5), 0);
 		
 		Settings.setWorldScale(0.025f);
-		Settings.setPhysic(60, Settings.getP_velocityIterations() +50, 
-				Settings.getP_positionIterations()+50);
+		Settings.setPhysic(60, Settings.getP_velocityIterations(), 
+				Settings.getP_positionIterations());
 		gc.gameCam.zoom = Settings.getWorldScale();
 		gc.gameCam.update();
 		gc.gameCam.position.set(0, 10, 0);
 		
 		gameInputHandler = new GameInputHandler(this);
 		gameInputHandler.setPlayer(player);
+		gameInputHandler.setLevel(level);
 		addInput(gameInputHandler);
 		setInput();
 	}
@@ -90,6 +94,12 @@ public class GameState extends State {
 		
 		/* UiCam */
 		
+		activeDimensions = " ";
+		for(Dimension dimension : level.getActiveDimensions()) {
+			activeDimensions = activeDimensions + dimension.getValue() + ", ";
+		}
+		
+		Canopus.getFont().draw(gc.b, "Active dimensions: " + activeDimensions, 20, 100);
 		Canopus.getFont().draw(gc.b, "Player isMove: " + player.isMove(), 20, 80);
 		Canopus.getFont().draw(gc.b, "Player friction: " + player.getFriction(), 20, 60);
 		Canopus.getFont().draw(gc.b, "Player isGround: " + player.isGround(), 20, 40);

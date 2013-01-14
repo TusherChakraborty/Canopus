@@ -45,6 +45,8 @@ public class Player extends GameObject {
 		createBody();
 	}
 	
+	//TODO Keine ahnung irgendwas neues
+	
 	private void createBody() {
 		setType(GameObject.Type.DYNAMIC, false);
 		
@@ -133,7 +135,7 @@ public class Player extends GameObject {
 	}
 	
 	private boolean isJumpAllowed() {
-		//TODO
+		//TODO 
 		return true;
 	}
 	

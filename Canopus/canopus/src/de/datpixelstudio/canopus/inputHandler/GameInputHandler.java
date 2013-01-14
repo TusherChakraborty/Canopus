@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import de.datpixelstudio.canopus.Level;
 import de.datpixelstudio.canopus.Player;
 import de.datpixelstudio.statebasedgame.Direction;
 import de.datpixelstudio.statebasedgame.InputHandler;
@@ -21,6 +22,7 @@ public class GameInputHandler extends InputHandler {
 	private ControllerMapping controllerMappingOne = null;
 	
 	private Player player = null;
+	private Level level = null;
 	
 	public GameInputHandler(State state) {
 		super(state);
@@ -40,6 +42,10 @@ public class GameInputHandler extends InputHandler {
 	
 	public void setPlayer(final Player player) {
 		this.player = player;
+	}
+	
+	public void setLevel(final Level level) {
+		this.level = level;
 	}
 	
 	public void update() {
@@ -103,12 +109,6 @@ public class GameInputHandler extends InputHandler {
 				
 				player.movement(true);
 			}
-		}
-		
-		//System.out.println(controllerMappingOne.button(ControllerMapping.BUTTON_R2));
-		if(controllerOne.getButton(controllerMappingOne.button(ControllerMapping.BUTTON_L1))) {
-			player.setPositionBody(new Vector2(0, 0), 0);
-			System.out.println("hello");
 		}
 	}
 
@@ -184,6 +184,19 @@ public class GameInputHandler extends InputHandler {
 						|| button == controllerMappingOne.button(ControllerMapping.BUTTON_U)) {
 					player.setJump(true);
 				}
+				
+				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_L1)) {
+					level.setDimensionSet(0);
+				}
+				
+				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_R1)) {
+					level.setDimensionSet(1);
+				}
+				
+				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_Y)) {
+					player.setPositionBody(new Vector2(-5, 10), 0);
+				}
+				
 				return false;
 			}
 			
