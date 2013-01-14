@@ -60,52 +60,52 @@ public class GameInputHandler extends InputHandler {
 		if(!controllerOne.getName().equals("Sony PLAYSTATION(R)3 Controller")) {
 			if(controllerOne.getAxis(3) < -controllerMappingOne.getStickDeadZone() ) {
 				player.move(Direction.LEFT);
-				System.out.println("Links PS");
+				//System.out.println("Links");
 				
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(3) > controllerMappingOne.getStickDeadZone() ) {
 				player.move(Direction.RIGHT);
-				System.out.println("Rechts PS");
+				//System.out.println("Rechts");
 				
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(2) < -controllerMappingOne.getStickDeadZone() ) {
-				System.out.println("Oben PS");
+				//System.out.println("Oben");
 				
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(2) > controllerMappingOne.getStickDeadZone() ) {
-				System.out.println("Unten PS");
+				//System.out.println("Unten");
 				
 				player.movement(true);
 			}
 		} else {
 			if(controllerOne.getAxis(0) < -controllerMappingOne.getStickDeadZone()) {
 				player.move(Direction.LEFT);
-				System.out.println("Links");
+				//System.out.println("Links PS");
 				
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(0) > controllerMappingOne.getStickDeadZone()) {
 				player.move(Direction.RIGHT);
-				System.out.println("Rechts");
+				//System.out.println("Rechts PS");
 				
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(1) > -controllerMappingOne.getStickDeadZone()) {
-				System.out.println("Oben");
+				//System.out.println("Oben PS");
 				
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(1) < controllerMappingOne.getStickDeadZone()) {
-				System.out.println("Unten");
+				//System.out.println("Unten PS");
 				
 				player.movement(true);
 			}
@@ -179,7 +179,7 @@ public class GameInputHandler extends InputHandler {
 			
 			@Override
 			public boolean buttonDown(Controller controller, int button) {
-				System.out.println(button);
+				System.out.println(controller.getName() + " pressed " + button);
 				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_O) 
 						|| button == controllerMappingOne.button(ControllerMapping.BUTTON_U)) {
 					player.setJump(true);
