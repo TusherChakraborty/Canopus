@@ -35,6 +35,7 @@ public class Level {
 	// The Number hold the set for ONE ACTIVE set of different dimensions
 	// all other should be deactivated!
 	private HashMap<Integer, Array<Dimension>> availableDimensionSet = null;
+	private int activeDimensionSetIndex = 0;
 	private boolean isDimensionSetChanged = false;
 	
 	private boolean isDebugDraw = true;
@@ -50,6 +51,7 @@ public class Level {
 		availableDimensionSet = levelLoader.getDimensions(); // empty
 		textureAtlas = levelLoader.getTextureAtlas(); // empty
 		activeDimensions = availableDimensionSet.get(0); // null;
+		activeDimensionSetIndex = 0;
 		
 		/* Test */
 		textureAtlas = new TextureAtlas(
@@ -118,30 +120,42 @@ public class Level {
 		/* Boden 1 */
 		LevelObject gObj4 = new LevelObject(world);
 		gObj4.setType(GameObject.Type.STATIC, false);
-		gObj4.setAsBox(new Vector2(10, 1));
-		gObj4.setPositionBody(new Vector2(-10, -1), 0);
+		gObj4.setAsBox(new Vector2(20, 2f));
+		gObj4.setPositionBody(new Vector2(-20, -2f), 0);
 		gObj4.create(world);
+		gObj4.setUserData(gObj4);
+		gObj4.setDimension(Dimension.POSITIVE, true);
 		gameObjects.add(gObj4);
 		
-		/* Boden 2 */
+		/* Wand links */
 		LevelObject gObj5 = new LevelObject(world);
 		gObj5.setType(GameObject.Type.STATIC, false);
-		gObj5.setAsBox(new Vector2(1, 10));
-		gObj5.setPositionBody(new Vector2(-11, 0), 0);
+		gObj5.setAsBox(new Vector2(10, 10));
+		gObj5.setPositionBody(new Vector2(-21, 0), 0);
 		gObj5.create(world);
 		gObj5.setUserData(gObj5);
-		gObj5.setDimension(Dimension.NEGATIVE, false);
+		gObj5.setDimension(Dimension.POSITIVE, true);
 		gameObjects.add(gObj5);
 		
-		/* Wand Links */
+		/* Wand rechts */
 		LevelObject gObj6 = new LevelObject(world);
 		gObj6.setType(GameObject.Type.STATIC, false);
-		gObj6.setAsBox(new Vector2(10, 1));
-		gObj6.setPositionBody(new Vector2(-10, -2), 0);
+		gObj6.setAsBox(new Vector2(10, 10));
+		gObj6.setPositionBody(new Vector2(-11, 0), 0);
 		gObj6.create(world);
 		gObj6.setUserData(gObj6);
 		gObj6.setDimension(Dimension.NEGATIVE, false);
 		gameObjects.add(gObj6);
+		
+		/* Boden 2 */
+		LevelObject gObj7 = new LevelObject(world);
+		gObj7.setType(GameObject.Type.STATIC, false);
+		gObj7.setAsBox(new Vector2(20, 2f));
+		gObj7.setPositionBody(new Vector2(-20, -2), 0);
+		gObj7.create(world);
+		gObj7.setUserData(gObj7);
+		gObj7.setDimension(Dimension.NEGATIVE, false);
+		gameObjects.add(gObj7);
 		
 		
 		/* Dimensions */
@@ -178,11 +192,9 @@ public class Level {
 				for(Dimension dimension : activeDimensions) {
 					if(levelObject.getDimension() == dimension) {
 						levelObject.setActive(true);
-						System.out.println("SetOneActive!");
 						break;
 					} else {	
 						levelObject.setActive(false);
-						System.out.println("SetOneDeactivated!");
 					}
 				}
 			}
@@ -192,14 +204,10 @@ public class Level {
 	
 	public void setDimensionSet(final int index) {
 		if(availableDimensionSet.get(index) != null) {
-			//Array<Dimension> newActiveDimensions = new Array<Dimension>();
-			//newActiveDimensions = availableDimensionSet.get(index);
 			activeDimensions = availableDimensionSet.get(index);
+			activeDimensionSetIndex = index;
 			
 			isDimensionSetChanged = true;
-			System.out.println("Size" + availableDimensionSet.size());
-			System.out.println(availableDimensionSet.get(0) + " 2");
-			System.out.println(availableDimensionSet.get(1) + " 1");
 		} else {
 			Gdx.app.log("Level", "DimensionSet " + index + " is not given");
 		}
@@ -232,6 +240,8 @@ public class Level {
 	}
 	
 	public Array<Dimension> getActiveDimensions() { return activeDimensions; }
+	
+	public int getActiveDimensionSetIndex() { return activeDimensionSetIndex; }
 	
 	public void drawDebug(final GameContainer gc) {
 		if(world != null) {

@@ -17,18 +17,18 @@ package de.datpixelstudio.statebasedgame;
 
 public enum Direction
 {	
-	LEFT(0),
-	RIGHT(1),
-	UP(2),
-	DOWN(3),
-	NONE(4);
+	LEFT("left"),
+	RIGHT("right"),
+	UP("up"),
+	DOWN("down"),
+	NONE("none");
 	
-	private int value;
+	private String value;
 	
-	private Direction(int value)
+	private Direction(String value)
 	{
 		this.value = value;
 	}
 	
-	public int getValue() { return value; }
+	public String getValue() { return value; }
 }

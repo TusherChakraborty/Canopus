@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import de.datpixelstudio.statebasedgame.Direction;
@@ -29,23 +30,44 @@ public class Player extends GameObject {
 
 	private Fixture sensorBottom = null;
 	
-	private float maxVelocity = 5f;
+	float leftOffset = -2.0f;
+	private Fixture sensorPlayerLeft = null;
+	float rightOffset = 2.0f;
+	private Fixture sensorPlayerRight = null;
+	float bottomCut = 0.5f;
+	
+	private Fixture sensorPlayerCenter = null;
+	
+	private float maxVelocity = 4f;
 	
 	private boolean isGround = false;
 	private boolean isMovement = false;
+	private Direction direction = Direction.RIGHT;
 	
 	private boolean isJump = false;
 	
 	private float stillTime = 0;
 	private long lastGroundTime = 0;
 	
+	//private HashMap<Direction, Boolean> dimensonsSwitchDirAllowed = null;
+	
 	public Player(World world) {
 		super(world);
 		
 		createBody();
+		/*
+		dimensonsSwitchDirAllowed = new HashMap<Direction, Boolean>();
+		dimensonsSwitchDirAllowed.put(Direction.LEFT, false);
+		dimensonsSwitchDirAllowed.put(Direction.RIGHT, false);
+		dimensonsSwitchDirAllowed.put(Direction.UP, false);
+		dimensonsSwitchDirAllowed.put(Direction.DOWN, false);
+		*/
+		
+		loadPlayerInfos();
+		/* Test */
+		//setDimensonsSwitchDir(Direction.LEFT, true);
+		//setDimensonsSwitchDir(Direction.RIGHT, true);
 	}
-	
-	//TODO Keine ahnung irgendwas neues
 	
 	private void createBody() {
 		setType(GameObject.Type.DYNAMIC, false);
@@ -61,6 +83,22 @@ public class Player extends GameObject {
 		setAsCircle(0.85f, new Vector2(0.75f, -0f));
 		setFixedRotation(true);
 		
+		/* Sensor Player Center */
+		FixtureDef centerDef = new FixtureDef();
+		PolygonShape polygonShapeCenter = new PolygonShape();
+		Vector2[] verticesCenter = {
+				new Vector2(0,0 - 0.7f + bottomCut),
+				new Vector2(1.5f,0 - 0.7f + bottomCut),
+				new Vector2(1.5f, 1.75f),
+				new Vector2(0, 1.75f)
+		};
+		polygonShapeCenter.set(verticesCenter);
+		centerDef.isSensor = true;
+		centerDef.shape = polygonShapeCenter;
+		sensorPlayerCenter = getBody().createFixture(centerDef);
+		addFixture(sensorPlayerCenter);
+		polygonShapeCenter.dispose();
+		
 		/* Sensor bottom*/
 		FixtureDef sensorDef = new FixtureDef();
 		CircleShape circleShape = new CircleShape();
@@ -71,6 +109,36 @@ public class Player extends GameObject {
 		sensorBottom = getBody().createFixture(sensorDef);
 		addFixture(sensorBottom);
 		circleShape.dispose();
+		
+		/* Sensor player left */
+		FixtureDef bodyDef = new FixtureDef();
+		PolygonShape polygonShape = new PolygonShape();
+		Vector2[] vertices2 = {
+				new Vector2(0 + leftOffset, 0 - 0.7f + bottomCut),
+				new Vector2(1.5f + leftOffset,0 - 0.7f + bottomCut),
+				new Vector2(1.5f + leftOffset, 1.75f),
+				new Vector2(0 + leftOffset, 1.75f)
+		};
+		polygonShape.set(vertices2);
+		bodyDef.isSensor = true;
+		bodyDef.shape = polygonShape;
+		sensorPlayerLeft = getBody().createFixture(bodyDef);
+		addFixture(sensorPlayerLeft);
+		
+		/* Sensor player right */
+		FixtureDef rightFixDef = new FixtureDef();
+		Vector2[] verticesRight = {
+				new Vector2(0 + rightOffset,0 - 0.7f + bottomCut),
+				new Vector2(1.5f + rightOffset,0 - 0.7f + bottomCut),
+				new Vector2(1.5f + rightOffset, 1.75f),
+				new Vector2(0 + rightOffset, 1.75f)
+		};
+		polygonShape.set(verticesRight);
+		rightFixDef.isSensor = true;
+		rightFixDef.shape = polygonShape;
+		sensorPlayerRight = getBody().createFixture(rightFixDef);
+		addFixture(sensorPlayerRight);
+		polygonShape.dispose();
 		
 		setFriction(0);
 		setDensity(1);
@@ -147,22 +215,81 @@ public class Player extends GameObject {
 		
 	}
 	
+	public void switchDimension(final Level level, final int newDimensionSetIndex) {
+		Vector2 oldPosition = getBody().getPosition();
+		int oldDimensionSetIndex = level.getActiveDimensionSetIndex();
+		
+		// TODO doppel code ...
+		if(direction == Direction.LEFT) {
+			if(isCollision(Direction.LEFT)) {
+				level.setDimensionSet(newDimensionSetIndex);
+				getBody().setTransform(getBody().getPosition().x + leftOffset, getBody().getPosition().y, 0);
+				world.step(1/100, 1, 1);
+				if(!isCollision(Direction.LEFT)) {
+					getBody().setTransform(oldPosition, 0);
+					level.setDimensionSet(oldDimensionSetIndex);
+				}
+			}
+		} else if(direction == Direction.RIGHT) {
+			if(isCollision(Direction.RIGHT)) {
+				level.setDimensionSet(newDimensionSetIndex);
+				getBody().setTransform(getBody().getPosition().x + rightOffset, getBody().getPosition().y, 0);
+				world.step(1/100, 1, 1);
+				if(!isCollision(Direction.RIGHT)) {
+					getBody().setTransform(oldPosition, 0);
+					level.setDimensionSet(oldDimensionSetIndex);
+				}
+			}
+		}
+	}
+	
+	private boolean isCollision(final Direction direction) {
+		Fixture collisionTestSensor = null;
+		if(direction == Direction.LEFT) {
+			collisionTestSensor = sensorPlayerLeft;
+		} else if(direction == Direction.RIGHT) {
+			collisionTestSensor = sensorPlayerRight;
+		} else if(direction == Direction.UP) {
+			//collisionTestSensor = sensorPlayerLeft;
+		} else if(direction == Direction.DOWN) {
+			//collisionTestSensor = sensorPlayerLeft;
+		} else if(direction == Direction.NONE) {
+			collisionTestSensor = sensorPlayerCenter;
+		}
+		
+		for(Contact contact : world.getContactList()) {
+			if(contact.isTouching() 
+				&& (contact.getFixtureA() == collisionTestSensor
+					|| contact.getFixtureB() == collisionTestSensor)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/*
+	public void setDimensonsSwitchDir(final Direction direction, final boolean allowed) {
+		this.dimensonsSwitchDirAllowed.put(direction, allowed);
+	}
+	*/
+	
 	public void move(final Direction direction) {
 		if(direction == Direction.LEFT && getLinearVelocity().x > -maxVelocity) {
 			getBody().applyLinearImpulse(-2f,  0, getBody().getPosition().x, getBody().getPosition().y);
-			//getBody().setTransform(new Vector2(getBody().getPosition().x - 1, getBody().getPosition().y), 0);
+			this.direction = Direction.LEFT;
 		}
 		
 		if(direction == Direction.RIGHT && getLinearVelocity().x < maxVelocity) {
 			getBody().applyLinearImpulse(2f,  0, getBody().getPosition().x, getBody().getPosition().y);
+			this.direction = Direction.RIGHT;
 		}
 
 		if(direction == Direction.UP) {
-			
+			this.direction = Direction.UP;
 		}
 		
 		if(direction == Direction.DOWN) {
-			
+			this.direction = Direction.DOWN;
 		}
 	}
 	
@@ -179,9 +306,15 @@ public class Player extends GameObject {
 		isGround = false; // maybe first statement
 	}
 	
+	private void loadPlayerInfos() {
+		// TODO per levelLoader
+	}
+	
 	public boolean isMove() { return isMovement; }
 	
 	public boolean isGround() { return isGround; }
+	
+	public Direction getDirection() { return direction; }
 }
 
 

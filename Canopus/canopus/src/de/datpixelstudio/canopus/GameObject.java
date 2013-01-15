@@ -201,6 +201,15 @@ public class GameObject {
 		}
 	}
 	
+	public void setPositionBody(final float x, final float y, final float angle) {
+		this.position.x = x;
+		this.position.y = y;
+		
+		if(body != null) {
+			body.setTransform(position.x, position.y, angle);
+		}
+	}
+	
 	public void setPositionBody(final Vector2 position, final float angle) {
 		this.position = position;
 		

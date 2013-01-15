@@ -51,7 +51,7 @@ public class GameInputHandler extends InputHandler {
 	public void update() {
 		
 		if(controllerOne.getButton(controllerMappingOne.button(ControllerMapping.BUTTON_U))) {
-			System.out.println("Button U");
+			//System.out.println("Button U");
 		}
 		
 		// TODO xy vertauschen richtig proggen (PS3)
@@ -60,53 +60,41 @@ public class GameInputHandler extends InputHandler {
 		if(!controllerOne.getName().equals("Sony PLAYSTATION(R)3 Controller")) {
 			if(controllerOne.getAxis(3) < -controllerMappingOne.getStickDeadZone() ) {
 				player.move(Direction.LEFT);
-				//System.out.println("Links");
-				
 				player.movement(true);
-			}
+			} else
 			
 			if(controllerOne.getAxis(3) > controllerMappingOne.getStickDeadZone() ) {
 				player.move(Direction.RIGHT);
-				//System.out.println("Rechts");
-				
 				player.movement(true);
-			}
+			} else
 			
 			if(controllerOne.getAxis(2) < -controllerMappingOne.getStickDeadZone() ) {
-				//System.out.println("Oben");
-				
+				player.move(Direction.UP);
 				player.movement(true);
-			}
+			} else
 			
 			if(controllerOne.getAxis(2) > controllerMappingOne.getStickDeadZone() ) {
-				//System.out.println("Unten");
-				
+				player.move(Direction.DOWN);
 				player.movement(true);
 			}
 		} else {
 			if(controllerOne.getAxis(0) < -controllerMappingOne.getStickDeadZone()) {
 				player.move(Direction.LEFT);
-				//System.out.println("Links PS");
-				
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(0) > controllerMappingOne.getStickDeadZone()) {
 				player.move(Direction.RIGHT);
-				//System.out.println("Rechts PS");
-				
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(1) > -controllerMappingOne.getStickDeadZone()) {
-				//System.out.println("Oben PS");
-				
+				player.move(Direction.UP);
 				player.movement(true);
 			}
 			
 			if(controllerOne.getAxis(1) < controllerMappingOne.getStickDeadZone()) {
-				//System.out.println("Unten PS");
-				
+				player.move(Direction.DOWN);
 				player.movement(true);
 			}
 		}
@@ -179,18 +167,26 @@ public class GameInputHandler extends InputHandler {
 			
 			@Override
 			public boolean buttonDown(Controller controller, int button) {
-				System.out.println(controller.getName() + " pressed " + button);
+				//System.out.println(controller.getName() + " pressed " + button);
 				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_O) 
 						|| button == controllerMappingOne.button(ControllerMapping.BUTTON_U)) {
 					player.setJump(true);
 				}
 				
 				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_L1)) {
-					level.setDimensionSet(0);
+					if(level.getActiveDimensionSetIndex() == 0) {
+						player.switchDimension(level, 1);
+					} else {
+						player.switchDimension(level, 0);
+					}
 				}
 				
 				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_R1)) {
-					level.setDimensionSet(1);
+					//player.switchDimension(level, 1);
+				}
+				
+				
+				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_R2)) {
 				}
 				
 				if(button == controllerMappingOne.button(ControllerMapping.BUTTON_Y)) {

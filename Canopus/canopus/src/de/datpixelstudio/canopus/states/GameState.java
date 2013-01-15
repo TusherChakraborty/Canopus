@@ -99,7 +99,8 @@ public class GameState extends State {
 			activeDimensions = activeDimensions + dimension.getValue() + ", ";
 		}
 		
-		Canopus.getFont().draw(gc.b, "Active dimensions: " + activeDimensions, 20, 100);
+		Canopus.getFont().draw(gc.b, "Active dimensions: " + activeDimensions, 20, 120);
+		Canopus.getFont().draw(gc.b, "Player dir: " + player.getDirection().getValue(), 20, 100);
 		Canopus.getFont().draw(gc.b, "Player isMove: " + player.isMove(), 20, 80);
 		Canopus.getFont().draw(gc.b, "Player friction: " + player.getFriction(), 20, 60);
 		Canopus.getFont().draw(gc.b, "Player isGround: " + player.isGround(), 20, 40);
