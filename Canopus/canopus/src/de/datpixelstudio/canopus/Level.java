@@ -67,7 +67,7 @@ public class Level {
 	private void createTestLevel() {
 		LevelObject gObj1 = new LevelObject(world);
 		gObj1.setType(GameObject.Type.DYNAMIC, false);
-		gObj1.setAsBox(new Vector2(1, 1));
+		gObj1.setAsBox(new Vector2(3, 10));
 		gObj1.setPositionBody(new Vector2(-5, 1), 20);
 		gObj1.setDensity(0.5f);
 		gObj1.setFriction(0.5f);
@@ -154,6 +154,7 @@ public class Level {
 		gObj7.setPositionBody(new Vector2(-20, -2), 0);
 		gObj7.create(world);
 		gObj7.setUserData(gObj7);
+		gObj7.setDimension(Dimension.NEGATIVE, false);
 		gObj7.setDimension(Dimension.NEGATIVE, false);
 		gameObjects.add(gObj7);
 		
