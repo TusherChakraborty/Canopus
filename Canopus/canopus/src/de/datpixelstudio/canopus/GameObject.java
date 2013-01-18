@@ -21,6 +21,9 @@
 
 package de.datpixelstudio.canopus;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -58,6 +61,10 @@ public class GameObject {
 	private SimpleCircle simpleCircle = null;
 	private SimpleShape simpleShape = null;
 	
+	private ArrayList<Vector2> vertices = null;
+	private ArrayList<Integer> contours = null;
+	private int numContours = 0;
+	
 	private Vector2 position = null;
 	//private Vector2 size = null;
 	
@@ -71,6 +78,8 @@ public class GameObject {
 	public GameObject(final World world) {
 		this.world = world;
 		this.position = new Vector2();
+		this.vertices = new ArrayList<Vector2>();
+		this.contours = new ArrayList<Integer>();
 	}
 	
 	public void setType(final Type type, final boolean simpleShape) {
@@ -124,6 +133,7 @@ public class GameObject {
 	
 	public void setPolygonVertices(final Vector2[] vertices) {
 		if(type == null) throw new IllegalStateException("No type given for GameObject");
+		if(vertices.length < 2) throw new IllegalArgumentException("Polygon must have more than 2 points");
 		
 		if(type != Type.NON_PHYISC) {
 			polygonShape = new PolygonShape();
@@ -141,20 +151,20 @@ public class GameObject {
 			simplePolygon = new SimplePolygon(verticesFloat);
 			simpleShape = simplePolygon;
 		}
+		
+		setVertices(vertices);
 	}
 	
 	public void setAsBox(final Vector2 size) {
 		if(type == null) throw new IllegalStateException("No type given for GameObject");
 		
-		
+		Vector2[] vertices = {Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero};
 		if(type != Type.NON_PHYISC) {
 			polygonShape = new PolygonShape();
-			Vector2[] vertices = {
-					new Vector2(0, 0),
-					new Vector2(size.x, 0),
-					new Vector2(size.x, size.y),
-					new Vector2(0, size.y)
-			};
+			vertices[0] = new Vector2(0, 0);
+			vertices[1] = new Vector2(size.x, 0);
+			vertices[2] = new Vector2(size.x, size.y);
+			vertices[3] = new Vector2(0, size.y);
 			polygonShape.set(vertices);
 			fixtures.add(body.createFixture(polygonShape, 1f));
 		}
@@ -163,7 +173,23 @@ public class GameObject {
 			simpleQuad = new SimpleQuad(size);
 			simpleShape = simpleQuad;
 		}
+		
+		setVertices(vertices);
 	}
+	
+	private void setVertices(final Vector2[] vertices) {
+		numContours++;
+		System.out.println("numContours added");
+		contours.add(vertices.length);
+		System.out.println("vertcies lenght: " + vertices.length);
+		for(Vector2 vector : vertices) {
+			this.vertices.add(vector);
+		}
+	}
+	
+	public int getNumContours() { return numContours; }
+	
+	public ArrayList<Integer> getContours() { return contours; }
 	
 	public void addFixture(final Fixture fixture) {
 		this.fixtures.add(fixture);
@@ -237,6 +263,26 @@ public class GameObject {
 	public float getFriction() {
 		return body.getFixtureList().get(0).getFriction();
 	}
+	
+	/* Return null by circles */ //TODO circle
+	public ArrayList<Vector2> getVerticesClockwise() {
+		
+		Stack<Vector2> verticesStack = new Stack<Vector2>();
+		for(Vector2 vector : vertices) {
+			verticesStack.push(vector);
+		}
+		for(int i = 0; i < verticesStack.size(); i++) {
+			this.vertices.add(verticesStack.pop());
+		}
+		return vertices;
+	}
+	
+	/* Return null by circles */ //TODO circle
+	public ArrayList<Vector2> getVerticesCounterClockwise() {
+		return vertices;
+	}
+	
+	public Object getuserData() { return body.getUserData(); }
 	
 	/* Methode only for physic objects needed */
 	public void create(final World world) {

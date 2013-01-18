@@ -14,14 +14,20 @@
 
 package de.datpixelstudio.canopus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import poly2Tri.Triangulation;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.sun.jndi.url.dns.dnsURLContext;
 
 import de.datpixelstudio.canopus.LevelObject.Dimension;
 import de.datpixelstudio.statebasedgame.GameContainer;
@@ -61,7 +67,117 @@ public class Level {
 		if(isDebugDraw) {
 			box2dDebugRenderer = new Box2DDebugRenderer();
 		}
+		createOuterBox();
 		createTestLevel();
+		createPoly2TriTest();
+	}
+	
+	private void createOuterBox() {
+		LevelObject gObj = new LevelObject(world);
+		gObj.setType(GameObject.Type.STATIC, false);
+		gObj.setAsBox(new Vector2(100, 100));
+		gObj.setPositionBody(new Vector2(-50, -5), 0);
+		gObj.create(world);
+		gObj.setUserData(new String("outerBox"));
+		gObj.setDimension(Dimension.NEGATIVE, false);
+		gObj.setSwitchAllowed(false);
+		gameObjects.add(gObj);
+	}
+	
+	private void createPoly2TriTest() {
+		
+		
+		int numContours = 0;
+		ArrayList<Integer> contoursTmp = new ArrayList<Integer>();
+		ArrayList<double[]> verticesTmp = new ArrayList<double[]>();
+		
+		for(GameObject gameObject : gameObjects) {
+			if(gameObject.getuserData() instanceof String 
+					&& gameObject.getuserData().equals("outerBox")) {
+				numContours += gameObject.getNumContours(); // TODO up
+				for(Integer intObj : gameObject.getContours()) {
+					contoursTmp.add(intObj);
+				}
+				for(Vector2 vector : gameObject.getVerticesCounterClockwise()) {
+					verticesTmp.add(new double[] {vector.x, vector.y});
+					System.out.println(vector);
+				}
+			} else {
+				numContours += gameObject.getNumContours();
+				for(Integer intObj : gameObject.getContours()) {
+					contoursTmp.add(intObj);
+				}
+				for(Vector2 vector : gameObject.getVerticesClockwise()) {
+					verticesTmp.add(new double[] {vector.x, vector.y});
+				}
+			}
+				
+		}
+		
+		int[] contours = new int[contoursTmp.size()];
+		for(int i = 0; i < contoursTmp.size(); i++) {
+			contours[i] = contoursTmp.get(i);
+		}
+		
+		double[][] vertices = new double[verticesTmp.size()][2];
+		for(int i = 0; i < vertices.length; i++) {
+			vertices[i][0] = (verticesTmp.get(i)[0]);
+			vertices[i][1] = (verticesTmp.get(i)[1]);
+		}
+		
+		System.out.println("----- NUM_CONTOURS -----");
+		System.out.println(numContours);
+		System.out.println("----- CONTOURS -----");
+		for(int contour : contours) {
+			System.out.println(contour);
+		}
+		System.out.println("----- VERTICES -----");
+		for(int i = 0; i < vertices.length; i++) {
+			//System.out.println(vertices[i][0] + " " + vertices[i][1]);
+		}
+		
+		System.out.println("----- Poly2Tri Output: -----");
+		ArrayList<ArrayList<Integer>> triangles = Triangulation.triangulate(numContours, contours, vertices);
+		System.out.println(triangles);
+		
+		/*
+		ArrayList<ArrayList<Integer>> triangles = Triangulation.triangulate(numContours, contours, vertices);
+		System.out.println(triangles);
+		ArrayList<Integer> triangle = triangles.get(0);
+		
+		xy1 = vertices[triangle.get(0)];
+		System.out.println(xy1[0] + " " + xy1[1]);
+	
+		xy1 = vertices[triangle.get(1)];
+		System.out.println(xy1[0] + " " + xy1[1]);
+		
+		xy1 = vertices[triangle.get(2)];
+		System.out.println(xy1[0] + " " + xy1[1]);
+		
+		triangle = triangles.get(1);
+		
+		xy1 = vertices[triangle.get(0)];
+		System.out.println(xy1[0] + " " + xy1[1]);
+	
+		xy1 = vertices[triangle.get(1)];
+		System.out.println(xy1[0] + " " + xy1[1]);
+		
+		xy1 = vertices[triangle.get(2)];
+		System.out.println(xy1[0] + " " + xy1[1]);
+		*/
+	}
+	
+	private void createDynBox(final int x, final int y) {
+		LevelObject gObj1 = new LevelObject(world);
+		gObj1.setType(GameObject.Type.DYNAMIC, false);
+		gObj1.setAsBox(new Vector2(1, 1));
+		gObj1.setPositionBody(new Vector2(x, y), 20);
+		gObj1.setDensity(0.5f);
+		gObj1.setFriction(0.5f);
+		gObj1.setRestitution(0.5f);
+		gObj1.setTexture(textureAtlas.findRegion("white"));
+		gObj1.create(world);
+		gameObjects.add(gObj1);
 	}
 	
 	private void createTestLevel() {
@@ -76,6 +192,7 @@ public class Level {
 		gObj1.create(world);
 		gameObjects.add(gObj1);
 		
+		/*
 		LevelObject gObj2 = new LevelObject(world);
 		gObj2.setType(GameObject.Type.STATIC, false);
 		Vector2[] vertices = {
@@ -116,6 +233,7 @@ public class Level {
 		gObj2.setPositionBody(new Vector2(0, 0), 0);
 		gObj2.create(world);
 		gameObjects.add(gObj2);
+		*/
 		
 		/* Boden 1 */
 		LevelObject gObj4 = new LevelObject(world);
@@ -127,7 +245,7 @@ public class Level {
 		gObj4.setDimension(Dimension.POSITIVE, true);
 		gameObjects.add(gObj4);
 		
-		/* Wand links */
+		/* Wand links
 		LevelObject gObj5 = new LevelObject(world);
 		gObj5.setType(GameObject.Type.STATIC, false);
 		gObj5.setAsBox(new Vector2(10, 10));
@@ -137,7 +255,7 @@ public class Level {
 		gObj5.setDimension(Dimension.POSITIVE, true);
 		gameObjects.add(gObj5);
 		
-		/* Wand rechts */
+		/* Wand rechts
 		LevelObject gObj6 = new LevelObject(world);
 		gObj6.setType(GameObject.Type.STATIC, false);
 		gObj6.setAsBox(new Vector2(10, 10));
@@ -147,7 +265,7 @@ public class Level {
 		gObj6.setDimension(Dimension.NEGATIVE, false);
 		gameObjects.add(gObj6);
 		
-		/* Boden 2 */
+		/* Boden 2
 		LevelObject gObj7 = new LevelObject(world);
 		gObj7.setType(GameObject.Type.STATIC, false);
 		gObj7.setAsBox(new Vector2(20, 2f));
@@ -176,6 +294,14 @@ public class Level {
 		if(world != null) {
 			world.step(Settings.getP_TimeStep(), Settings.getP_velocityIterations(), 
 					Settings.getP_positionIterations());
+		}
+		
+		if(Gdx.input.isButtonPressed(Keys.S)) {
+			double start = System.currentTimeMillis();
+			for(int i = 0; i < 100; i+=2) {
+				createDynBox(i * 2, i * 2);
+			}
+			System.out.println("Time: " + (System.currentTimeMillis() - start));
 		}
 		
 		if(isDimensionSetChanged) updateLevelObjectDimension();

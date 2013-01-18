@@ -12,8 +12,8 @@
  * @author: Oczadly Simon <staxx6>
  * @date: 14.01.2013
  * 
- * @lastChange: 14.01.2013
- * @Info: creation
+ * @lastChange: 18.01.2013
+ * @Info: SwitchAllowed not tested
  */
 
 package de.datpixelstudio.canopus;
@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class LevelObject extends GameObject {
 
 	private Dimension dimension = Dimension.POSITIVE;
+	private boolean isSwitchAllowed = true;
 	
 	public enum Dimension {
 		POSITIVE("positive"), NEGATIVE("negative");
@@ -45,7 +46,11 @@ public class LevelObject extends GameObject {
 	}
 	
 	public void setActive(final boolean isActive) {
-		getBody().setActive(isActive);
+		if(isSwitchAllowed) getBody().setActive(isActive);
+	}
+	
+	public void setSwitchAllowed(final boolean isAllowed) {
+		this.isSwitchAllowed = isAllowed;
 	}
 	
 	public boolean isActive() { return getBody().isActive(); }
